@@ -1,2 +1,2 @@
 # ApartmentFinder
-live: http://elizabethsanz.info/projects/apartment_finder/#
+live: http://elizabethsanz.info/projects/spotaru/
