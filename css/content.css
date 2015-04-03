@@ -1,0 +1,30 @@
+/*maps*/
+#map-canvas {
+	width: 65%;
+	border-right: thin solid #428378;
+}
+
+.position-setup{
+  height: calc(100% - 51px);
+  margin-top: 51px;
+  display: inline-block;
+  padding-top: 50;
+}
+
+.content{
+  width: 100%;
+  background-color: #D1D9D8;
+  font-family: 'Share', cursive;
+  text-align: center;
+  color: #84ABA4;
+}
+
+.rightsidebar{
+  width: calc(35% - 1px);
+  background-color: #FFFFFF;
+  float: right;
+}
+
+.rightsidebar p{
+	margin-top: 50px;
+}
