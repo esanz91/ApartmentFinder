@@ -1,30 +1,37 @@
-/*maps*/
-#map-canvas {
-	width: 65%;
-	border-right: thin solid #428378;
+.content{
+  width: 100%;
+  height: calc(100% - 51px);
+  font-family: 'Share', cursive;
+  color: #84ABA4;
+  padding-top: 51;
 }
 
 .position-setup{
-  height: calc(100% - 51px);
-  margin-top: 51px;
+  height: 100%;
   display: inline-block;
-  padding-top: 50;
 }
 
-.content{
-  width: 100%;
-  background-color: #D1D9D8;
-  font-family: 'Share', cursive;
-  text-align: center;
-  color: #84ABA4;
+#map-canvas {
+  width: 65%;
+  border-right: thin solid #428378;
 }
 
 .rightsidebar{
   width: calc(35% - 1px);
   background-color: #FFFFFF;
   float: right;
+  text-align: center;
+  display: none;
 }
 
-.rightsidebar p{
-	margin-top: 50px;
+.paddingcontent{
+  padding:50px;
+}
+
+#searchdiv{
+  display: block;
+}
+
+#logincontent{
+  
 }

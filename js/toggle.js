@@ -1,8 +1,8 @@
 function toggle_visibility(elementId) {
-    $('.content .rightsidebar').hide(); // this hides all other divs;
-    $('.content #' + elementId).show(); // show clicked div
+    $('.rightsidebar').hide(); // this hides all other divs;
+    $('#' + elementId).show(); // show clicked div
 }
-$('.content .rightsidebar').hide();
+$('rightsidebar').hide();
 
 $(function() {
    $('.selected').click(function() {
