@@ -21,6 +21,25 @@
 	</head>
 
 	<body>
+		<!--facebook api-->
+		<script>
+	      window.fbAsyncInit = function() {
+	        FB.init({
+	          appId      : '838277622935986',
+	          xfbml      : true,
+	          version    : 'v2.3'
+	        });
+	      };
+
+	      (function(d, s, id){
+	         var js, fjs = d.getElementsByTagName(s)[0];
+	         if (d.getElementById(id)) {return;}
+	         js = d.createElement(s); js.id = id;
+	         js.src = "//connect.facebook.net/en_US/sdk.js";
+	         fjs.parentNode.insertBefore(js, fjs);
+	       }(document, 'script', 'facebook-jssdk'));
+	    </script>
+
 		<header id="menu">
 			<!-- navigation -->
 			<nav class="fixed-nav-bar">
@@ -30,6 +49,9 @@
 			    <ul class="menu-items">
 			      <li>
 			      	<a id="search" class= "selected" href="#" onclick="toggle_visibility('searchdiv')">Search</a>
+			      </li>
+			      <li>
+			      	<a id="post" class= "selected" href="#" onclick="toggle_visibility('postdiv')">Post</a>
 			      </li>
 			      <li>
 			      	<a id="login" class= "selected" href="#" onclick="toggle_visibility('logindiv')">Log In</a>
@@ -45,6 +67,15 @@
 			<div id="searchdiv" class="position-setup rightsidebar">				
 				<div id="searchcontent" class="paddingcontent">
 					<h1>Search</h1>
+				</div>
+			</div>
+			<div id="postdiv" class="position-setup rightsidebar">				
+				<div id="postcontent" class="paddingcontent">
+					<h1>Post</h1>
+					<div id="postform" class="paddingcontent">
+    					<input id="address" type="textbox" value="Sydney, NSW">
+    					<input type="button" value="Encode" onclick="codeAddress()">
+					<div>    					
 				</div>
 			</div>
 			<div id="logindiv" class="position-setup rightsidebar">
