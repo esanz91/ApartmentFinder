@@ -11,10 +11,7 @@
 		<link rel="stylesheet" type="text/javascript" href="css/reset.css">
 		<link rel="stylesheet" type="text/javascript" href="css/nav-bar.css">
 		<link rel="stylesheet" type="text/javascript" href="css/content.css">
-		<link href='http://fonts.googleapis.com/css?family=Share' rel='stylesheet' type='text/css'>
-
-		<script type="text/javascript" 
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY"></script>
+		<link href='http://fonts.googleapis.com/css?family=Share' rel='stylesheet' type='text/css'> 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="js/googlemapsapi.js"></script>
 		<script src="js/toggle.js"></script>
@@ -22,6 +19,7 @@
 
 	<body>
 		<!--facebook api-->
+		<!--
 		<script>
 	      window.fbAsyncInit = function() {
 	        FB.init({
@@ -39,6 +37,7 @@
 	         fjs.parentNode.insertBefore(js, fjs);
 	       }(document, 'script', 'facebook-jssdk'));
 	    </script>
+		-->
 
 		<header id="menu">
 			<!-- navigation -->
@@ -63,31 +62,41 @@
 			</nav>
 		</header>
 		<div class="content">
-			<div id="map-canvas" class="position-setup"></div>			
+
+			<div id="map-canvas" class="position-setup"></div>	
+
 			<div id="searchdiv" class="position-setup rightsidebar">				
 				<div id="searchcontent" class="paddingcontent">
 					<h1>Search</h1>
 				</div>
 			</div>
+
 			<div id="postdiv" class="position-setup rightsidebar">				
 				<div id="postcontent" class="paddingcontent">
 					<h1>Post</h1>
 					<div id="postform" class="paddingcontent">
     					<input id="address" type="textbox" value="Sydney, NSW">
-    					<input type="button" value="Encode" onclick="codeAddress()">
-					<div>    					
+    					<input id="searchbutton" type="button" value="Encode">
+					</div>    					
 				</div>
 			</div>
+
 			<div id="logindiv" class="position-setup rightsidebar">
 				<div id="logincontent" class="paddingcontent">
 					<h1>Login</h1>
 				</div>
 			</div>
+
 			<div id="signupdiv" class="position-setup rightsidebar">
 				<div id="signupcontent" class="paddingcontent">
 					<h1>Sign Up</h1>
 				</div>
 			</div>
+
 		</div>
 	</body>
+ 
+		<script type="text/javascript" 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY&callback=createMap"></script>
 </html>
+

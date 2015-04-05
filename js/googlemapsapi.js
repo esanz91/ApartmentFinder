@@ -1,7 +1,4 @@
-var geocoder;
-var map;
-
-function initialize() {
+function createMap() {
 	geocoder = new google.maps.Geocoder();
 
 	var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -19,9 +16,14 @@ function initialize() {
              map.setZoom(14);
          });
      }
+ 
+     document.getElementById("searchbutton").onclick=function(){
+        codeAddress(map);
+    }
+
 }
 
-function codeAddress() {
+function codeAddress(map) {
     var address = document.getElementById("address").value;
     geocoder.geocode( { 'address': address}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
@@ -45,4 +47,4 @@ function codeAddress() {
 	});
 }	
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
