@@ -1,2 +1,2 @@
-# ApartmentFinder
-live: http://elizabethsanz.info/projects/spotaru/
+# Spotaru
+A website created to learn node.js with express and mongoose and also help make apartment hunting easier.
