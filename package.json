@@ -1,23 +1,27 @@
 {
-  "name": "Spotaru",
-  "version": "1.0.0",
-  "description": "live: http://elizabethsanz.info/projects/spotaru/",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/esanz91/ApartmentFinder.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/esanz91/ApartmentFinder/issues"
-  },
-  "homepage": "https://github.com/esanz91/ApartmentFinder",
-  "dependencies": {
-    "express": "^4.12.3",
-    "mongoose": "^4.0.1"
-  }
+    "name": "Spotaru",
+    "version": "0.0.0",
+    "description": "Apartment Project to learn MongoDB, Express.js, and Node.js",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/esanz91/ApartmentFinder.git"
+    },
+    "author": "Elizabeth Sanz",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/esanz91/ApartmentFinder/issues"
+    },
+    "homepage": "https://github.com/esanz91/ApartmentFinder",
+    "dependencies": {
+        "consolidate": "~0.9.1",
+        "express": "^4.12.3",
+        "mongodb": "*",
+        "mongoose": "^4.0.1",
+        "swig": "~0.14.0",
+        "validator": "~1.1.3"
+    }
 }
