@@ -1,4 +1,4 @@
-var ContentHandler = require('./content');
+var ContentHandler = require('../handler/content');
 var express = require('express');
 var router = express.Router();
 
@@ -6,7 +6,7 @@ module.exports = exports = function(app, db) {
 
     var contentHandler = new ContentHandler(db);
 
-    // The main page of the blog
+    // The main page of Spotaru
     app.get('/', contentHandler.displayMainPage);
 
     /*

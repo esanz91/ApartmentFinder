@@ -19,13 +19,13 @@ li a.selected.active {
 /*title position*/
 .title-area {
   float: left;
-  margin: 17 0 17 50;
+  margin: 17px 0px 17px 50px;
 }
 
 /*menu position*/
 .menu-items {
   float: right;
-  margin: 17 50 17 0;
+  margin: 17px 50px 17px 0px;
   display: inline-block;
 }
 

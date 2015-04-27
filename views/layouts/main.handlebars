@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Elizabeth Sanz">
+    <meta name="description" content="Works by Elizabeth Sanz.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Spotaru</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/nav-bar.css">
+    <link rel="stylesheet" type="text/css" href="/css/map.css">
+    <link rel="stylesheet" type="text/css" href="/css/content.css">
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Share'>
+
+    <script src="/js/googlemapsapi.js"></script>
+</head>
+
+<body>
+<header id="menu">
+    <!-- navigation -->
+    <nav class="fixed-nav-bar">
+        <!-- page title -->
+        <a class="title-area" href="#">Spotaru</a>
+        <!-- responsive menu  -->
+        <ul class="menu-items">
+            <li>
+                <a id="search" class="selected" href="#" onclick="toggle_visibility('searchdiv')">Search</a>
+            </li>
+            <li>
+                <a id="post" class="selected" href="#" onclick="toggle_visibility('postdiv')">Post</a>
+            </li>
+            <li>
+                <a id="login" class="selected" href="#" onclick="toggle_visibility('logindiv')">Log In</a>
+            </li>
+            <li>
+                <a id="signup" class="selected" href="#" onclick="toggle_visibility('signupdiv')">Sign Up</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="content-container">
+    {{{body}}}
+</div>
+
+{{! Grab Google CDN's jQuery. Fall back to local, if necessary! }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/vendor/js/jquery-2.1.1.min.js"><\/script>')</script>
+
+<script src="/js/toggle.js"></script>
+
+{{{_sections.jquery}}}
+
+{{#if showTests}}
+    <div id="mocha"></div>
+    <script src="/vendor/mocha.js"></script>
+    <script src="/vendor/chai.js"></script>
+    <script>
+        mocha.ui('tdd');
+        var assert = chai.assert;
+    </script>
+    <script src="/qa/tests-global.js"></script>
+    {{#if pageTestScript}}
+        <script src="{{pageTestScript}}"></script>
+    {{/if}}
+    <script>mocha.run();</script>
+{{/if}}
+
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY&callback=createMap"></script>
+
+</body>
+
+</html>

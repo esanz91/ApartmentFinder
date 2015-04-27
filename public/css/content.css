@@ -1,9 +1,9 @@
-.content{
+.content-container{
   width: 100%;
   height: calc(100% - 51px);
   font-family: 'Share', cursive;
   color: #84ABA4;
-  padding-top: 51;
+  padding-top: 51px;
 }
 
 .position-setup{
