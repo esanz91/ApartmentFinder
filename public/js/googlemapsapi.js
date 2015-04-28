@@ -1,14 +1,20 @@
 function createMap() {
+
+    //creates a new instance of a Geocoder that sends geocode requests to Google servers
 	geocoder = new google.maps.Geocoder();
 
-	var latlng = new google.maps.LatLng(-34.397, 150.644);
+    //creates a LatLng object representing a geographic point
+	var latlng = new google.maps.LatLng(40.767091, -73.975810);
+
   	var mapOptions = {
     	center: latlng,
     	zoom: 8
   	}
-	
+
+    //creates a new map inside of the given HTML container with the given map option, if any
 	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+    //geolocation API centers around a new property on the global navigator object: navigator.geolocation
 	if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(function (position) {
              initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -30,19 +36,16 @@ function codeAddress(map) {
 
 			var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
-            alert(latitude);
-            alert(longitude);
             var latlng = new google.maps.LatLng(latitude, longitude);
             map.setCenter(latlng);
 
-
-			/*map.setCenter(results[0].geometry.location);*/
 			var marker = new google.maps.Marker({
 			    map: map,
 			    position: results[0].geometry.location
 			});
-		} else {
-		alert("Geocode was not successful for the following reason: " + status);
+		}
+        else {
+		    alert("Geocode was not successful for the following reason: " + status);
 		}
 	});
 }	

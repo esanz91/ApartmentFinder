@@ -1,4 +1,4 @@
-.content-container{
+.content-container {
   width: 100%;
   height: calc(100% - 61px);
   font-family: 'Share', cursive;
@@ -6,7 +6,7 @@
   padding-top: 61px;
 }
 
-.position-setup{
+.position-setup {
   height: 100%;
   display: inline-block;
 }
@@ -16,7 +16,7 @@
   border-right: thin solid #428378;
 }
 
-.rightsidebar{
+.right-sidebar {
   width: calc(35% - 1px);
   background-color: #FFFFFF;
   float: right;
@@ -24,14 +24,14 @@
   display: none;
 }
 
-.paddingcontent{
+.padding-content {
   padding:60px;
 }
 
-#searchdiv{
+#search-div {
   display: block;
 }
 
-#postform{
+#post-form {
   padding-top: 50px;  
 }
