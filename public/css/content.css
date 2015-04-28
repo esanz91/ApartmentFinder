@@ -1,9 +1,9 @@
 .content-container{
   width: 100%;
-  height: calc(100% - 51px);
+  height: calc(100% - 61px);
   font-family: 'Share', cursive;
   color: #84ABA4;
-  padding-top: 51px;
+  padding-top: 61px;
 }
 
 .position-setup{
@@ -25,7 +25,7 @@
 }
 
 .paddingcontent{
-  padding:50px;
+  padding:60px;
 }
 
 #searchdiv{

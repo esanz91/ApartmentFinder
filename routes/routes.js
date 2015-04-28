@@ -9,6 +9,9 @@ module.exports = exports = function(app, db) {
     // The main page of Spotaru
     app.get('/', contentHandler.displayMainPage);
 
+    //Post Apartment
+    //app.get('/post_apartment', );
+
     /*
     // Login form
     app.get('/login', );

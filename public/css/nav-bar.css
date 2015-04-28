@@ -1,45 +1,48 @@
-header, .fixed-nav-bar{
-  height: 50px;
-  width: 100%;
-  background-color: #84ABA4;
-  border-bottom: thin solid #428378;
-  font-family: 'Share', cursive;
-  position: fixed;
-  z-index: 9999;
+header, .fixed-nav-bar {
+    height: 60px;
+    width: 100%;
+    background-color: #84ABA4;
+    border-bottom: thin solid #428378;
+    position: fixed;
+    z-index: 9999;
 }
 
 .fixed-nav-bar a, .fixed-nav-bar a:visited {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 li a.selected.active {
-  color: #BFDCD7;
+    color: #BFDCD7;
 }
 
 /*title position*/
 .title-area {
-  float: left;
-  margin: 17px 0px 17px 50px;
+    float: left;
+    margin: 15px 0px 15px 50px;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 30px;
 }
 
 /*menu position*/
 .menu-items {
-  float: right;
-  margin: 17px 50px 17px 0px;
-  display: inline-block;
+    float: right;
+    margin: 22px 50px 22px 0px;
+    display: inline-block;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 /*menu item position*/
 .title-area li, .menu-items li {
-  margin-right: 10px;
-  margin-left: 10px;
-  display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+    display: inline-block;
 }
 
 /*menu link color*/
 .menu-items a, .menu-items a:visited {
-  color: #ffffff;
+    color: #ffffff;
 }
+
 .menu-items a:hover, .menu-items a:target {
-  color: #ebebeb;
+    color: #ebebeb;
 }
