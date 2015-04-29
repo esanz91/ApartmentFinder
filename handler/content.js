@@ -6,7 +6,7 @@ function ContentHandler (db) {
 
     this.displayMainPage = function(req, res) {
         "use strict";
-        return res.render('signup', {
+        return res.render('home', {
             //title: 'Spotaru'
         });
     }
