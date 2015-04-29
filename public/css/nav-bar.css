@@ -11,6 +11,10 @@ header, .fixed-nav-bar {
     color: #ffffff;
 }
 
+li a.selected{
+    text-decoration: none;
+}
+
 li a.selected.active {
     color: #BFDCD7;
 }
@@ -18,17 +22,22 @@ li a.selected.active {
 /*title position*/
 .title-area {
     float: left;
-    margin: 15px 0px 15px 50px;
+    margin: 9px 0px 0px 50px;
     font-family: 'Gloria Hallelujah', cursive;
     font-size: 30px;
+}
+
+a.title-area {
+    text-decoration: none;
 }
 
 /*menu position*/
 .menu-items {
     float: right;
-    margin: 22px 50px 22px 0px;
+    margin: 20px 50px 20px 0px;
     display: inline-block;
     font-family: 'Gloria Hallelujah', cursive;
+    font-size: 14px;
 }
 
 /*menu item position*/

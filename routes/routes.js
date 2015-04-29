@@ -9,12 +9,15 @@ module.exports = exports = function(app, db) {
     // The main page of Spotaru
     app.get('/', contentHandler.displayMainPage);
 
-    //Post Apartment
-    //app.get('/post_apartment', );
+    //Search
+    app.get('/search', contentHandler.displaySearchPage);
 
-    /*
+    //Post Apartment
+    app.get('/post', contentHandler.displayPostPage);
+
     // Login form
-    app.get('/login', );
+    app.get('/login', contentHandler.displayLoginPage);
+    /*
     app.post('/login', );
 
     // Logout page
@@ -22,9 +25,11 @@ module.exports = exports = function(app, db) {
 
     // Welcome page
     app.get("/welcome", );
+    */
 
     // Signup form
-    app.get('/signup', );
+    app.get('/signup', contentHandler.displaySignupPage);
+    /*
     app.post('/signup', );
     */
 

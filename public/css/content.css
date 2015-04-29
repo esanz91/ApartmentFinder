@@ -1,37 +1,31 @@
 .content-container {
-  width: 100%;
-  height: calc(100% - 61px);
-  font-family: 'Share', cursive;
-  color: #84ABA4;
-  padding-top: 61px;
+    padding-top: 60px;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Share', cursive;
+    text-align: center;
+    color: #84ABA4;
 }
 
-.position-setup {
-  height: 100%;
-  display: inline-block;
+.content-display-none {
+    display: none;
 }
 
-#map-canvas {
-  width: 65%;
-  border-right: thin solid #428378;
+.content-display-inline-block {
+    display: inline-block;
 }
 
 .right-sidebar {
-  width: calc(35% - 1px);
-  background-color: #FFFFFF;
-  float: right;
-  text-align: center;
-  display: none;
+    width: calc(35% - 1px);
+    background-color: #FFFFFF;
+    float: right;
+    text-align: center;
 }
 
 .padding-content {
-  padding:60px;
+    padding: 60px;
 }
 
-#search-div {
-  display: block;
-}
-
-#post-form {
-  padding-top: 50px;  
+#signup-div {
+    display: block;
 }

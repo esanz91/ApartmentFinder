@@ -6,7 +6,31 @@ function ContentHandler (db) {
 
     this.displayMainPage = function(req, res) {
         "use strict";
-        return res.render('home', {
+        return res.render('signup', {
+            //title: 'Spotaru'
+        });
+    }
+    this.displaySearchPage = function(req, res) {
+        "use strict";
+        return res.render('search', {
+            //title: 'Spotaru'
+        });
+    }
+    this.displayPostPage = function(req, res) {
+        "use strict";
+        return res.render('post', {
+            //title: 'Spotaru'
+        });
+    }
+    this.displaySignupPage = function(req, res) {
+        "use strict";
+        return res.render('signup', {
+            //title: 'Spotaru'
+        });
+    }
+    this.displayLoginPage = function(req, res) {
+        "use strict";
+        return res.render('login', {
             //title: 'Spotaru'
         });
     }
