@@ -3,6 +3,10 @@ var app = express(); // web framework to handle routing requests
 var routes = require('./routes/routes'); // routes for our application
 var Mongoose = require('mongoose'); // object document mapper (ODM) for MongoDB (noSQL database)
 
+var morgan       = require('morgan'); // http request logger middleware
+var bodyParser   = require('body-parser'); // req.body middleware
+var session      = require('express-session'); // req.session middleware
+
 // connect to a MongoDB database
 var db = Mongoose.connect('mongodb://localhost:27017/users', function (err){
 
@@ -24,8 +28,15 @@ var db = Mongoose.connect('mongodb://localhost:27017/users', function (err){
 
     // set middleware
     app.use(express.static(__dirname + '/public')); // responsible for serving the static assets
-    app.use(require('express-session')({secret:'somesecrettokenhere'})); // req.session available
-    app.use(require('body-parser')()); // req.body available
+    app.use(session({
+        secret:'somesecrettokenhere',
+        resave: true,
+        saveUninitialized: true
+    }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
 
     // set routes
     routes(app, db);
