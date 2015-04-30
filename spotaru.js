@@ -1,21 +1,12 @@
 var express = require('express');
-var app = express(); // Web framework to handle routing requests
-var routes = require('./routes/routes'); // Routes for our application
-var Mongoose = require('mongoose'); // Object Document Mapper (ODM) for MongoDB (noSQL database)
+var app = express(); // web framework to handle routing requests
+var routes = require('./routes/routes'); // routes for our application
+var Mongoose = require('mongoose'); // object document mapper (ODM) for MongoDB (noSQL database)
 
-//connect to a MongoDB database
-Mongoose.connect('mongodb://localhost:27017/users');
+// connect to a MongoDB database
+var db = Mongoose.connect('mongodb://localhost:27017/users', function (err){
 
-//database connection
-var db = Mongoose.connection;
-
-//error callback
-db.on('error', function(msg){
-    console.log('Connection Error: %s', msg);
-});
-
-//success callback
-db.once('open', function callback(){
+    if(err) throw err;
 
     // register handlebars engine with express app
     var handlebars = require('express3-handlebars').create({
@@ -31,18 +22,15 @@ db.once('open', function callback(){
     app.engine('handlebars', handlebars.engine);
     app.set('view engine', 'handlebars');
 
-    // Express middleware: responsible for serving the static assets of an Express application
-    app.use(express.static(__dirname + '/public'));
+    // set middleware
+    app.use(express.static(__dirname + '/public')); // responsible for serving the static assets
+    app.use(require('express-session')({secret:'somesecrettokenhere'})); // req.session available
+    app.use(require('body-parser')()); // req.body available
 
-    // Express middleware: populate 'req.cookies' so we can access cookies
-    app.use(require('express-session')());
-
-    // Express middleware: populate 'req.body' so we can access POST variables
-    app.use(require('body-parser')());
-
-    // Application routes
+    // set routes
     routes(app, db);
 
+    // launch
     app.listen(8082);
     console.log('Express server listening on port 8082');
 
