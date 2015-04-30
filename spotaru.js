@@ -7,8 +7,23 @@ var morgan       = require('morgan'); // http request logger middleware
 var bodyParser   = require('body-parser'); // req.body middleware
 var session      = require('express-session'); // req.session middleware
 
+var config       = require('./config/config'); //configuration/credentials
+
+//check environment
+var dbConnection = "";
+switch (app.get('env')){
+    case 'development':
+        dbConnection = config.mongoDB.development.connectionString;
+        break;
+    case 'production':
+        dbConnection = config.mongoDB.production.connectionString;
+        break;
+    default:
+        throw new Error('Unknown environment: ' + app.get('env'));
+}
+
 // connect to a MongoDB database
-var db = Mongoose.connect('mongodb://localhost:27017/users', function (err){
+var db = Mongoose.connect(dbConnection, function (err){
 
     if(err) throw err;
 
