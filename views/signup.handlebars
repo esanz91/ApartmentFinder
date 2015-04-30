@@ -1,13 +1,5 @@
-<!--
-<div id="signup-div" class="content-container content-text">
-    <div id="signup-content" class="content-padding">
-        <h1 class="align-center">Sign Up</h1>
-    </div>
-</div>
--->
-
 <div id="signup-div" class="container content-padding content-text">
-    <div id="signup-content" class="col-sm-6 col-sm-offset-3">
+    <div id="signup-content" class="content-padding col-sm-6 col-sm-offset-3">
 
         <h1 class="align-center">Sign Up</h1>
 
@@ -17,6 +9,11 @@
         <div class="alert alert-danger"><%= message %></div>
         <% } %>
         }}
+
+        {{#with message}}
+            <div class="alert alert-danger">{{message}}</div>
+        {{/with}}
+
 
         <!-- SIGN UP FORM -->
         <form action="/signup" method="post" class="form-horizontal" role="form">

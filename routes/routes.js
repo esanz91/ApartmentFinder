@@ -1,36 +1,37 @@
 var ContentHandler = require('../handler/content');
 var express = require('express');
 var router = express.Router();
+var checkAuth = require('../lib/checkAuth');
 
 module.exports = exports = function(app, db) {
 
     var contentHandler = new ContentHandler(db);
 
-    // The main page of Spotaru
-    app.get('/', contentHandler.displayMainPage);
+    // Home
+    app.get('/', contentHandler.displayMain);
 
-    //Search
-    app.get('/search', contentHandler.displaySearchPage);
+    // Search
+    app.get('/search', contentHandler.displaySearch);
 
-    //Post Apartment
-    app.get('/post', contentHandler.displayPostPage);
+    // Post
+    app.get('/post', contentHandler.displayPost);
 
-    // Login form
-    app.get('/login', contentHandler.displayLoginPage);
+    // Login
+    app.get('/login', contentHandler.displayLogin);
     /*
     app.post('/login', );
 
-    // Logout page
+    // Logout
     app.get('/logout', );
-
-    // Welcome page
-    app.get("/welcome", );
     */
 
-    // Signup form
-    app.get('/signup', contentHandler.displaySignupPage);
+    // Signup
+    app.get('/signup', contentHandler.displaySignup);
     /*
     app.post('/signup', );
     */
+
+    //Profile
+    //app.get('/profile', contentHandler.displayProfile)
 
 }

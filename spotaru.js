@@ -35,7 +35,7 @@ db.once('open', function callback(){
     app.use(express.static(__dirname + '/public'));
 
     // Express middleware: populate 'req.cookies' so we can access cookies
-    app.use(require('cookie-parser')());
+    app.use(require('express-session')());
 
     // Express middleware: populate 'req.body' so we can access POST variables
     app.use(require('body-parser')());

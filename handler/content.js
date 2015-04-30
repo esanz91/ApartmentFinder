@@ -1,38 +1,36 @@
-var sanitize = require('validator').sanitize; // Helper to sanitize form input
-
 /* The ContentHandler must be constructed with a connected db */
 function ContentHandler (db) {
     "use strict";
 
-    this.displayMainPage = function(req, res) {
+    this.displayMain = function(req, res) {
         "use strict";
-        return res.render('home', {
-            //title: 'Spotaru'
-        });
+        return res.render('home', { title: 'Spotaru' });
     }
-    this.displaySearchPage = function(req, res) {
+    this.displaySearch = function(req, res) {
         "use strict";
         return res.render('search', {
             //title: 'Spotaru'
         });
     }
-    this.displayPostPage = function(req, res) {
+    this.displayPost = function(req, res) {
         "use strict";
         return res.render('post', {
             //title: 'Spotaru'
         });
     }
-    this.displaySignupPage = function(req, res) {
+    this.displaySignup = function(req, res) {
         "use strict";
-        return res.render('signup', {
-            //title: 'Spotaru'
-        });
+        return res.render('signup', { msg: 'ERROR' });
     }
-    this.displayLoginPage = function(req, res) {
+    this.displayLogin = function(req, res) {
         "use strict";
         return res.render('login', {
             //title: 'Spotaru'
         });
+    }
+    this.displayProfile = function(re, res){
+        "use strict"
+        return res.send("Profile");
     }
 }
 
