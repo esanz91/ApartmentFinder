@@ -2,16 +2,23 @@ var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
 // user schema : schema maps to a MongoDB collection
-var userSchema = mongoose.Schema({
-    local            : {
-        email        : String,
-        password     : String
+var userSchema = new mongoose.Schema({
+    local           : {
+        name        : {
+            firstName   : {type: String},
+            lastName    : {type: String}
+        },
+        email       : {type: String, unique: true},
+        password    : {type: String}
     },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    facebook        : {
+        id          : {type: String, unique: true},
+        token       : {type: String},
+        email       : {type: String, unique: true},
+        name        : {
+            firstName: {type: String},
+            lastName: {type: String}
+        }
     }
 });
 
