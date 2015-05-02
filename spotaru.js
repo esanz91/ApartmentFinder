@@ -11,23 +11,20 @@ var mongoStore   = require('connect-mongo')(session); // MongoDB session store f
 var config       = require('./config/config'); //configuration/credentials
 
 //check environment
-var userDB = "";
-var sessionsDB = "";
+var mongoDB = "";
 switch (app.get('env')){
     case 'development':
-        userDB = config.usersDB.development.connectionString;
-        sessionsDB = config.sessionsDB.development.connectionString;
+        mongoDB = config.mongoDB.development.connectionString;
         break;
     case 'production':
-        userDB = config.usersDB.production.connectionString;
-        sessionsDB = config.sessionsDB.production.connectionString;
+        mongoDB = config.mongoDB.production.connectionString;
         break;
     default:
         throw new Error('Unknown environment: ' + app.get('env'));
 }
 
 // connect to a MongoDB database
-var db = mongoose.connect(userDB, function (err){
+var db = mongoose.connect(mongoDB, function (err){
 
     if(err) throw err;
 
@@ -47,10 +44,9 @@ var db = mongoose.connect(userDB, function (err){
     app.use(morgan('dev')); // log all http requests to console
     app.use(express.static(__dirname + '/public')); // responsible for serving the static assets
     app.use(session({
-        secret:'somesecrettokenhere',
+        secret:config.cookie.secret,
         store: new mongoStore({
-            //mongooseConnection: mongoose.connection // reuse mongoose connection
-            url: sessionsDB
+            mongooseConnection: mongoose.connection // reuse mongoose connection
         }),
         resave: true,
         saveUninitialized: true

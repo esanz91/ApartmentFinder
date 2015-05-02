@@ -1,11 +1,14 @@
-var ContentHandler = require('../handler/content');
 var express = require('express');
-var router = express.Router();
+var ContentHandler = require('../handler/content');
+var SessionHandler = require('../handler/session');
 var checkAuth = require('../lib/checkAuth');
 
 module.exports = exports = function(app, db) {
 
     var contentHandler = new ContentHandler(db);
+    var sessionHandler = new SessionHandler(db);
+
+    //app.use(sessionHandler.isLoggedInMiddleware());
 
     // Home
     app.get('/', contentHandler.displayMain);
@@ -27,9 +30,8 @@ module.exports = exports = function(app, db) {
 
     // Signup
     app.get('/signup', contentHandler.displaySignup);
-    /*
-    app.post('/signup', );
-    */
+    //app.post('/signup', sessionHandler.handleSignup);
+
 
     //Profile
     //app.get('/profile', contentHandler.displayProfile)

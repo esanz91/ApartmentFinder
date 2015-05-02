@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-// user schema
+// user schema : schema maps to a MongoDB collection
 var userSchema = mongoose.Schema({
     local            : {
         email        : String,
@@ -26,5 +26,5 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-// create the model for users and expose it to our app
+// export user model
 module.exports = mongoose.model('User', userSchema);
