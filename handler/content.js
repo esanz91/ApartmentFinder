@@ -1,4 +1,3 @@
-/* The ContentHandler must be constructed with a connected db */
 function ContentHandler (db) {
     "use strict";
 

@@ -34,6 +34,7 @@ app.use(session({
     store: new mongoStore({
         mongooseConnection: mongoose.connection // reuse mongoose connection
     }),
+    collection: 'sessions',
     resave: true,
     saveUninitialized: true
 }));
@@ -56,12 +57,12 @@ switch (app.get('env')) {
 }
 
 // connect to MongoDB
-var db = mongoose.connect(mongoDB, function onMongooseError(err) {
+mongoose.connect(mongoDB, function onMongooseError(err) {
     if (err) throw err;
 });
 
 // set routes
-routes(app, db);
+routes(app, mongoose.connection);
 
 // launch
 app.listen(8082);
