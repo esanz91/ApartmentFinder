@@ -1,77 +1,40 @@
 var validator = require('validator');
-
 var UserModel = require('../models/user');
 
-function SessionHandler (db) {
+function SessionHandler() {
     "use strict";
-
-    var users = new UserModel(db);
 
     this.isLoggedInMiddleware = function (req, res, next) {
         "use strict"
 
-        console.log("is req.session.username set:" + req.session.username);
-        console.log("is res.locals.user set:" + res.locals.user);
-
+        // cannot signup or login once logged in
         if (req.session.username){
+            console.log("user already exists");
             if((req.path == '/signup') || (req.path == '/login')){
-                return res.render('errors');
+                return res.render('errors', {errors: "You are already logged in!"});
             }
             return next();
         }
 
-        if(req.path == '/signup'){
-            return res.render('signup');
-        }
-
+        // must be a registered user to post
         if(req.path == '/post') {
-            return res.render('login');
+            return res.redirect('/login');
         }
 
         return next();
     }
 
-    this.handleSignup = function (req, res, next) {
+    this.displayLogin = function(req, res) {
         "use strict";
-
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
-        var username = req.body.username;
-        var email = req.body.email;
-        var password = req.body.password;
-
-        if(validateSignup(firstname, lastname, username, email, password)){
-
-            var userJSON = {
-                local           : {
-                    name        : {
-                        firstName   : firstname,
-                        lastName    : lastname
-                    },
-                    username    : username,
-                    email       : email,
-                    password    : password
-                }
-            };
-
-            var user = new UserModel(userJSON);
-
-            user.save(function(err, user){
-                if(err){
-                    return next(err);
-                }
-                req.session.username = user.local.username;
-                res.locals.user = user.local.username;
-                return res.render("home");
-            })
-        }
-        else {
-            console.log("user was not registered");
-            return res.render("signup");
-        }
+        return res.render('login');
     }
 
-    function validateSignup(firstname, lastname, username, email, password){
+    this.displaySignup = function(req, res) {
+        "use strict";
+        return res.render('signup');
+    }
+
+    function validateSignup (firstname, lastname, username, email, password){
 
         if(validator.isNull(firstname)  ||
             validator.isNull(lastname)  ||
@@ -81,6 +44,7 @@ function SessionHandler (db) {
             console.log("One or more of the fields is/are NULL");
             return false;
         }
+
         firstname = validator.trim(firstname);
         lastname = validator.trim(lastname);
         var name = validator.trim(firstname + lastname);
@@ -108,6 +72,53 @@ function SessionHandler (db) {
 
         console.log("No errors!");
         return true;
+    }
+
+    this.handleSignup = function (req, res, next) {
+        "use strict";
+
+        var firstname = req.body.firstname;
+        var lastname = req.body.lastname;
+        var username = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+
+        if(validateSignup(firstname, lastname, username, email, password)){
+
+            var userJSON = {
+                local           : {
+                    name        : {
+                        firstName   : firstname,
+                        lastName    : lastname
+                    },
+                    username    : username,
+                    email       : email,
+                    password    : password
+                }
+            };
+
+            var user = new UserModel(userJSON);
+            console.log("user: " + user);
+
+            user.save(function(err, user){
+                if(err){
+                    console.log("error found: " + err);
+                    return res.render('errors', {errors: "This username exists already!"});
+                    return next(err);
+                }
+                req.session.username = user.local.username;
+                return res.redirect('/welcome');
+            })
+        }
+        else {
+            console.log("user was not registered");
+            return res.render('signup', { errors: 'ERROR' });
+        }
+    }
+
+    this.displayWelcome = function(req, res){
+        "use strict"
+        return res.render('welcome', { name : req.session.username });
     }
 }
 

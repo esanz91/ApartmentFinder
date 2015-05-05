@@ -1,4 +1,4 @@
-function ContentHandler (db) {
+function ContentHandler () {
     "use strict";
 
     this.displayMain = function(req, res) {
@@ -7,29 +7,11 @@ function ContentHandler (db) {
     }
     this.displaySearch = function(req, res) {
         "use strict";
-        return res.render('search', {
-            //title: 'Spotaru'
-        });
+        return res.render('search');
     }
     this.displayPost = function(req, res) {
         "use strict";
-        return res.render('post', {
-            //title: 'Spotaru'
-        });
-    }
-    this.displaySignup = function(req, res) {
-        "use strict";
-        return res.render('signup', { msg: 'ERROR' });
-    }
-    this.displayLogin = function(req, res) {
-        "use strict";
-        return res.render('login', {
-            //title: 'Spotaru'
-        });
-    }
-    this.displayProfile = function(re, res){
-        "use strict"
-        return res.send("Profile");
+        return res.render('post');
     }
 }
 

@@ -20,9 +20,9 @@ var userSchema = new mongoose.Schema({
         name        : {
             firstName: {type: String, required: true},
             lastName: {type: String, required: true}
-        }
-    },
-    */
+        },
+        required: false
+    },*/
     created: {type: Date, default: Date.now}
 },
     {versionKey: '_MongooseVersionKey'});
