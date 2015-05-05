@@ -1,24 +1,34 @@
 var validator = require('validator');
 
 var UserModel = require('../models/user');
-var SessionDAO = require('../dao/sessionDAO').SessionDAO;
 
 function SessionHandler (db) {
     "use strict";
 
     var users = new UserModel(db);
-    var sessions = new SessionDAO(db);
 
     this.isLoggedInMiddleware = function (req, res, next) {
-        var session_id = req.session;
-        sessions.getUsername(session_id, function(err, username){
-            "use strict";
+        "use strict"
 
-            if(!err && username){
-                req.username = username;
+        console.log("is req.session.username set:" + req.session.username);
+        console.log("is res.locals.user set:" + res.locals.user);
+
+        if (req.session.username){
+            if((req.path == '/signup') || (req.path == '/login')){
+                return res.render('errors');
             }
-            return next(); // proceed with next middleware
-        });
+            return next();
+        }
+
+        if(req.path == '/signup'){
+            return res.render('signup');
+        }
+
+        if(req.path == '/post') {
+            return res.render('login');
+        }
+
+        return next();
     }
 
     this.handleSignup = function (req, res, next) {
@@ -29,8 +39,6 @@ function SessionHandler (db) {
         var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password;
-
-        console.log(req.body.firstname);
 
         if(validateSignup(firstname, lastname, username, email, password)){
 
@@ -46,18 +54,21 @@ function SessionHandler (db) {
                 }
             };
 
-            console.log(userJSON);
             var user = new UserModel(userJSON);
 
             user.save(function(err, user){
                 if(err){
                     return next(err);
                 }
-
+                req.session.username = user.local.username;
+                res.locals.user = user.local.username;
+                return res.render("home");
             })
-
         }
-
+        else {
+            console.log("user was not registered");
+            return res.render("signup");
+        }
     }
 
     function validateSignup(firstname, lastname, username, email, password){
@@ -70,6 +81,8 @@ function SessionHandler (db) {
             console.log("One or more of the fields is/are NULL");
             return false;
         }
+        firstname = validator.trim(firstname);
+        lastname = validator.trim(lastname);
         var name = validator.trim(firstname + lastname);
         if(!validator.isAlpha(name)){
             console.log("name: " + name + " is alpha? " + validator.isAlpha(name));

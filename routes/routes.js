@@ -8,8 +8,6 @@ module.exports = exports = function(app, db) {
     var contentHandler = new ContentHandler(db);
     var sessionHandler = new SessionHandler(db);
 
-    app.use(sessionHandler.isLoggedInMiddleware);
-
     // Home
     app.get('/', contentHandler.displayMain);
 
@@ -17,10 +15,10 @@ module.exports = exports = function(app, db) {
     app.get('/search', contentHandler.displaySearch);
 
     // Post
-    app.get('/post', contentHandler.displayPost);
+    app.get('/post', sessionHandler.isLoggedInMiddleware, contentHandler.displayPost);
 
     // Login
-    app.get('/login', contentHandler.displayLogin);
+    app.get('/login', sessionHandler.isLoggedInMiddleware, contentHandler.displayLogin);
     /*
     app.post('/login', );
 
@@ -29,7 +27,7 @@ module.exports = exports = function(app, db) {
     */
 
     // Signup
-    app.get('/signup', contentHandler.displaySignup);
+    app.get('/signup', sessionHandler.isLoggedInMiddleware, contentHandler.displaySignup);
     app.post('/signup', sessionHandler.handleSignup);
 
     //Profile

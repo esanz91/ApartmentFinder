@@ -6,7 +6,7 @@ var mongoose = require('mongoose'); // object document mapper (ODM) for MongoDB 
 var morgan = require('morgan'); // http request logger middleware
 var bodyParser = require('body-parser'); // req.body middleware
 var session = require('express-session'); // req.session middleware
-var mongoStore = require('connect-mongo')(session); // MongoDB session store for Express
+var mongoStore = require('connect-mongo')(session); // MongoDB session store
 
 var config = require('./config/config'); //configuration/credentials
 
@@ -35,6 +35,7 @@ app.use(session({
         mongooseConnection: mongoose.connection // reuse mongoose connection
     }),
     collection: 'sessions',
+    /*key: 'key',*/
     resave: true,
     saveUninitialized: true
 }));
