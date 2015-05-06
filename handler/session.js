@@ -29,6 +29,24 @@ function SessionHandler() {
         return res.render('login');
     }
 
+    this.handleLogin = function(req, res){
+        "use strict"
+
+        var username = req.body.username;
+        var password = req.body.password;
+
+        UserModel.findOne({ 'local.username': username, 'local.password': password }, 'local.name.firstName', function (err, user) {
+            if (err) {
+                return res.render('errors', {errors: "Cannot log in..."});
+            }
+            if (!user){
+                return res.render('errors', {errors: "Username not found. Please register!"});
+            }
+            req.session.username = user.local.name.firstName;
+            return res.redirect('/welcome');
+        })
+    }
+
     this.displaySignup = function(req, res) {
         "use strict";
         return res.render('signup');

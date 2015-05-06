@@ -19,9 +19,7 @@ module.exports = exports = function(app) {
 
     // Login
     app.get('/login', sessionHandler.displayLogin);
-    /*
-    app.post('/post', );
-    */
+    app.post('/login', sessionHandler.handleLogin);
 
     // Logout
     app.get('/logout', sessionHandler.handleLogout);
