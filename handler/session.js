@@ -65,6 +65,8 @@ function SessionHandler() {
             return false;
         }
 
+        //TODO: check if email already exists
+
         if((!validator.isAlphanumeric(password)) && (password.length > 3)){
             console.log("password: " + password + " is alphanumeric? " + validator.isAlphanumeric(password) + " length is greater than 3? " + password.length > 3);
             return false;
@@ -102,9 +104,9 @@ function SessionHandler() {
 
             user.save(function(err, user){
                 if(err){
-                    console.log("error found: " + err);
+                    console.log(err);
                     return res.render('errors', {errors: "This username exists already!"});
-                    return next(err);
+                    //return next(err);
                 }
                 req.session.username = user.local.username;
                 return res.redirect('/welcome');
@@ -119,6 +121,14 @@ function SessionHandler() {
     this.displayWelcome = function(req, res){
         "use strict"
         return res.render('welcome', { name : req.session.username });
+    }
+
+    this.handleLogout = function(req,res){
+        "use strict"
+        req.session.destroy(function(err) {
+            console.log(err);
+            return res.redirect('/');
+        })
     }
 }
 

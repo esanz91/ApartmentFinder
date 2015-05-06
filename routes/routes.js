@@ -21,10 +21,10 @@ module.exports = exports = function(app) {
     app.get('/login', sessionHandler.displayLogin);
     /*
     app.post('/post', );
+    */
 
     // Logout
-    app.get('/logout', );
-    */
+    app.get('/logout', sessionHandler.handleLogout);
 
     // Signup
     app.get('/signup', sessionHandler.displaySignup);
