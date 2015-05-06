@@ -16,6 +16,7 @@ module.exports = exports = function(app) {
 
     // Post
     app.get('/post', contentHandler.displayPost);
+    app.post('/post', contentHandler.handlePost);
 
     // Login
     app.get('/login', sessionHandler.displayLogin);

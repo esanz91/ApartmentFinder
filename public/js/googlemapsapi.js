@@ -20,14 +20,14 @@ function createMap() {
     //run only if search button found
     if(document.getElementById("search-button")) {
         document.getElementById("search-button").onclick = function () {
-            codeAddress(map);
+            codeLocation(map);
         }
     }
 }
 
-function codeAddress(map) {
-    var address = document.getElementById("address").value;
-    geocoder.geocode({ 'address': address}, function (results, status) {
+function codeLocation(map) {
+    var location = document.getElementById("location").value;
+    geocoder.geocode({ 'address': location}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
 
             var latitude = results[0].geometry.location.lat();

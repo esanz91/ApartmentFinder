@@ -11,7 +11,7 @@ function SessionHandler() {
         if (req.session.username){
             console.log("user already exists");
             if((req.path == '/signup') || (req.path == '/login')){
-                return res.render('errors', {errors: "You are already logged in!"});
+                return res.render('msgs', {msgs: "You are already logged in!"});
             }
             return next();
         }
@@ -37,10 +37,11 @@ function SessionHandler() {
 
         UserModel.findOne({ 'local.username': username, 'local.password': password }, 'local.name.firstName', function (err, user) {
             if (err) {
-                return res.render('errors', {errors: "Cannot log in..."});
+                console.log(err);
+                return res.render('msgs', {msgs: "Cannot log in..."});
             }
             if (!user){
-                return res.render('errors', {errors: "Username not found. Please register!"});
+                return res.render('msgs', {msgs: "Username not found. Please register!"});
             }
             req.session.username = user.local.name.firstName;
             return res.redirect('/welcome');
@@ -123,7 +124,7 @@ function SessionHandler() {
             user.save(function(err, user){
                 if(err){
                     console.log(err);
-                    return res.render('errors', {errors: "This username exists already!"});
+                    return res.render('msgs', {msgs: "This username exists already!"});
                     //return next(err);
                 }
                 req.session.username = user.local.username;
@@ -132,7 +133,7 @@ function SessionHandler() {
         }
         else {
             console.log("user was not registered");
-            return res.render('signup', { errors: 'ERROR' });
+            return res.render('signup', { msgs: 'ERROR' });
         }
     }
 

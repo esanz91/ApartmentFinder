@@ -13,6 +13,11 @@ function ContentHandler () {
         "use strict";
         return res.render('post');
     }
+    this.handlePost = function(req, res) {
+        "use strict";
+
+        return res.render('msgs', {msgs: "you posted!"});
+    }
 }
 
 module.exports = ContentHandler;

@@ -1,7 +1,75 @@
-<div id="post-div" class="content-container content-text">
-    <div id="post-content" class="content-padding align-center">
+<div id="post-div" class="container content-padding content-text" xmlns="http://www.w3.org/1999/html">
+    <div id="post-content" class="content-padding col-sm-6 col-sm-offset-3">
+
         <h1 class="align-center">Post</h1>
 
+        <form action="/post" method="post" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" name="location" id="location" placeholder="Location">
+            </div>
+
+            <div class="form-group">
+                <fieldset>
+                    <legend>Apartment Details</legend>
+                    <div class="col-xs-6">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select class="form-control" name="bedrooms" id="bedrooms">
+                        </select>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="bathrooms">Bathrooms</label>
+                        <select class="form-control" name="bathrooms" id="bathrooms">
+                        </select>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label class="control-label" for="sqft">Square Feet</label>
+                        <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
+                    </div>
+                    <div class="col-xs-6">
+                        <label class="control-label" for="price">Price</label>
+                        <input type="text" class="form-control" name="price" id="price" placeholder="Price">
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-group">
+                <fieldset>
+                    <legend>Pets</legend>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="pets" value="dogs"> Dogs allowed <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="pets" value="cats"> Cats allowed <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="pets" value="noPets"> No pets <br>
+                    </label>
+                </fieldset>
+            </div>
+
+            <div class="form-group">
+                <fieldset>
+                    <legend>Amenities</legend>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="amenities" value="dishwasher"> Dishwasher <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="amenities" value="gym"> Gym <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="amenities" value="elevator"> Elevator <br>
+                    </label>
+                </fieldset>
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-warning btn-lg">Post</button>
+
+        </form>
+
+        {{!
         <div id="post-form">
             <h3>Post Information</h3>
             <input id="post-title" type="textbox" value="">
@@ -12,5 +80,7 @@
                 <input id="search-button" type="button" value="Post">
             </div>
         </div>
+        }}
+
     </div>
 </div>
