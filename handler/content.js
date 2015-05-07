@@ -1,3 +1,5 @@
+var PostModel = require('../models/post');
+
 function ContentHandler () {
     "use strict";
 
@@ -23,7 +25,27 @@ function ContentHandler () {
         var pets = req.body.pets;
         var amenities = req.body.amenities;
 
-        return res.render('msgs', {msgs: "you posted!"});
+        var postJSON = {
+            aptDetails      : {
+                location    : location,
+                bedrooms    : bedrooms,
+                bathrooms   : bathrooms,
+                sqft        : sqft,
+                price       : price
+            }
+        };
+
+        console.log(postJSON);
+        var post = new PostModel(postJSON);
+
+        post.save(function(err, post){
+            if(err){
+                console.log(err);
+                return res.render('msgs', {msgs: "Error posting..."});
+                //return next(err);
+            }
+            return res.render('msgs', {msgs: postJSON.toString});
+        })
     }
 }
 

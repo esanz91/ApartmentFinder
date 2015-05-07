@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express(); // web framework to handle routing requests
 var routes = require('./routes/routes'); // routes for our application
+var userRouter = require('./routes/usersAPI');
 var mongoose = require('mongoose'); // object document mapper (ODM) for MongoDB (noSQL database)
 
 var morgan = require('morgan'); // http request logger middleware
@@ -62,7 +63,10 @@ mongoose.connect(mongoDB, function onMongooseError(err) {
     if (err) throw err;
 });
 
-// set routes
+//API
+app.use('/users', userRouter);
+
+//BACKEND RENDERING
 routes(app, mongoose.connection);
 
 // launch

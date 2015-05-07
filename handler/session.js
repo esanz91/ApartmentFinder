@@ -9,7 +9,6 @@ function SessionHandler() {
 
         // cannot signup or login once logged in
         if (req.session.username){
-            console.log("user already exists");
             if((req.path == '/signup') || (req.path == '/login')){
                 return res.render('msgs', {msgs: "You are already logged in!"});
             }
@@ -149,6 +148,7 @@ function SessionHandler() {
             return res.redirect('/');
         })
     }
+
 }
 
 module.exports = SessionHandler;
