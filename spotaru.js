@@ -64,7 +64,7 @@ mongoose.connect(mongoDB, function onMongooseError(err) {
 });
 
 //API
-app.use('/users', userRouter);
+app.use('/api/validate', userRouter);
 
 //BACKEND RENDERING
 routes(app, mongoose.connection);

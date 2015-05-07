@@ -10,20 +10,20 @@
         <% } %>
         }}
 
-        {{#with errors}}
-            <div class="alert alert-danger">{{errors}}</div>
+        {{#with msgs}}
+            <div class="alert alert-danger"><h1>The message is: {{msgs}}</h1></div>
         {{/with}}
 
 
         <!-- SIGN UP FORM -->
         <form action="/signup" method="post" class="form-horizontal" role="form">
             <div class="form-group">
-                <label for="firstname">First Name</label>
-                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter First Name">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Enter First Name">
             </div>
             <div class="form-group">
-                <label for="lastname">Last Name</label>
-                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter Last Name">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Enter Last Name">
             </div>
             <div class="form-group">
                 <label for="username">Username</label>

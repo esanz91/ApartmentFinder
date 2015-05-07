@@ -6,12 +6,8 @@ router.get('/', function (req, res) {
     res.send("api");
 });
 
-router.get('/:username', userHandler.isValidUsername);
+router.get('/name/:name', userHandler.isValidName);
 
-router.get('/validate/:username', function (req, res) {
-    var username = request.params.username;
-    res.send("validating");
-    //function to validate user
-});
+router.get('/username/:username', userHandler.isValidUsername);
 
 module.exports = router;

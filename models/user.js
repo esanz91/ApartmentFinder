@@ -28,12 +28,12 @@ var userSchema = new mongoose.Schema({
     {versionKey: '_MongooseVersionKey'});
 
 // methods
-// generating a hash
+// generating a hash (for registration)
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-// checking if password is valid
+// checking if password is valid (for login)
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };

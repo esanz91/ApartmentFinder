@@ -1,6 +1,22 @@
 var validator = require('validator');
 var UserModel = require('../models/user');
 
+exports.isValidName = function(req, res){
+    "use strict";
+
+    // trim name
+    var name = validator.trim(req.params.name);
+    console.log(name);
+
+    // check if alphanumeric
+    if(!validator.isAlpha(name)){
+        return res.send("not alpha");
+    }
+
+    // pass validation
+    return res.send("okay");
+}
+
 exports.isValidUsername = function (req, res) {
     "use strict";
 

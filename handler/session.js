@@ -97,8 +97,8 @@ function SessionHandler() {
     this.handleSignup = function (req, res, next) {
         "use strict";
 
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
+        var firstname = req.body.firstName;
+        var lastname = req.body.lastName;
         var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password;
@@ -132,7 +132,7 @@ function SessionHandler() {
         }
         else {
             console.log("user was not registered");
-            return res.render('signup', { msgs: 'ERROR' });
+            return res.render('signup', { msgs: "Error signing up!" });
         }
     }
 
