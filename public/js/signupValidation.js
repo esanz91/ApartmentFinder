@@ -54,29 +54,49 @@ function validateField() {
     var url = "/api/validate/" + element.id + "/" + urlParam;
 
     request.onreadystatechange = function () {
-        showFieldStatus(element.id);
+        showFieldStatus(element);
     };
     request.open("GET", url, true);
     request.send(null);
 
 }
 
-function showFieldStatus(elementID) {
+function showFieldStatus(element) {
     "use strict";
+    var elementID = element.id;
+    var elementValue = element.value;
 
     if (request.readyState == 4) {
         if (request.status == 200) {
             if (request.responseText == "username available") {
                 setFieldStatus(elementID, true);
                 setSpanMsg(elementID, true, "");
+                return;
             }
-            else if (request.responseText == "username unavailable") {
+            if (request.responseText == "username unavailable") {
                 setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementID + " unavailable");
+                setSpanMsg(elementID, false, elementValue + " is unavailable");
+                return;
             }
-            else if (request.responseText == "username not alphanumeric") {
+            if (request.responseText == "username not alphanumeric") {
                 setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementID + " is not alphanumeric");
+                setSpanMsg(elementID, false, elementValue + " is not alphanumeric");
+                return;
+            }
+            if (request.responseText == "email okay"){
+                setFieldStatus(elementID, true);
+                setSpanMsg(elementID, true, "");
+                return;
+            }
+            if (request.responseText == "email on file"){
+                setFieldStatus(elementID, false);
+                setSpanMsg(elementID, false, elementValue + " is already in use");
+                return;
+            }
+            if (request.responseText == "no email format"){
+                setFieldStatus(elementID, false);
+                setSpanMsg(elementID, false, elementValue + " is not a valid email");
+                return;
             }
         }
     }
