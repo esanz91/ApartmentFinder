@@ -1,5 +1,6 @@
 var validator = require('validator');
-var UserModel = require('../models/user');
+var userModel = require('../models/user');
+var userHandler = require('../handler/users');
 
 function SessionHandler() {
     "use strict";
@@ -34,7 +35,7 @@ function SessionHandler() {
         var username = req.body.username;
         var password = req.body.password;
 
-        UserModel.findOne({ 'local.username': username, 'local.password': password }, 'local.name.firstName', function (err, user) {
+        userModel.findOne({ 'local.username': username, 'local.password': password }, 'local.name.firstName', function (err, user) {
             if (err) {
                 console.log(err);
                 return res.render('msgs', {msgs: "Cannot log in..."});
@@ -83,7 +84,8 @@ function SessionHandler() {
             return false;
         }
 
-        //TODO: check if email already exists
+        // TODO: check if email already exists
+        // done on the front end
 
         if((!validator.isAlphanumeric(password)) && (password.length > 3)){
             console.log("password: " + password + " is alphanumeric? " + validator.isAlphanumeric(password) + " length is greater than 3? " + password.length > 3);
@@ -117,7 +119,7 @@ function SessionHandler() {
                 }
             };
 
-            var user = new UserModel(userJSON);
+            var user = new userModel(userJSON);
             console.log("user: " + user);
 
             user.save(function(err, user){

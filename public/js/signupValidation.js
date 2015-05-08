@@ -83,17 +83,17 @@ function showFieldStatus(element) {
                 setSpanMsg(elementID, false, elementValue + " is not alphanumeric");
                 return;
             }
-            if (request.responseText == "email okay"){
+            if (request.responseText == "email okay") {
                 setFieldStatus(elementID, true);
                 setSpanMsg(elementID, true, "");
                 return;
             }
-            if (request.responseText == "email on file"){
+            if (request.responseText == "email on file") {
                 setFieldStatus(elementID, false);
                 setSpanMsg(elementID, false, elementValue + " is already in use");
                 return;
             }
-            if (request.responseText == "no email format"){
+            if (request.responseText == "no email format") {
                 setFieldStatus(elementID, false);
                 setSpanMsg(elementID, false, elementValue + " is not a valid email");
                 return;

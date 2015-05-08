@@ -1,22 +1,10 @@
-header, .fixed-nav-bar {
-    height: 60px;
-    width: 100%;
+header, .custom-navbar-green {
     background-color: #84ABA4;
     border-bottom: thin solid #428378;
-    position: fixed;
-    z-index: 9999;
 }
 
-.fixed-nav-bar a, .fixed-nav-bar a:visited {
+.custom-navbar-green a, .custom-navbar-green a:visited {
     color: #ffffff;
-}
-
-li a.selected{
-    text-decoration: none;
-}
-
-li a.selected.active {
-    color: #BFDCD7;
 }
 
 /*title position*/
@@ -54,4 +42,12 @@ a.title-area {
 
 .menu-items a:hover, .menu-items a:target {
     color: #ebebeb;
+}
+
+ul.menu-items li a.selected{
+    text-decoration: none;
+}
+
+ul.menu-items li a.active{
+    color: #BFDCD7;
 }

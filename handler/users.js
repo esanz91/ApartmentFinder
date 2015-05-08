@@ -1,5 +1,5 @@
 var validator = require('validator');
-var UserModel = require('../models/user');
+var userModel = require('../models/user');
 
 exports.isValidUsername = function (req, res) {
     "use strict";
@@ -28,7 +28,7 @@ exports.isValidUsername = function (req, res) {
 };
 
 function findUsername(username, callback) {
-    UserModel.findOne({'local.username': username}, 'local.username', function (err, user) {
+    userModel.findOne({'local.username': username}, 'local.username', function (err, user) {
         var response = null;
 
         // error
@@ -75,7 +75,7 @@ exports.isValidEmail = function (req, res) {
 }
 
 function findEmail(email, callback) {
-    UserModel.findOne({'local.email': email}, 'local.email', function (err, user) {
+    userModel.findOne({'local.email': email}, 'local.email', function (err, user) {
         var response = null;
         // error
         if (err) {
@@ -90,5 +90,5 @@ function findEmail(email, callback) {
             response = "found";
         }
         callback(response);
-    })
+    });
 }

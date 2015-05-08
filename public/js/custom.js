@@ -1,6 +1,6 @@
 $(function() {
-   $('.selected').click(function() {
-       $('.selected').removeClass('active');
+   $('.selected a').click(function() {
+       $('.selected a').removeClass('active');
        $(this).addClass('active');
    });
 });
