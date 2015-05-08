@@ -19,32 +19,46 @@ function validateField() {
     }
 
     // init request
+    var elementID = this.id;
     var userInput = this.value;
     var urlParam = encodeURIComponent(userInput);
-    if ((this.id == "firstName") || (this.id == "lastName")) {
+    if ((elementID == "firstName") || (elementID == "lastName")) {
         var url = "/api/validate/name/" + urlParam;
     }
-    else if (this.id == "username") {
+    else if (elementID == "username") {
         var url = "/api/validate/username/" + urlParam;
     }
-    else if (this.id == "email") {
+    else if (elementID == "email") {
         var url = "/api/validate/email/" + urlParam;
     }
-    else if (this.id == "password") {
+    else if (elementID == "password") {
         var url = "/api/validate/password/" + urlParam;
     }
-    request.onreadystatechange = showUsernameStatus;
+    request.onreadystatechange = function(){showUsernameStatus(elementID);};
     request.open("GET", url, true);
     request.send(null);
-
 }
 
-function showUsernameStatus() {
+function showUsernameStatus (elementID){
     "user strict"
+
     if (request.readyState == 4) {
         if (request.status == 200) {
-            //Todo: replace alert action with css modifications based on responseText to indicate any errors
-            alert(request.responseText);
+            var elementDiv = document.getElementById(elementID+"Div");
+            var successCSS = " has-success has-feedback";
+            var errorCSS = " has-error has-feedback";
+            // on success
+            if(request.responseText == "okay"){
+                elementDiv.className = elementDiv.className.replace(errorCSS, "");
+                elementDiv.className = elementDiv.className.replace(successCSS, "");
+                elementDiv.className = elementDiv.className + successCSS;
+            }
+            // on error
+            else {
+                elementDiv.className = elementDiv.className.replace(errorCSS, "");
+                elementDiv.className = elementDiv.className.replace(successCSS, "");
+                elementDiv.className = elementDiv.className + errorCSS;
+            }
         }
     }
 }
