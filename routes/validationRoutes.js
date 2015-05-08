@@ -3,7 +3,7 @@ var router = express.Router();
 var userHandler = require('../handler/users');
 
 router.get('/', function (req, res) {
-    res.send("api");
+    res.send("validation routes");
 });
 
 router.get('/name/:name', userHandler.isValidName);

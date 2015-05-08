@@ -7,6 +7,7 @@ function init() {
     document.getElementById("email").onblur = validateField;
     document.getElementById("password").onblur = validateField;
 }
+
 function validateField() {
     "user strict"
 
