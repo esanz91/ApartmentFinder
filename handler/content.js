@@ -5,15 +5,15 @@ function ContentHandler () {
 
     this.displayMain = function(req, res) {
         "use strict";
-        return res.render('home', { title: 'Spotaru' });
+        return res.render('home', { title: 'Spotaru', user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
     this.displaySearch = function(req, res) {
         "use strict";
-        return res.render('search');
+        return res.render('search', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
     this.displayPost = function(req, res) {
         "use strict";
-        return res.render('post');
+        return res.render('post', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
     this.handlePost = function(req, res) {
         "use strict";
@@ -41,10 +41,10 @@ function ContentHandler () {
         post.save(function(err, post){
             if(err){
                 console.log(err);
-                return res.render('msgs', {msgs: "Error posting..."});
+                return res.render('msgs', {msgs: "Error posting...", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
                 //return next(err);
             }
-            return res.render('msgs', {msgs: postJSON.toString});
+            return res.render('msgs', {msgs: postJSON.toString, user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
         })
     }
 }

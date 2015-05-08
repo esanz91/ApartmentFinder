@@ -30,16 +30,21 @@
             <li>
                 <a id="postLink" class="selected" href="/post">Post</a>
             </li>
-            <li>
-                <a id="loginLink" class="selected" href="/login">Log In</a>
-            </li>
-            <li>
-                <a id="signupLink" class="selected" href="/signup">Sign Up</a>
-            </li>
-            <li>
-                <a id="logoutLink" class="selected" href="/logout">Logout</a>
-            </li>
-
+            {{#with user}}
+                {{#if loggedout}}
+                    <li>
+                        <a id="loginLink" class="selected" href="/login">Log In</a>
+                    </li>
+                    <li>
+                        <a id="signupLink" class="selected" href="/signup">Sign Up</a>
+                    </li>
+                {{/if}}
+                {{#if loggedin}}
+                    <li>
+                        <a id="logoutLink" class="selected" href="/logout">Logout</a>
+                    </li>
+                {{/if}}
+            {{/with}}
         </ul>
     </nav>
 </header>

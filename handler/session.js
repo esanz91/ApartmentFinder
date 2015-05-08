@@ -10,15 +10,17 @@ function SessionHandler() {
 
         // cannot signup or login once logged in
         if (req.session.username){
+            res.locals.loggedin = true;
             if((req.path == '/signup') || (req.path == '/login')){
-                return res.render('msgs', {msgs: "You are already logged in!"});
+                return res.render('msgs', {msgs: "You are already logged in!", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
             }
             return next();
         }
+        res.locals.loggedin = false;
 
         // must be a registered user to post
         if(req.path == '/post') {
-            return res.redirect('/login');
+            return res.render('msgs', {msgs: "You must be a registered user to post!", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
         }
 
         return next();
@@ -26,7 +28,7 @@ function SessionHandler() {
 
     this.displayLogin = function(req, res) {
         "use strict";
-        return res.render('login');
+        return res.render('login', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
     this.handleLogin = function(req, res){
@@ -38,10 +40,10 @@ function SessionHandler() {
         userModel.findOne({ 'local.username': username, 'local.password': password }, 'local.name.firstName', function (err, user) {
             if (err) {
                 console.log(err);
-                return res.render('msgs', {msgs: "Cannot log in..."});
+                return res.render('msgs', {msgs: "Cannot log in...", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
             }
             if (!user){
-                return res.render('msgs', {msgs: "Username not found. Please register!"});
+                return res.render('msgs', {msgs: "Username not found. Please register!", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
             }
             req.session.username = user.local.name.firstName;
             return res.redirect('/welcome');
@@ -50,7 +52,7 @@ function SessionHandler() {
 
     this.displaySignup = function(req, res) {
         "use strict";
-        return res.render('signup');
+        return res.render('signup', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
     function validateSignup (firstname, lastname, username, email, password){
@@ -125,7 +127,7 @@ function SessionHandler() {
             user.save(function(err, user){
                 if(err){
                     console.log(err);
-                    return res.render('msgs', {msgs: "This username exists already!"});
+                    return res.render('msgs', {msgs: "This username exists already!", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
                     //return next(err);
                 }
                 req.session.username = user.local.username;
@@ -134,13 +136,13 @@ function SessionHandler() {
         }
         else {
             console.log("user was not registered");
-            return res.render('signup', { msgs: "Error signing up!" });
+            return res.render('signup', { msgs: "Error signing up!", user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
         }
     }
 
     this.displayWelcome = function(req, res){
         "use strict"
-        return res.render('welcome', { name : req.session.username });
+        return res.render('welcome', { name : req.session.username, user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
     this.handleLogout = function(req,res){
