@@ -6,8 +6,8 @@ router.get('/', function (req, res) {
     res.send("validation routes");
 });
 
-router.get('/name/:name', userHandler.isValidName);
-
 router.get('/username/:username', userHandler.isValidUsername);
+
+router.get('/email/:email', userHandler.isValidEmail);
 
 module.exports = router;

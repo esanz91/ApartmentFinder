@@ -11,31 +11,40 @@
         }}
 
         {{#with msgs}}
-            <div class="alert alert-danger"><h1>The message is: {{msgs}}</h1></div>
+            <div class="alert alert-danger" id="errorDiv">{{msgs}}</div>
         {{/with}}
 
 
         <!-- SIGN UP FORM -->
         <form action="/signup" method="post" class="form-horizontal" role="form">
             <div class="form-group" id="firstNameDiv">
-                <label for="firstName">First Name</label>
-                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Enter First Name">
+                <label for="firstName" class="control-label">First Name</label>
+                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Enter First Name"
+                       required title="Cannot contain numbers or symbols.">
+                <span class="help-inline text-danger content-display-none" id="firstNameSpan"></span>
             </div>
             <div class="form-group" id="lastNameDiv">
-                <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Enter Last Name">
+                <label for="lastName" class="control-label">Last Name</label>
+                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Enter Last Name"
+                       required title="Cannot contain numbers or symbols.">
+                <span class="help-inline text-danger content-display-none" id="lastNameSpan"></span>
             </div>
             <div class="form-group" id="usernameDiv">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username">
+                <label for="username" class="control-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username"
+                       required title="Minimum of 6 alphanumeric characters." minlength="6">
+                <span class="help-inline text-danger content-display-none" id="usernameSpan"></span>
+
             </div>
             <div class="form-group" id="emailDiv">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" name="email" id="email" placeholder="Enter E-mail">
+                <label for="email" class="control-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter E-mail" required>
+                <span class="help-inline text-danger content-display-none" id="emailSpan"></span>
             </div>
-            <div class="form-group" id="password">
-                <label for ="password">Password</label>
-                <input type="password" class="form-control" name="password" id="password">
+            <div class="form-group" id="passwordDiv">
+                <label for="password" class="control-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required minlength="6">
+                <span class="help-inline text-danger content-display-none" id="passwordSpan"></span>
             </div>
 
             <button type="submit" class="btn btn-warning btn-lg">Sign Up</button>
@@ -44,7 +53,13 @@
         <hr>
 
         <p>Already have an account? <a href="/login">Login</a></p>
+
         <p>Or go <a href="/">home</a>.</p>
 
     </div>
 </div>
+
+{{#section 'javascript'}}
+    <script src="/js/utils.js"></script>
+    <script src="/js/signupValidation.js"></script>
+{{/section}}

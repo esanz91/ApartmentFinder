@@ -1,22 +1,6 @@
 var validator = require('validator');
 var UserModel = require('../models/user');
 
-exports.isValidName = function(req, res){
-    "use strict";
-
-    // trim name
-    var name = validator.trim(req.params.name);
-    console.log(name);
-
-    // check if alphanumeric
-    if(!validator.isAlpha(name)){
-        return res.send("not alpha");
-    }
-
-    // pass validation
-    return res.send("okay");
-}
-
 exports.isValidUsername = function (req, res) {
     "use strict";
 
@@ -24,43 +8,87 @@ exports.isValidUsername = function (req, res) {
     console.log(username);
 
     // check if alphanumeric
-    if(!validator.isAlphanumeric(username)){
-        return res.send("not alphanumeric");
+    if (!validator.isAlphanumeric(username)) {
+        return res.send("username not alphanumeric");
     }
 
     // check if exists
-    findUsername(username, function(response) {
+    findUsername(username, function (response) {
         // username available
         if (null === response) {
-            return res.send("okay");
+            return res.send("username available");
         }
         // username unavailable
-        if (response) {
-            return res.send("in use");
+        if (response === "found") {
+            return res.send("username unavailable");
         }
         // error
         return res.send(response);
     });
 };
 
-function findUsername (username, callback) {
+function findUsername(username, callback) {
     UserModel.findOne({'local.username': username}, 'local.username', function (err, user) {
         var response = null;
 
-        //error
+        // error
         if (err) {
             response = err;
         }
-        //username not found
+        // username not found
         if (!user) {
-            //console.log("username, '" + username + "', not found");
             response = null;
         }
-        //username found
-        else{
-            //console.log("username, '" + username + "', is unavailable. Please choose another username.");
-            response = user.local.username;
+        // username found
+        if (user) {
+            response = "found";
         }
         callback(response);
     });
+}
+
+exports.isValidEmail = function (req, res) {
+    "use strict";
+
+    // trim name
+    var email = validator.trim(req.params.email);
+    console.log(email);
+
+    // check if email
+    if (!validator.isEmail(email)) {
+        return res.send("no email format");
+    }
+
+    // check if exists
+    findEmail(email, function (response) {
+        // email not on file
+        if (null === response) {
+            return res.send("email okay");
+        }
+        // email on file
+        if (response === "found") {
+            return res.send("email on file");
+        }
+        // error
+        return res.send(response);
+    });
+}
+
+function findEmail(email, callback) {
+    UserModel.findOne({'local.email': email}, 'local.email', function (err, user) {
+        var response = null;
+        // error
+        if (err) {
+            response = err;
+        }
+        // email not on file
+        if (!user) {
+            response = null;
+        }
+        // email on file
+        if (user) {
+            response = "found";
+        }
+        callback(response);
+    })
 }
