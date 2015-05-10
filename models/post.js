@@ -3,7 +3,11 @@ var mongoose = require('mongoose');
 // post schema : schema maps to a MongoDB collection
 var postSchema = new mongoose.Schema({
         aptDetails          : {
-            location        : {type: String, required: true},
+            location        : {
+                name        : {type: String, required: true},
+                longitude   : {type: Number, required: true},
+                latitude    : {type: Number, required: true}
+            },
             bedrooms        : {type: Number, required: true},
             bathrooms       : {type: Number, required: true},
             sqft            : {type: Number},

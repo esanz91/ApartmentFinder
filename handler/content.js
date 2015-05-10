@@ -25,9 +25,24 @@ function ContentHandler () {
         var pets = req.body.pets;
         var amenities = req.body.amenities;
 
+        $.ajax({
+            url: "http://maps.googleapis.com/maps/api/geocode/json?address="+address+"&sensor=false",
+            type: "POST",
+            success: function(res){
+                console.log(res.results[0].geometry.location.lat);
+                console.log(res.results[0].geometry.location.lng);
+            }
+        });
+
         var postJSON = {
             aptDetails      : {
-                location    : location,
+                location        : {
+                    name        : location
+                    /*,
+                    longitude   : ,
+                    latitude    :
+                    */
+                },
                 bedrooms    : bedrooms,
                 bathrooms   : bathrooms,
                 sqft        : sqft,

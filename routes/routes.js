@@ -29,7 +29,10 @@ module.exports = exports = function(app) {
     app.get('/signup', sessionHandler.displaySignup);
     app.post('/signup', sessionHandler.handleSignup);
 
+    // Welcome
+    app.get('/welcome', sessionHandler.displayWelcome);
+
     // Profile
-    app.get('/welcome', sessionHandler.displayWelcome)
+    app.get('/account', sessionHandler.displayAccount);
 
 }
