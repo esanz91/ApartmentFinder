@@ -1,3 +1,4 @@
+var request = require('request');
 var PostModel = require('../models/post');
 
 function ContentHandler () {
@@ -17,7 +18,7 @@ function ContentHandler () {
     }
     this.handlePost = function(req, res) {
         "use strict";
-        var location = req.body.location;
+        var address = req.body.address;
         var bedrooms = req.body.bedrooms;
         var bathrooms = req.body.bathrooms;
         var sqft = req.body.sqft;
@@ -25,23 +26,33 @@ function ContentHandler () {
         var pets = req.body.pets;
         var amenities = req.body.amenities;
 
-        $.ajax({
-            url: "http://maps.googleapis.com/maps/api/geocode/json?address="+address+"&sensor=false",
-            type: "POST",
-            success: function(res){
-                console.log(res.results[0].geometry.location.lat);
-                console.log(res.results[0].geometry.location.lng);
+        var data;
+        var lat;
+        var lng;
+
+        request.post("http://maps.googleapis.com/maps/api/geocode/json?address="+address+"&sensor=false", function(err, res, body) {
+            if (!err && res.statusCode === 200) {
+                data = JSON.parse(body);
+                lat = data.results[0].geometry.location.lat;
+                lng = data.results[0].geometry.location.lng;
+
+                console.log("lat: " + data.results[0].geometry.location.lat);
+                console.log("lng: " + lng);
+                /*
+                createPost(lng, lat, function(err, output) {
+                    console.log(err, output);
+                });
+                */
             }
         });
 
+        //Todo: create the following as callback
         var postJSON = {
             aptDetails      : {
-                location        : {
-                    name        : location
-                    /*,
-                    longitude   : ,
-                    latitude    :
-                    */
+                address        : {
+                    name        : address,
+                    longitude   : lng,
+                    latitude    : lat
                 },
                 bedrooms    : bedrooms,
                 bathrooms   : bathrooms,
@@ -60,7 +71,7 @@ function ContentHandler () {
                 //return next(err);
             }
             return res.render('msgs', {msgs: postJSON.toString, user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
-        })
+        });
     }
 }
 
