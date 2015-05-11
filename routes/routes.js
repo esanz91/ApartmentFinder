@@ -13,6 +13,7 @@ module.exports = exports = function(app) {
 
     // Search
     app.get('/search', contentHandler.displaySearch);
+    app.get('/findApartments', contentHandler.handleSearch);
 
     // Post
     app.get('/post', contentHandler.displayPost);

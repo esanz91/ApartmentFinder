@@ -36,3 +36,7 @@
 #signup-div {
     display: block;
 }
+
+.form-padding-top {
+    padding-top: 15px;
+}
