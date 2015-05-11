@@ -1,6 +1,5 @@
 var validator = require('validator');
 var userModel = require('../models/user');
-var userHandler = require('../handler/users');
 
 function SessionHandler() {
     "use strict";

@@ -61,4 +61,16 @@ function showMap(mapOptions){
     return map;
 }
 
+function getLatLong(address){
+    var geo = new google.maps.Geocoder;
+
+    geo.geocode({'address':address},function(results, status){
+        if (status == google.maps.GeocoderStatus.OK) {
+            return results[0].geometry.location;
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+}
+
 //google.maps.event.addDomListener(window, 'load', initialize);
