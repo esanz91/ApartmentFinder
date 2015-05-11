@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var postSchema = new mongoose.Schema({
         aptDetails          : {
             address        : {
-                name        : {type: String, required: true},
+                postal      : {type: String, required: true},
                 longitude   : {type: Number, required: true},
                 latitude    : {type: Number, required: true}
             },
