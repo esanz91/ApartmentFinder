@@ -28,7 +28,7 @@ function ContentHandler() {
         var bedrooms = req.body.bedrooms;
         var bathrooms = req.body.bathrooms;
         var sqft = req.body.sqft;
-        var price = req.body.price;
+        var rent = req.body.rent;
         //var pets = req.body.pets;
         //var amenities = req.body.amenities;
 
@@ -45,7 +45,7 @@ function ContentHandler() {
                         bedrooms: bedrooms,
                         bathrooms: bathrooms,
                         sqft: sqft,
-                        price: price
+                        rent: rent
                     }
                 };
                 var post = new PostModel(postJSON);

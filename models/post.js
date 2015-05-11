@@ -11,7 +11,7 @@ var postSchema = new mongoose.Schema({
             bedrooms        : {type: Number, required: true},
             bathrooms       : {type: Number, required: true},
             sqft            : {type: Number},
-            price           : {type: Number, required: true}
+            rent           : {type: Number, required: true}
         },
         extraDetails        : {
             pets            : {type: Boolean},
