@@ -27,8 +27,10 @@
 
 .right-sidebar {
     width: calc(35% - 1px);
+    height: 100%;
     background-color: #FFFFFF;
     float: right;
+    overflow-y:auto;
 }
 
 #signup-div {
