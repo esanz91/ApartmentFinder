@@ -36,8 +36,8 @@ function ContentHandler() {
 
                 //var query = {};
                 //query[fieldName] = value;
-                //postModel.find(query, 'address', function (err, posts) {
-                postModel.find().where(fieldName, value).exec(function(err, posts) {
+                //postModel.find(query, 'address.longitude address.latitude', function (err, posts) {
+                postModel.find().where(fieldName, value).select('address.longitude address.latitude').exec(function(err, posts) {
                     console.log("posts: " + posts);
 
                     // error
