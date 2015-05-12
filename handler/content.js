@@ -60,6 +60,7 @@ function ContentHandler() {
                     if (posts) {
                         console.log("search results!");
                         console.log(posts);
+                        //Todo: add markers to maps
                         return res.render('msgs', {
                             msgs: "match!" + posts,
                             user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
