@@ -1,15 +1,13 @@
-$(function() {
-   $('.selected a').click(function() {
-       $('.selected a').removeClass('active');
-       $(this).addClass('active');
-   });
+$('.selected a').click(function () {
+    $('.selected a').removeClass('active');
+    $(this).addClass('active');
 });
 
 //populate # of bedrooms
-$(function(){
-    for(var i = 0; i <= 6; i++){
-        if(i==0){
-            var option=$('<option></option>');
+$(function () {
+    for (var i = 0; i <= 6; i++) {
+        if (i == 0) {
+            var option = $('<option></option>');
             option.attr('value', i);
             option.text("studio");
             $('#bedrooms').append(option);
@@ -24,9 +22,9 @@ $(function(){
 });
 
 //populate # of bathrooms
-$(function(){
-    for(var i = 0.5; i <= 6; i=i+.5){
-        var option=$('<option></option>');
+$(function () {
+    for (var i = 0.5; i <= 6; i = i + .5) {
+        var option = $('<option></option>');
         option.attr('value', i);
         option.text(i);
         $('#bathrooms').append(option);

@@ -4,12 +4,12 @@ var mongoose = require('mongoose');
 var postSchema = new mongoose.Schema({
         address             : {
             formatted_address   : {type: String, required: true},
-            route               : {type: String},
+            route               : {type: String},           // street
             neighborhood        : {type: String},
-            city                : {type: String},
-            county              : {type: String},
-            state               : {type: String},
-            zip_code            : {type: String},
+            locality            : {type: String},           // city
+            administrative_area_level_2 : {type: String},   // county
+            administrative_area_level_1 : {type: String},   // state
+            postal_code         : {type: String},           // zip code
             country             : {type: String},
             longitude           : {type: Number, required: true},
             latitude            : {type: Number, required: true}
