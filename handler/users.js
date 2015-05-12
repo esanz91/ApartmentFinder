@@ -12,40 +12,23 @@ exports.isValidUsername = function (req, res) {
         return res.send("username not alphanumeric");
     }
 
-    // check if exists
-    findUsername(username, function (response) {
-        // username available
-        if (null === response) {
-            return res.send("username available");
-        }
-        // username unavailable
-        if (response === "found") {
-            return res.send("username unavailable");
-        }
-        // error
-        return res.send(response);
-    });
-};
-
-function findUsername(username, callback) {
+    //check if exists
     userModel.findOne({'local.username': username}, 'local.username', function (err, user) {
-        var response = null;
 
         // error
         if (err) {
-            response = err;
+            return res.send(err);
         }
-        // username not found
+        // username available
         if (!user) {
-            response = null;
+            return res.send("username available");
         }
         // username found
         if (user) {
-            response = "found";
+            return res.send("username unavailable");
         }
-        callback(response);
     });
-}
+};
 
 exports.isValidEmail = function (req, res) {
     "use strict";
@@ -60,35 +43,19 @@ exports.isValidEmail = function (req, res) {
     }
 
     // check if exists
-    findEmail(email, function (response) {
-        // email not on file
-        if (null === response) {
-            return res.send("email okay");
-        }
-        // email on file
-        if (response === "found") {
-            return res.send("email on file");
-        }
-        // error
-        return res.send(response);
-    });
-}
-
-function findEmail(email, callback) {
     userModel.findOne({'local.email': email}, 'local.email', function (err, user) {
-        var response = null;
         // error
         if (err) {
-            response = err;
+            return res.send(response);
         }
         // email not on file
         if (!user) {
-            response = null;
+            return res.send("email okay");
         }
         // email on file
         if (user) {
-            response = "found";
+            return res.send("email on file");
         }
-        callback(response);
     });
 }
+

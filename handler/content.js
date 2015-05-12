@@ -107,9 +107,6 @@ function ContentHandler() {
                     }
                 };
                 var post = new postModel(postJSON);
-
-                console.log(post);
-
                 post.save(function (err, post) {
                     if (err) {
                         return res.render('msgs', {
