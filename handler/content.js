@@ -61,8 +61,10 @@ function ContentHandler() {
                         console.log("search results!");
                         console.log(posts);
                         //Todo: add markers to maps
-                        return res.render('msgs', {
-                            msgs: "match!" + posts,
+
+
+                        return res.render('search', {
+                            msgs: posts,
                             user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                         });
                     }

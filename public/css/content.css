@@ -33,10 +33,27 @@
     overflow-y:auto;
 }
 
+.content-padding-top {
+    padding-top: 15px;
+}
+
+.content-full-width {
+    width: 100%;
+}
+
+.wrapper{
+    position: relative;
+}
+
 #signup-div {
     display: block;
 }
 
-.form-padding-top {
-    padding-top: 15px;
+#search-content{
+    margin-top:2px;
+    padding:5px;
+    position:absolute;
+    left:40px;
+    top: 60px;
+    z-index:99;
 }

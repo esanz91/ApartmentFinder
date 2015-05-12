@@ -1,89 +1,112 @@
-<div id="search-div" class="content-container content-text">
-    <div id="map-canvas" class="content-display-inline-block"></div>
-    <div id="search-content" class="content-display-inline-block right-sidebar content-padding form-padding-top">
-        <h1 class="align-center">Search</h1>
+<div id="search-div" class="content-container content-text wrapper">
 
-        <form action="/findApartments" method="get" class="form-horizontal form-padding-top" role="form">
+    <div id="map-canvas" class="content-full-width"></div>
 
-            <div class="form-group">
-                <fieldset>
-                    <legend>Apartment Details</legend>
-
-                    <label class="control-label" for="postalAddress">Location</label>
-                    <input type="text" class="form-control" name="postalAddress" id="postalAddress"
-                           placeholder="Address" required>
-
-                    {{!
-                    <div class="col-xs-6 form-padding-top">
-                        <label class="control-label" for="bedrooms">Bedrooms</label>
-                        <select class="form-control" name="bedrooms" id="bedrooms"></select>
-                    </div>
-                    <div class="col-xs-6 form-padding-top">
-                        <label class="control-label" for="bathrooms">Bathrooms</label>
-                        <select class="form-control" name="bathrooms" id="bathrooms"></select>
-                    </div>
-
-                    <div class="col-xs-12 form-padding-top">
-                        <label class="control-label" for="rent">Rent</label>
-
-                        <div class="input-group">
-                            <div class="input-group-addon">$</div>
-                            <input type="text" class="form-control" name="rent" id="rent" placeholder="min">
-                        </div>
-
-                        <div class="input-group">
-                            <div class="input-group-addon">$</div>
-                            <input type="text" class="form-control" name="rent" id="rent" placeholder="max">
-                        </div>
-
-                    </div>
-
-                    <div class="col-xs-6 form-padding-top">
-                        <label class="control-label" for="sqft">Square Feet</label>
-                        <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
-                    </div>
-                    }}
-                </fieldset>
-            </div>
-
-            {{!
-            <div class="form-group">
-                <fieldset>
-                    <legend>Pets</legend>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="dogs"> Dogs allowed <br>
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="cats"> Cats allowed <br>
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="noPets"> No pets <br>
-                    </label>
-                </fieldset>
-            </div>
-
-            <div class="form-group">
-                <fieldset>
-                    <legend>Amenities</legend>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="dishwasher"> Dishwasher <br>
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="gym"> Gym <br>
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="elevator"> Elevator <br>
-                    </label>
-                </fieldset>
-            </div>
-            }}
-            <br>
-
-            <button type="submit" class="btn btn-warning btn-lg">Search</button>
-
-        </form>
-
+    <div id="search-content" class="col-xs-3">
+        <div class="input-group">
+            <input type="text" class="form-control" name="postalAddress" id="postalAddress"
+                   placeholder="Address" required>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-warning">Search</button>
+            </span>
+        </div>
     </div>
+
+    {{#if msgs}}
+        <div id="search-content"
+             class="content-display-inline-block right-sidebar content-padding content-padding-top content-display-none">
+            <h1 class="align-center">Search</h1>
+
+            <form action="/findApartments" method="get" class="form-horizontal form-padding-top" role="form">
+
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Apartment Details</legend>
+
+                        <label class="control-label" for="postalAddress">Location</label>
+                        <input type="text" class="form-control" name="postalAddress" id="postalAddress"
+                               placeholder="Address" required>
+
+                        {{!
+                        <div class="col-xs-6 form-padding-top">
+                            <label class="control-label" for="bedrooms">Bedrooms</label>
+                            <select class="form-control" name="bedrooms" id="bedrooms"></select>
+                        </div>
+                        <div class="col-xs-6 form-padding-top">
+                            <label class="control-label" for="bathrooms">Bathrooms</label>
+                            <select class="form-control" name="bathrooms" id="bathrooms"></select>
+                        </div>
+
+                        <div class="col-xs-12 form-padding-top">
+                            <label class="control-label" for="rent">Rent</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="text" class="form-control" name="rent" id="rent" placeholder="min">
+                            </div>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="text" class="form-control" name="rent" id="rent" placeholder="max">
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-6 form-padding-top">
+                            <label class="control-label" for="sqft">Square Feet</label>
+                            <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
+                        </div>
+                        }}
+                    </fieldset>
+                </div>
+
+                {{!
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Pets</legend>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="pets" value="dogs"> Dogs allowed <br>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="pets" value="cats"> Cats allowed <br>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="pets" value="noPets"> No pets <br>
+                        </label>
+                    </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Amenities</legend>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="amenities" value="dishwasher"> Dishwasher <br>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="amenities" value="gym"> Gym <br>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="amenities" value="elevator"> Elevator <br>
+                        </label>
+                    </fieldset>
+                </div>
+                }}
+                <br>
+
+                <button type="submit" class="btn btn-warning btn-lg">Search</button>
+
+            </form>
+
+            <div id="resultsDiv" class="content-padding-top">
+                <h1 class="align-center">Results</h1>
+
+                <div class="content-padding-top">
+                    <p class="align-center">{{msgs}}</p>
+                </div>
+            </div>
+
+        </div>
+    {{/if}}
 </div>
 
 {{#section 'javascript'}}
