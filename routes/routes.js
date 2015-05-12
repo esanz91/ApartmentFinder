@@ -1,5 +1,6 @@
 var ContentHandler = require('../handler/content');
 var SessionHandler = require('../handler/session');
+var postEndPoint = require('../api/posts');
 
 module.exports = exports = function(app) {
 
@@ -13,7 +14,7 @@ module.exports = exports = function(app) {
 
     // Search
     app.get('/search', contentHandler.displaySearch);
-    app.get('/findApartments', contentHandler.handleSearch);
+    app.get('/findApartments', postEndPoint.getMarkers);
 
     // Post
     app.get('/post', contentHandler.displayPost);

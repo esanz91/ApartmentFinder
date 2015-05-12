@@ -1,3 +1,55 @@
+
+window.onload = init();
+
+function init(){
+    document.getElementById("search-button").onclick = function(){
+        alert(document.getElementById("search-button"));
+
+        var element = document.getElementById("postalAddress");
+
+        // create request
+        var request = createRequest();
+        if (null === request) {
+            console.log("Could not create request");
+            return;
+        }
+
+        // init request
+        var postalAddress = element.value;
+        var urlParam = encodeURIComponent(postalAddress);
+        var url = "/findApartments?" + element.id + "=" + urlParam;
+
+        request.onreadystatechange = function () {
+            displayMarkersOnMap();
+        };
+        request.open("GET", url, true);
+        request.send(null);
+    };
+}
+
+function displayMarkersOnMap(){
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            var response = JSON.parse(request.responseText);
+            alert(response);
+            /*
+            if (response == "error") {
+                alert(error);
+
+                //setFieldStatus(elementID, true);
+                //setSpanMsg(elementID, true, "");
+
+                return;
+            }
+            if (response){
+
+            */
+        }
+    }
+}
+
+
+
 function createMap() {
     var map;
 
@@ -18,11 +70,16 @@ function createMap() {
     }
 
     //run only if search button found
+    /*
+    alert("1. " + document.getElementById("-button"));
     if(document.getElementById("search-button")) {
-        document.getElementById("search-button").onclick = function () {
+        alert("2. " + document.getElementById("search-button"));
+        document.getElementsByName("search-button").onclick = function () {
+            alert("3. " + document.getElementsByName("search-button"));
             codeLocation(map);
         }
-    }
+    }*/
+
 }
 
 function codeLocation(map) {

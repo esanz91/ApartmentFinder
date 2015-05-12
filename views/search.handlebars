@@ -7,12 +7,12 @@
             <input type="text" class="form-control" name="postalAddress" id="postalAddress"
                    placeholder="Address" required>
             <span class="input-group-btn">
-                <button type="button" class="btn btn-warning">Search</button>
+                <button name="search-button" id="search-button" type="button" class="btn btn-warning">Search</button>
             </span>
         </div>
     </div>
 
-    {{#if msgs}}
+    {{!
         <div id="search-content"
              class="content-display-inline-block right-sidebar content-padding content-padding-top content-display-none">
             <h1 class="align-center">Search</h1>
@@ -56,11 +56,10 @@
                             <label class="control-label" for="sqft">Square Feet</label>
                             <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
                         </div>
-                        }}
+
                     </fieldset>
                 </div>
 
-                {{!
                 <div class="form-group">
                     <fieldset>
                         <legend>Pets</legend>
@@ -90,7 +89,7 @@
                         </label>
                     </fieldset>
                 </div>
-                }}
+
                 <br>
 
                 <button type="submit" class="btn btn-warning btn-lg">Search</button>
@@ -101,16 +100,16 @@
                 <h1 class="align-center">Results</h1>
 
                 <div class="content-padding-top">
-                    <p class="align-center">{{msgs}}</p>
+                    <p class="align-center">{{msgs}</p>
                 </div>
             </div>
-
         </div>
-    {{/if}}
+    }}
 </div>
 
 {{#section 'javascript'}}
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY&callback=createMap"></script>
+    <script src="/js/utils.js"></script>
     <script src="/js/googlemapsapi.js"></script>
 {{/section}}
