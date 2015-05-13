@@ -21,25 +21,19 @@ exports.getMarkers = function (req, res) {
             //var query = {};
             //query[fieldName] = value;
             //postModel.find(query, 'address.longitude address.latitude', function (err, posts) {
-            postModel.find().where(fieldName, value).select('address.longitude address.latitude').exec(function(err, posts) {
-                console.log("posts: " + posts);
+            postModel.find().where(fieldName, value).select('address.longitude address.latitude').lean().exec(function(err, posts) {
 
                 // error
                 if (err) {
-                    console.log("error: " + err);
-                    return res.send("error");
+                    return res.send({msg: "error"});
                 }
                 // posts not found
                 if ((!posts) || (null === posts) || (posts.length == 0)) {
-                    console.log("no search results found...");
-                    return res.send("no matches");
+                    return res.send({msg: "no matches"});
                 }
                 // posts found
                 if (posts) {
-                    console.log("search results!");
-                    console.log(posts);
-                    //Todo: add markers to maps
-                    return res.json({msg: "match", data: posts});
+                    return res.json({msg: "match", lng: posts[0].address.longitude, lat: posts[0].address.latitude});
                 }
             });
         }

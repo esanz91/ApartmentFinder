@@ -1,39 +1,34 @@
+//window.onload = init();
 
-window.onload = init();
+function init(map) {
+    //document.getElementById("search-button").onclick = function(){
+    var element = document.getElementById("postalAddress");
 
-function init(){
-    document.getElementById("search-button").onclick = function(){
-        alert(document.getElementById("search-button"));
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
 
-        var element = document.getElementById("postalAddress");
+    // init request
+    var postalAddress = element.value;
+    var urlParam = encodeURIComponent(postalAddress);
+    var url = "/findApartments?" + element.id + "=" + urlParam;
 
-        // create request
-        var request = createRequest();
-        if (null === request) {
-            console.log("Could not create request");
-            return;
-        }
-
-        // init request
-        var postalAddress = element.value;
-        var urlParam = encodeURIComponent(postalAddress);
-        var url = "/findApartments?" + element.id + "=" + urlParam;
-
-        request.onreadystatechange = function () {
-            displayMarkersOnMap();
-        };
-        request.open("GET", url, true);
-        request.send(null);
+    request.onreadystatechange = function () {
+        showMarkersOnMap(map);
     };
+    request.open("GET", url, true);
+    request.send(null);
+    //};
 }
 
-function displayMarkersOnMap(){
+function showMarkersOnMap(map) {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
-            alert(response);
-            /*
-            if (response == "error") {
+            if (response.msg == "error") {
                 alert(error);
 
                 //setFieldStatus(elementID, true);
@@ -41,14 +36,20 @@ function displayMarkersOnMap(){
 
                 return;
             }
-            if (response){
-
-            */
+            if (response.msg == "no matches") {
+                alert("no matches");
+            }
+            if (response.msg == "match") {
+                alert("match!\nlng: " + response.lng + ", lat: " + response.lat);
+                codeLocation(map, response.lng, response.lat);
+            }
         }
     }
 }
 
+function getMarkers() {
 
+}
 
 function createMap() {
     var map;
@@ -65,45 +66,36 @@ function createMap() {
     }
 
     //run only if map div found
-    if(document.getElementById("map-canvas")) {
+    if (document.getElementById("map-canvas")) {
         map = showMap(mapOptions);
     }
 
     //run only if search button found
-    /*
-    alert("1. " + document.getElementById("-button"));
-    if(document.getElementById("search-button")) {
-        alert("2. " + document.getElementById("search-button"));
-        document.getElementsByName("search-button").onclick = function () {
-            alert("3. " + document.getElementsByName("search-button"));
-            codeLocation(map);
+    if (document.getElementById("search-button")) {
+        document.getElementById("search-button").onclick = function () {
+            init(map);
+            //codeLocation(map);
         }
-    }*/
+    }
 
 }
 
-function codeLocation(map) {
-    var location = document.getElementById("location").value;
-    geocoder.geocode({ 'address': location}, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
+function codeLocation(map, lat, lng) {
 
-            var latitude = results[0].geometry.location.lat();
-            var longitude = results[0].geometry.location.lng();
-            var latlng = new google.maps.LatLng(latitude, longitude);
-            map.setCenter(latlng);
+    var latlng = new google.maps.LatLng(lat, lng);
+    map.setCenter(latlng);
 
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-        }
-        else {
-            alert("Geocode was not successful for the following reason: " + status);
+    var marker = new google.maps.Marker({
+        map: map,
+        position: {
+            "lat": lat,
+            "lng": lng
         }
     });
+
 }
 
-function showMap(mapOptions){
+function showMap(mapOptions) {
     //creates a new map inside of the given HTML container with the given map option, if any
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -118,10 +110,10 @@ function showMap(mapOptions){
     return map;
 }
 
-function getLatLong(address){
+function getLatLong(address) {
     var geo = new google.maps.Geocoder;
 
-    geo.geocode({'address':address},function(results, status){
+    geo.geocode({'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             return results[0].geometry.location;
         } else {
