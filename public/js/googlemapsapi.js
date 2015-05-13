@@ -1,7 +1,4 @@
-//window.onload = init();
-
 function init(map) {
-    //document.getElementById("search-button").onclick = function(){
     var element = document.getElementById("postalAddress");
 
     // create request
@@ -15,83 +12,74 @@ function init(map) {
     var postalAddress = element.value;
     var urlParam = encodeURIComponent(postalAddress);
     var url = "/findApartments?" + element.id + "=" + urlParam;
-
     request.onreadystatechange = function () {
-        showMarkersOnMap(map);
+        //Todo: handle error or null
+        setMarkerLocations(map, addMarker);
     };
     request.open("GET", url, true);
     request.send(null);
-    //};
 }
 
-function showMarkersOnMap(map) {
+function setMarkerLocations(map) {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
             if (response.msg == "error") {
                 alert(error);
-
-                //setFieldStatus(elementID, true);
-                //setSpanMsg(elementID, true, "");
-
-                return;
+                return error;
             }
             if (response.msg == "no matches") {
                 alert("no matches");
+                return null;
             }
             if (response.msg == "match") {
-                alert("match!\nlng: " + response.lng + ", lat: " + response.lat);
-                codeLocation(map, response.lng, response.lat);
+                alert("matches: " + response.markerList.length);
+                addMarker(map, response.markerList);
             }
         }
     }
 }
 
-function getMarkers() {
+function addMarker(map, markerList) {
+    var lat;
+    var lng;
+    var locations = [];
 
+    for (var i = 0; i < markerList.length; i++) {
+        lat = markerList[i].address.latitude;
+        lng = markerList[i].address.longitude;
+
+        locations[i] = new google.maps.LatLng(lat,lng);
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            map: map,
+            visible: true
+        });
+    }
+    return;
 }
 
 function createMap() {
     var map;
 
-    //creates a new instance of a Geocoder that sends geocode requests to Google servers
-    geocoder = new google.maps.Geocoder();
-
-    //creates a LatLng object representing a geographic point
-    var latlng = new google.maps.LatLng(40.767091, -73.975810);
-
+    // map options
     var mapOptions = {
-        center: latlng,
+        center: new google.maps.LatLng(40.767091, -73.975810),
         zoom: 8
     }
 
     //run only if map div found
     if (document.getElementById("map-canvas")) {
         map = showMap(mapOptions);
-    }
 
-    //run only if search button found
-    if (document.getElementById("search-button")) {
-        document.getElementById("search-button").onclick = function () {
-            init(map);
-            //codeLocation(map);
+        //run only if search button found
+        if (document.getElementById("search-button")) {
+            document.getElementById("search-button").onclick = function () {
+                init(map);
+            }
         }
     }
-
-}
-
-function codeLocation(map, lat, lng) {
-
-    var latlng = new google.maps.LatLng(lat, lng);
-    map.setCenter(latlng);
-
-    var marker = new google.maps.Marker({
-        map: map,
-        position: {
-            "lat": lat,
-            "lng": lng
-        }
-    });
 
 }
 
@@ -121,5 +109,3 @@ function getLatLong(address) {
         }
     });
 }
-
-//google.maps.event.addDomListener(window, 'load', initialize);

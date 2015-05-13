@@ -33,7 +33,7 @@ exports.getMarkers = function (req, res) {
                 }
                 // posts found
                 if (posts) {
-                    return res.json({msg: "match", lng: posts[0].address.longitude, lat: posts[0].address.latitude});
+                    return res.json({msg: "match", markerList: posts, lng: posts[0].address.longitude, lat: posts[0].address.latitude});
                 }
             });
         }
