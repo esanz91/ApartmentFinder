@@ -4,7 +4,8 @@
 
 .content-text{
     font-family: 'Share', cursive;
-    color: #84ABA4;
+    color: #84ABA4; /* green */
+    /*color: #FFA263; //orange */
 }
 
 .content-container {
@@ -50,10 +51,10 @@
 }
 
 #search-content{
-    margin-top:2px;
+    margin-top:12px;
     padding:5px;
     position:absolute;
-    left:40px;
+    left:70px;
     top: 60px;
     z-index:99;
 }

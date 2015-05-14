@@ -1,6 +1,8 @@
 header, .custom-navbar-green {
     background-color: #84ABA4;
     border-bottom: thin solid #428378;
+    /*background-color: #FF6700; //orange
+    border-bottom: thin solid #FFA263; */
 }
 
 .custom-navbar-green a, .custom-navbar-green a:visited {
@@ -49,5 +51,6 @@ ul.menu-items li a.selected{
 }
 
 ul.menu-items li a.active{
+    /* color: #BFDCD7; //green */
     color: #BFDCD7;
 }

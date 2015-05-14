@@ -21,7 +21,7 @@ exports.getMarkers = function (req, res) {
             //var query = {};
             //query[fieldName] = value;
             //postModel.find(query, 'address.longitude address.latitude', function (err, posts) {
-            postModel.find().where(fieldName, value).select('address.longitude address.latitude').lean().exec(function(err, posts) {
+            postModel.find().where(fieldName, value).select('').lean().exec(function(err, posts) {
 
                 // error
                 if (err) {
@@ -33,7 +33,7 @@ exports.getMarkers = function (req, res) {
                 }
                 // posts found
                 if (posts) {
-                    return res.json({msg: "match", markerList: posts, lng: posts[0].address.longitude, lat: posts[0].address.latitude});
+                    return res.json({msg: "match", locations: posts, focus: data.results[0].geometry.location});
                 }
             });
         }

@@ -1,4 +1,8 @@
-function init(map) {
+var map;
+var markerList;
+var infoWindow;
+
+function init() {
     var element = document.getElementById("postalAddress");
 
     // create request
@@ -14,13 +18,13 @@ function init(map) {
     var url = "/findApartments?" + element.id + "=" + urlParam;
     request.onreadystatechange = function () {
         //Todo: handle error or null
-        setMarkerLocations(map, addMarker);
+        setMarkerLocations();
     };
     request.open("GET", url, true);
     request.send(null);
 }
 
-function setMarkerLocations(map) {
+function setMarkerLocations() {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
@@ -30,53 +34,106 @@ function setMarkerLocations(map) {
             }
             if (response.msg == "no matches") {
                 alert("no matches");
+                // Remove previous markers from map
+                setAllMap(null);
                 return null;
             }
             if (response.msg == "match") {
-                alert("matches: " + response.markerList.length);
-                addMarker(map, response.markerList);
+                console.log("# search results: " + response.locations.length);
+
+                // Remove previous markers from map
+                setAllMap(null);
+
+                // Create list of new markers
+                for(var i = 0; i < response.locations.length; i++){
+                    addMarker(response.locations[i]);
+                }
+
+                // Add new markers to map
+                setAllMap(map);
+
+                // Re-center map to new location
+                map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
             }
         }
     }
 }
 
-function addMarker(map, markerList) {
-    var lat;
-    var lng;
-    var locations = [];
-
+// Set markers on map
+function setAllMap(map) {
     for (var i = 0; i < markerList.length; i++) {
-        lat = markerList[i].address.latitude;
-        lng = markerList[i].address.longitude;
-
-        locations[i] = new google.maps.LatLng(lat,lng);
-
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat, lng),
-            map: map,
-            visible: true
-        });
+        markerList[i].setMap(map);
     }
-    return;
+    if (null === map){
+        markerList.length = 0;
+        markerList = [];
+    }
+}
+
+// Add a marker to the map and push to the array.
+function addMarker(markerLocation) {
+
+    var iwContent = "$" + markerLocation.aptDetails.rent + " " + markerLocation.aptDetails.bedrooms + "bd/" + markerLocation.aptDetails.bathrooms + "ba";
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(markerLocation.address.latitude, markerLocation.address.longitude),
+        map: map
+    });
+    markerList.push(marker);
+
+    // add window info
+    google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+    });
 }
 
 function createMap() {
     var map;
 
+    //info window
+    infoWindow = new google.maps.InfoWindow();
+
+    // list to hold all markers of map
+    markerList = new Array();
+
+    // map style
+    var styles = [
+        {
+            stylers: [
+                { hue: "#104BA9"/*"#37766B"*/ },
+                { saturation: -50 }
+            ]
+        },{
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+                { lightness: 100 },
+                { visibility: "simplified" }
+            ]
+        },{
+            featureType: "road",
+            elementType: "labels",
+            stylers: [
+                { visibility: "off" }
+            ]
+        }
+    ];
+
     // map options
     var mapOptions = {
         center: new google.maps.LatLng(40.767091, -73.975810),
-        zoom: 8
+        zoom: 8,
+        //styles: styles
     }
 
     //run only if map div found
     if (document.getElementById("map-canvas")) {
-        map = showMap(mapOptions);
+        showMap(mapOptions);
 
         //run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = function () {
-                init(map);
+                init();
             }
         }
     }
@@ -85,7 +142,7 @@ function createMap() {
 
 function showMap(mapOptions) {
     //creates a new map inside of the given HTML container with the given map option, if any
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     //geolocation API centers around a new property on the global navigator object: navigator.geolocation
     if (navigator.geolocation) {
@@ -95,7 +152,6 @@ function showMap(mapOptions) {
             map.setZoom(14);
         });
     }
-    return map;
 }
 
 function getLatLong(address) {
