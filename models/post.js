@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var postSchema = new mongoose.Schema({
         address             : {
             formatted_address   : {type: String, required: true},
+            street_number       : {type: String},           // street number
             route               : {type: String},           // street
             neighborhood        : {type: String},
             locality            : {type: String},           // city

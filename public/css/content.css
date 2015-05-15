@@ -22,6 +22,10 @@
     display: inline-block;
 }
 
+.content-no-padding{
+    padding: 60px;
+}
+
 .content-padding {
     padding: 60px;
 }

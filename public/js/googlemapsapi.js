@@ -45,7 +45,7 @@ function setMarkerLocations() {
                 setAllMap(null);
 
                 // Create list of new markers
-                for(var i = 0; i < response.locations.length; i++){
+                for (var i = 0; i < response.locations.length; i++) {
                     addMarker(response.locations[i]);
                 }
 
@@ -64,16 +64,38 @@ function setAllMap(map) {
     for (var i = 0; i < markerList.length; i++) {
         markerList[i].setMap(map);
     }
-    if (null === map){
+    if (null === map) {
         markerList.length = 0;
         markerList = [];
     }
 }
 
-// Add a marker to the map and push to the array.
+// Add marker to map
 function addMarker(markerLocation) {
 
-    var iwContent = "$" + markerLocation.aptDetails.rent + " " + markerLocation.aptDetails.bedrooms + "bd/" + markerLocation.aptDetails.bathrooms + "ba";
+    var textInfo;
+    var iwContent;
+    var numBed = markerLocation.aptDetails.bedrooms;
+    var numBath = markerLocation.aptDetails.bathrooms;
+
+    // studio
+    if (numBed == 0) {
+        textInfo = '<h4 class="text-info">$' + markerLocation.aptDetails.rent + ' <small>| Studio</small></h4>';
+    }
+    // apts
+    else {
+        textInfo = '<h4 class="text-info">$' + markerLocation.aptDetails.rent + ' <small>| ' + numBed + 'bd/' + numBath + 'ba</small></h4>';
+    }
+
+    iwContent = '<div>' +
+        '<div>' +
+        textInfo +
+        '<div>' +
+        '' +
+        '</div>' +
+            '<address class="text-info">' + markerLocation.address.street_number + ' ' + markerLocation.address.route + '</address>';
+        '</div>';
+
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(markerLocation.address.latitude, markerLocation.address.longitude),
         map: map
@@ -100,21 +122,21 @@ function createMap() {
     var styles = [
         {
             stylers: [
-                { hue: "#104BA9"/*"#37766B"*/ },
-                { saturation: -50 }
+                {hue: "#104BA9"/*"#37766B"*/},
+                {saturation: -50}
             ]
-        },{
+        }, {
             featureType: "road.arterial",
             elementType: "geometry",
             stylers: [
-                { lightness: 100 },
-                { visibility: "simplified" }
+                {lightness: 100},
+                {visibility: "simplified"}
             ]
-        },{
+        }, {
             featureType: "road",
             elementType: "labels",
             stylers: [
-                { visibility: "off" }
+                {visibility: "off"}
             ]
         }
     ];
@@ -122,15 +144,15 @@ function createMap() {
     // map options
     var mapOptions = {
         center: new google.maps.LatLng(40.767091, -73.975810),
-        zoom: 8,
+        zoom: 8
         //styles: styles
     }
 
-    //run only if map div found
+    // run only if map div found
     if (document.getElementById("map-canvas")) {
         showMap(mapOptions);
 
-        //run only if search button found
+        // run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = function () {
                 init();
@@ -141,10 +163,10 @@ function createMap() {
 }
 
 function showMap(mapOptions) {
-    //creates a new map inside of the given HTML container with the given map option, if any
+    // create a new map inside of the given HTML container with the given map option, if any
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-    //geolocation API centers around a new property on the global navigator object: navigator.geolocation
+    // geolocation API centers around a new property on the global navigator object: navigator.geolocation
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);

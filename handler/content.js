@@ -48,6 +48,7 @@ function ContentHandler() {
                 var postJSON = {
                     address: {
                         formatted_address   : data.results[0].formatted_address,
+                        street_number       : queryGoogleComponentsByType("street_number", data.results[0].address_components),
                         route               : queryGoogleComponentsByType("route", data.results[0].address_components),
                         neighborhood        : queryGoogleComponentsByType("neighborhood", data.results[0].address_components),
                         locality            : queryGoogleComponentsByType("locality", data.results[0].address_components),
