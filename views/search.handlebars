@@ -96,10 +96,15 @@
             }}
 
             <div id="resultsDiv" class="content-padding-top">
-                <h1 class="align-center">Results</h1>
+                <ol class="breadcrumb content-no-padding content-no-background-color">
+                    <li><a href="#" id="result-state"></a></li>
+                    <li><a href="#" id="result-city" class="active"></a></li>
+                </ol>
+
+                <h4 id="result-rent"><small id="result-address"></small></h4>
 
                 <div class="content-padding-top">
-                    <p class="align-center"><span id="result-msg">{{msgs}}</span></p>
+                    <p class="align-center"><span id="result-msg"></span></p>
                 </div>
             </div>
         </div>

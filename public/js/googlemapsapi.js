@@ -125,14 +125,33 @@ function addMarker(markerLocation) {
 function displayApartmentInfo(markerLocation){
     var searchContent = document.getElementById("search-content");
     var mapCanvas = document.getElementById("map-canvas");
+
+    var resultMsg = document.getElementById("result-msg");
+    var resultState = document.getElementById("result-state");
+    var resultCity = document.getElementById("result-city");
+    var resultAddress = document.getElementById("result-address");
+    var resultRent = document.getElementById("result-rent");
+
     var contentCssToAdd = "content-display-inline-block right-sidebar content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";
     var mapCssToAdd = "content-65-width";
     var mapCssToRemove = "content-full-width";
+
     toggleClass(searchContent, contentCssToAdd, contentCssToRemove, true);
     toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
     floatLeft(mapCanvas);
-    showMsg(true, markerLocation.address.street_number + ' ' + markerLocation.address.route);
+
+    showMsg(resultState, true, markerLocation.address.administrative_area_level_1);
+    showMsg(resultCity, true, markerLocation.address.locality);
+    showMsg(resultAddress, true, markerLocation.address.formatted_address);
+    showMsg(resultRent, true, markerLocation.aptDetails.rent);
+    showMsg(resultMsg, true, "apartment info");
+
+    /*
+    alert("divValue: " + resultRent.value);
+    alert("city: " + resultCity.value);
+    alert("markerValue: " + markerLocation.aptDetails.rent);
+    */
 }
 
 function createMap() {

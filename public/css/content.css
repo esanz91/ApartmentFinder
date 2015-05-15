@@ -66,3 +66,12 @@
     top: 60px;
     z-index:99;
 }
+
+.breadcrumb > li + li:before {
+    content: "/ ";
+    padding: 0 5px;
+}
+
+.content-no-background-color{
+    background-color: white;
+}

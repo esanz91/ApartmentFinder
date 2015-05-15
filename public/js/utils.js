@@ -135,9 +135,8 @@ function floatLeft(element) {
     element.style.cssFloat = "left";
 }
 
-function showMsg(status, msg){
+function showMsg(element, status, msg){
     "use strict";
-    var element = document.getElementById("result-msg");
 
     // on true
     if(status){
