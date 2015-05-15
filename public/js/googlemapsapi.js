@@ -1,6 +1,7 @@
 var map;
 var markerList;
 var infoWindow;
+var bounds;
 
 function init() {
     var element = document.getElementById("postalAddress");
@@ -41,8 +42,9 @@ function setMarkerLocations() {
             if (response.msg == "match") {
                 console.log("# search results: " + response.locations.length);
 
-                // Remove previous markers from map
+                // Remove previous markers from map and bounds
                 setAllMap(null);
+                bounds = new google.maps.LatLngBounds();
 
                 // Create list of new markers
                 for (var i = 0; i < response.locations.length; i++) {
@@ -53,7 +55,9 @@ function setMarkerLocations() {
                 setAllMap(map);
 
                 // Re-center map to new location
-                map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
+                //map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
+                var center = bounds.getCenter();
+                map.fitBounds(bounds);
             }
         }
     }
@@ -77,8 +81,18 @@ function addMarker(markerLocation) {
     var iwContent;
     var numBed = markerLocation.aptDetails.bedrooms;
     var numBath = markerLocation.aptDetails.bathrooms;
+    var pt = new google.maps.LatLng(markerLocation.address.latitude, markerLocation.address.longitude);
+    bounds.extend(pt);
 
-    // studio
+    // add marker
+    var marker = new google.maps.Marker({
+        position: pt,
+        map: map
+    });
+    markerList.push(marker);
+
+    // define info window
+    //studio
     if (numBed == 0) {
         textInfo = '<h4 class="text-info">$' + markerLocation.aptDetails.rent + ' <small>| Studio</small></h4>';
     }
@@ -93,14 +107,8 @@ function addMarker(markerLocation) {
         '<div>' +
         '' +
         '</div>' +
-            '<address class="text-info">' + markerLocation.address.street_number + ' ' + markerLocation.address.route + '</address>';
-        '</div>';
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(markerLocation.address.latitude, markerLocation.address.longitude),
-        map: map
-    });
-    markerList.push(marker);
+        '<address class="text-info">' + markerLocation.address.street_number + ' ' + markerLocation.address.route + '</address>';
+    '</div>';
 
     // add window info
     google.maps.event.addListener(marker, 'click', function () {
