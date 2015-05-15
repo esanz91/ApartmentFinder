@@ -23,7 +23,7 @@
 }
 
 .content-no-padding{
-    padding: 60px;
+    padding: 0px;
 }
 
 .content-padding {
@@ -46,6 +46,10 @@
     width: 100%;
 }
 
+.content-65-width {
+    width: 65%;
+}
+
 .wrapper{
     position: relative;
 }
@@ -54,7 +58,7 @@
     display: block;
 }
 
-#search-content{
+#search-box{
     margin-top:12px;
     padding:5px;
     position:absolute;

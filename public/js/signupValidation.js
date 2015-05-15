@@ -65,37 +65,39 @@ function showFieldStatus(element) {
     "use strict";
     var elementID = element.id;
     var elementValue = element.value;
+    var elementDiv = document.getElementById(elementID+"Div");
+    var elementSpan = document.getElementById(elementID+"Span");
 
     if (request.readyState == 4) {
         if (request.status == 200) {
             if (request.responseText == "username available") {
-                setFieldStatus(elementID, true);
-                setSpanMsg(elementID, true, "");
+                setFieldStatus(elementDiv, true);
+                toggleShow(elementSpan, false, "");
                 return;
             }
             if (request.responseText == "username unavailable") {
-                setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementValue + " is unavailable");
+                setFieldStatus(elementDiv, false);
+                toggleShow(elementSpan, true, elementValue + " is unavailable");
                 return;
             }
             if (request.responseText == "username not alphanumeric") {
-                setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementValue + " is not alphanumeric");
+                setFieldStatus(elementDiv, false);
+                toggleShow(elementSpan, true, elementValue + " is not alphanumeric");
                 return;
             }
             if (request.responseText == "email okay") {
-                setFieldStatus(elementID, true);
-                setSpanMsg(elementID, true, "");
+                setFieldStatus(elementDiv, true);
+                toggleShow(elementSpan, false, "");
                 return;
             }
             if (request.responseText == "email on file") {
-                setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementValue + " is already in use");
+                setFieldStatus(elementDiv, false);
+                toggleShow(elementSpan, true, elementValue + " is already in use");
                 return;
             }
             if (request.responseText == "no email format") {
-                setFieldStatus(elementID, false);
-                setSpanMsg(elementID, false, elementValue + " is not a valid email");
+                setFieldStatus(elementDiv, false);
+                toggleShow(elementSpan, true, elementValue + " is not a valid email");
                 return;
             }
         }

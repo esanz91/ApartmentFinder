@@ -55,9 +55,13 @@ function setMarkerLocations() {
                 setAllMap(map);
 
                 // Re-center map to new location
-                //map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
-                var center = bounds.getCenter();
-                map.fitBounds(bounds);
+                if(markerList.length > 1) {
+                    //var center = bounds.getCenter();
+                    map.fitBounds(bounds);
+                }
+                else{
+                    map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
+                }
             }
         }
     }
@@ -112,9 +116,23 @@ function addMarker(markerLocation) {
 
     // add window info
     google.maps.event.addListener(marker, 'click', function () {
+        displayApartmentInfo(markerLocation);
         infoWindow.setContent(iwContent);
         infoWindow.open(map, marker);
     });
+}
+
+function displayApartmentInfo(markerLocation){
+    var searchContent = document.getElementById("search-content");
+    var mapCanvas = document.getElementById("map-canvas");
+    var contentCssToAdd = "content-display-inline-block right-sidebar content-padding content-padding-top";
+    var contentCssToRemove = "content-display-none";
+    var mapCssToAdd = "content-65-width";
+    var mapCssToRemove = "content-full-width";
+    toggleClass(searchContent, contentCssToAdd, contentCssToRemove, true);
+    toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
+    floatLeft(mapCanvas);
+    showMsg(true, markerLocation.address.street_number + ' ' + markerLocation.address.route);
 }
 
 function createMap() {

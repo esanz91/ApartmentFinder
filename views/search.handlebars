@@ -2,7 +2,7 @@
 
     <div id="map-canvas" class="content-full-width"></div>
 
-    <div id="search-content" class="col-xs-3">
+    <div id="search-box" class="col-xs-3">
         <div class="input-group">
             <input type="text" class="form-control" name="postalAddress" id="postalAddress"
                    placeholder="Address" required>
@@ -12,19 +12,9 @@
         </div>
     </div>
 
-    {{!//info window
-    <div class="content-display-none">
-        <div id="rentalInfoDiv" class="bg-primary">
-            $
-        </div>
-        <div id="rentalAddressDiv">
-            address
-        </div>
-    </div>
-    }}
-    {{!
-        <div id="search-content"
-             class="content-display-inline-block right-sidebar content-padding content-padding-top content-display-none">
+        <div id="search-content" class="content-display-none">
+
+            {{!
             <h1 class="align-center">Search</h1>
 
             <form action="/findApartments" method="get" class="form-horizontal form-padding-top" role="form">
@@ -37,7 +27,6 @@
                         <input type="text" class="form-control" name="postalAddress" id="postalAddress"
                                placeholder="Address" required>
 
-                        {{!
                         <div class="col-xs-6 form-padding-top">
                             <label class="control-label" for="bedrooms">Bedrooms</label>
                             <select class="form-control" name="bedrooms" id="bedrooms"></select>
@@ -69,7 +58,6 @@
 
                     </fieldset>
                 </div>
-
                 <div class="form-group">
                     <fieldset>
                         <legend>Pets</legend>
@@ -105,16 +93,16 @@
                 <button type="submit" class="btn btn-warning btn-lg">Search</button>
 
             </form>
+            }}
 
             <div id="resultsDiv" class="content-padding-top">
                 <h1 class="align-center">Results</h1>
 
                 <div class="content-padding-top">
-                    <p class="align-center">{{msgs}</p>
+                    <p class="align-center"><span id="result-msg">{{msgs}}</span></p>
                 </div>
             </div>
         </div>
-    }}
 </div>
 
 {{#section 'javascript'}}

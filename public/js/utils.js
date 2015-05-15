@@ -19,14 +19,16 @@ function isLength(element, min){
     "use strict"
     var elementID = element.id;
     var elementValue = element.value;
+    var elementDiv = document.getElementById(elementID+"Div");
+    var elementSpan = document.getElementById(elementID+"Span");
 
     if(elementValue.length < min){
-        setFieldStatus(elementID, false);
-        setSpanMsg(elementID, false, elementValue + " must contain at least " + min + " character(s).");
+        setFieldStatus(elementDiv, false);
+        toggleShow(elementSpan, true, elementValue + " must contain at least " + min + " character(s).");
         return false;
     }
-    setFieldStatus(elementID, true);
-    setSpanMsg(elementID, true, "");
+    setFieldStatus(elementDiv, true);
+    toggleShow(elementSpan, false, "");
     return true;
 }
 
@@ -34,14 +36,16 @@ function isEmail(element){
     "use strict";
     var elementID = element.id;
     var elementValue = element.value;
+    var elementDiv = document.getElementById(elementID+"Div");
+    var elementSpan = document.getElementById(elementID+"Span");
 
     if (!elementValue.match(/@/)){
-        setFieldStatus(elementID, false);
-        setSpanMsg(elementID, false, elementValue + " must be valid email");
+        setFieldStatus(elementDiv, false);
+        toggleShow(elementSpan, true, elementValue + " must be valid email");
         return false;
     }
-    setFieldStatus(elementID, true);
-    setSpanMsg(elementID, true, "");
+    setFieldStatus(elementDiv, true);
+    toggleShow(elementSpan, false, "");
     return true;
 }
 
@@ -49,71 +53,98 @@ function isAlpha(element){
     "use strict";
     var elementID = element.id;
     var elementValue = element.value;
+    var elementDiv = document.getElementById(elementID+"Div");
+    var elementSpan = document.getElementById(elementID+"Span");
 
     if (!elementValue.match(/^[A-Za-z]+$/)){
-        setFieldStatus(elementID, false);
-        setSpanMsg(elementID, false, elementValue + " is not alpha");
+        setFieldStatus(elementDiv, false);
+        toggleShow(elementSpan, true, elementValue + " is not alpha");
         return false;
     }
-    setFieldStatus(elementID, true);
-    setSpanMsg(elementID, true, "");
+    setFieldStatus(elementDiv, true);
+    toggleShow(elementSpan, false, "");
     return true;
 }
 
 function isAlphanumeric(element){
     "use strict";
+
     var elementID = element.id;
     var elementValue = element.value;
+    var elementDiv = document.getElementById(elementID+"Div");
+    var elementSpan = document.getElementById(elementID+"Span");
 
     if(!elementValue.match(/^[A-Za-z]+/)){
-        setFieldStatus(elementID, false);
-        setSpanMsg(elementID, false, elementValue + " must start with a letter");
+        setFieldStatus(elementDiv, false);
+        toggleShow(elementSpan, true, elementValue + " must start with a letter");
         return false;
     }
 
     if (!elementValue.match(/.*(?=.{6,})^[A-Za-z]+[a-zA-Z0-9]+$/)){
-        setFieldStatus(elementID, false);
-        setSpanMsg(elementID, false, elementValue + " is not alphanumeric");
+        setFieldStatus(elementDiv, false);
+        toggleShow(elementSpan, true, elementValue + " is not alphanumeric");
         return false;
     }
-    setFieldStatus(elementID, true);
-    setSpanMsg(elementID, true, "");
+    setFieldStatus(elementDiv, true);
+    toggleShow(elementSpan, false, "");
     return true;
 }
 
-function setFieldStatus(elementID, status){
+function setFieldStatus(elementDiv, status){
     "use strict";
 
-    var elementDiv = document.getElementById(elementID+"Div");
     var successCSS = " has-success has-feedback";
     var errorCSS = " has-error has-feedback";
 
+    toggleClass(elementDiv, successCSS, errorCSS, status);
+
+}
+
+function toggleClass(element, classOnTrue, classOnFalse, status){
+    "use strict";
+
     // on success
     if(status){
-        elementDiv.className = elementDiv.className.replace(errorCSS, "");
-        elementDiv.className = elementDiv.className.replace(successCSS, "");
-        elementDiv.className = elementDiv.className + successCSS;
+        element.className = element.className.replace(classOnFalse, "");
+        element.className = element.className.replace(classOnTrue, "");
+        element.className = element.className + classOnTrue;
     }
     // on error
     else {
-        elementDiv.className = elementDiv.className.replace(errorCSS, "");
-        elementDiv.className = elementDiv.className.replace(successCSS, "");
-        elementDiv.className = elementDiv.className + errorCSS;
+        element.className = element.className.replace(classOnFalse, "");
+        element.className = element.className.replace(classOnTrue, "");
+        element.className = element.className + classOnFalse;
     }
 }
 
-function setSpanMsg(elementID, status, msg){
+function toggleShow(element, status, msg){
     "use strict";
 
-    var elementSpan = document.getElementById(elementID+"Span");
-
-    // on success
+    // on true
     if(status){
-        elementSpan.style.display = 'none';
+        element.style.display = 'inline';
+        if(msg.length > 0) element.textContent = msg;
     }
-    // on error
+    // on false
     else {
-        elementSpan.style.display = 'inline';
-        elementSpan.textContent = msg;
+        element.style.display = 'none';
+    }
+}
+
+function floatLeft(element) {
+    element.style.cssFloat = "left";
+}
+
+function showMsg(status, msg){
+    "use strict";
+    var element = document.getElementById("result-msg");
+
+    // on true
+    if(status){
+        if(msg.length > 0) element.textContent = msg;
+    }
+    // on false
+    else {
+        element.textContent = "";
     }
 }
