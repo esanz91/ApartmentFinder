@@ -129,8 +129,8 @@ function displayApartmentInfo(markerLocation){
     var resultMsg = document.getElementById("result-msg");
     var resultState = document.getElementById("result-state");
     var resultCity = document.getElementById("result-city");
-    var resultAddress = document.getElementById("result-address");
-    var resultRent = document.getElementById("result-rent");
+    var resultAddress = document.getElementById("listing-address");
+    var resultRent = document.getElementById("listing-rent");
 
     var contentCssToAdd = "content-display-inline-block right-sidebar content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";

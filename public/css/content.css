@@ -42,6 +42,10 @@
     padding-top: 15px;
 }
 
+.content-padding-left {
+    padding-left: 15px;
+}
+
 .content-full-width {
     width: 100%;
 }
