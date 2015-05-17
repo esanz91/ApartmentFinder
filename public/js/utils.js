@@ -140,7 +140,9 @@ function showMsg(element, status, msg){
 
     // on true
     if(status){
-        if(msg.length > 0) element.textContent = msg;
+        //textContent
+        if(msg.length > 0) element.innerText = msg;
+        if(element.id == "listing-rent") element.textContent = msg;
     }
     // on false
     else {

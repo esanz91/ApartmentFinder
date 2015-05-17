@@ -42,12 +42,24 @@
     padding-top: 15px;
 }
 
+.content-padding-left {
+    padding-left: 15px;
+}
+
 .content-full-width {
     width: 100%;
 }
 
 .content-65-width {
     width: 65%;
+}
+
+.content-no-margin {
+    margin: 0px;
+}
+
+.content-right {
+    right: 0px;
 }
 
 .wrapper{

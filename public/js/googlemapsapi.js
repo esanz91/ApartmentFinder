@@ -129,8 +129,9 @@ function displayApartmentInfo(markerLocation){
     var resultMsg = document.getElementById("result-msg");
     var resultState = document.getElementById("result-state");
     var resultCity = document.getElementById("result-city");
-    var resultAddress = document.getElementById("result-address");
-    var resultRent = document.getElementById("result-rent");
+    var resultAddress = document.getElementById("listing-address");
+    var resultRent = document.getElementById("listing-rent");
+    var listingDetail = document.getElementById("listing-detail");
 
     var contentCssToAdd = "content-display-inline-block right-sidebar content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";
@@ -144,14 +145,9 @@ function displayApartmentInfo(markerLocation){
     showMsg(resultState, true, markerLocation.address.administrative_area_level_1);
     showMsg(resultCity, true, markerLocation.address.locality);
     showMsg(resultAddress, true, markerLocation.address.formatted_address);
-    showMsg(resultRent, true, markerLocation.aptDetails.rent);
+    showMsg(resultRent, true, "$" + markerLocation.aptDetails.rent);
     showMsg(resultMsg, true, "apartment info");
-
-    /*
-    alert("divValue: " + resultRent.value);
-    alert("city: " + resultCity.value);
-    alert("markerValue: " + markerLocation.aptDetails.rent);
-    */
+    showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 }
 
 function createMap() {
