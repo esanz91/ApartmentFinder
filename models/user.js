@@ -23,6 +23,10 @@ var userSchema = new mongoose.Schema({
         },
         required: false
     },*/
+    listings        : {
+        published   : {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
+        favorites   : {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+    },
     created: {type: Date, default: Date.now}
 },
     {versionKey: '_MongooseVersionKey'});
