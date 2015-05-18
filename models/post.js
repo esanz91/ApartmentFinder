@@ -13,7 +13,8 @@ var postSchema = new mongoose.Schema({
             postal_code         : {type: String},           // zip code
             country             : {type: String},
             longitude           : {type: Number, required: true},
-            latitude            : {type: Number, required: true}
+            latitude            : {type: Number, required: true},
+            privateAddress      : {type: Boolean}           // display exact address?
         },
         aptDetails          : {
             bedrooms            : {type: Number, required: true},
