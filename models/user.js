@@ -24,8 +24,8 @@ var userSchema = new mongoose.Schema({
         required: false
     },*/
     listings        : {
-        published   : {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
-        favorites   : {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+        published   : {type: mongoose.Schema.Types.ObjectId, ref: 'Listing'},
+        favorites   : {type: mongoose.Schema.Types.ObjectId, ref: 'Listing'}
     },
     created: {type: Date, default: Date.now}
 },

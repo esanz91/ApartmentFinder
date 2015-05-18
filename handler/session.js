@@ -20,10 +20,10 @@ function SessionHandler() {
         }
         res.locals.loggedin = false;
 
-        // must be a registered user to post
-        if (req.path == '/post') {
+        // must be a registered user to post listing
+        if (req.path == '/listing') {
             return res.render('msgs', {
-                msgs: "You must be a registered user to post!",
+                msgs: "You must be a registered user to post a listing!",
                 user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
             });
         }

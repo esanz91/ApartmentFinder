@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
-// post schema : schema maps to a MongoDB collection
-var postSchema = new mongoose.Schema({
+// listing schema : schema maps to a MongoDB collection
+var listingSchema = new mongoose.Schema({
         address             : {
             formatted_address   : {type: String, required: true},
             street_number       : {type: String},           // street number
@@ -34,5 +34,5 @@ var postSchema = new mongoose.Schema({
     },
     {versionKey: '_MongooseVersionKey'});
 
-// create and export post model
-module.exports = mongoose.model('Post', postSchema);
+// create and export listing model
+module.exports = mongoose.model('Listing', listingSchema);

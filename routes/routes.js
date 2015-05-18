@@ -1,6 +1,6 @@
 var ContentHandler = require('../handler/content');
 var SessionHandler = require('../handler/session');
-var postEndPoint = require('../api/posts');
+var listingEndPoint = require('../api/listings');
 
 module.exports = exports = function(app) {
 
@@ -14,11 +14,11 @@ module.exports = exports = function(app) {
 
     // Search
     app.get('/search', contentHandler.displaySearch);
-    app.get('/findApartments', postEndPoint.getMarkers);
+    app.get('/findApartments', listingEndPoint.getMarkers);
 
-    // Post
-    app.get('/post', contentHandler.displayPost);
-    app.post('/post', contentHandler.handlePost);
+    // Listing
+    app.get('/listing', contentHandler.displayListing);
+    app.post('/listing', contentHandler.handleListing);
 
     // Login
     app.get('/login', sessionHandler.displayLogin);

@@ -1,5 +1,5 @@
 var request = require('request');
-var postModel = require('../models/post');
+var listingModel = require('../models/listing');
 
 function ContentHandler() {
     "use strict";
@@ -17,9 +17,9 @@ function ContentHandler() {
         return res.render('search', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
-    this.displayPost = function (req, res) {
+    this.displayListing = function (req, res) {
         "use strict";
-        return res.render('post', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
+        return res.render('listing', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
     function queryGoogleComponentsByType(type, components) {
@@ -32,7 +32,7 @@ function ContentHandler() {
         });
     }
 
-    this.handlePost = function (req, res) {
+    this.handleListing = function (req, res) {
         "use strict";
         var address = req.body.postalAddress;
         var bedrooms = req.body.bedrooms;
@@ -45,7 +45,7 @@ function ContentHandler() {
         request.post("http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=false", function (err, response, body) {
             if (!err && response.statusCode === 200) {
                 var data = JSON.parse(body);
-                var postJSON = {
+                var listingJSON = {
                     address: {
                         formatted_address   : data.results[0].formatted_address,
                         street_number       : queryGoogleComponentsByType("street_number", data.results[0].address_components),
@@ -66,17 +66,17 @@ function ContentHandler() {
                         rent                : rent
                     }
                 };
-                var post = new postModel(postJSON);
-                post.save(function (err, post) {
+                var listing = new listingModel(listingJSON);
+                listing.save(function (err, listing) {
                     if (err) {
                         return res.render('msgs', {
-                            msgs: "Error posting...",
+                            msgs: "Error posting listing...",
                             user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                         });
                     }
-                    //Todo: render a better "post" page
+                    //Todo: render a better "listing" page
                     return res.render('msgs', {
-                        msgs: post,
+                        msgs: listing,
                         user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                     });
                 });

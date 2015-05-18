@@ -1,5 +1,5 @@
 var request = require('request');
-var postModel = require('../models/post');
+var listingModel = require('../models/listing');
 
 exports.getMarkers = function (req, res) {
     var address = req.query.postalAddress;
@@ -20,20 +20,20 @@ exports.getMarkers = function (req, res) {
 
             //var query = {};
             //query[fieldName] = value;
-            //postModel.find(query, 'address.longitude address.latitude', function (err, posts) {
-            postModel.find().where(fieldName, value).select('').lean().exec(function(err, posts) {
+            //listingModel.find(query, 'address.longitude address.latitude', function (err, listings) {
+            listingModel.find().where(fieldName, value).select('').lean().exec(function(err, listings) {
 
                 // error
                 if (err) {
                     return res.send({msg: "error"});
                 }
-                // posts not found
-                if ((!posts) || (null === posts) || (posts.length == 0)) {
+                // listings not found
+                if ((!listings) || (null === listings) || (listings.length == 0)) {
                     return res.send({msg: "no matches"});
                 }
-                // posts found
-                if (posts) {
-                    return res.json({msg: "match", locations: posts, focus: data.results[0].geometry.location});
+                // listings found
+                if (listings) {
+                    return res.json({msg: "match", locations: listings, focus: data.results[0].geometry.location});
                 }
             });
         }
