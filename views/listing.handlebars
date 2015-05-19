@@ -1,5 +1,5 @@
 <div id="post-div" class="container content-padding content-text" xmlns="http://www.w3.org/1999/html">
-    <div id="post-content" class="content-padding col-sm-6 col-sm-offset-3">
+    <div id="post-content" class="content-padding col-sm-8 col-sm-offset-2">
 
         <h1 class="align-center">Post a Listing</h1>
 
@@ -8,9 +8,18 @@
             <div class="form-group">
                 <fieldset>
                     <legend>Apartment Details</legend>
-                    <label for="postalAddress">Address</label>
-                    <input type="text" class="form-control" name="postalAddress" id="postalAddress" placeholder="Address" required>
-                    <br>
+                    <div id="addressInfoDiv">
+                        <div id="addressDiv" class="col-xs-9">
+                            <label for="postalAddress">Address</label>
+                            <input type="text" class="form-control" name="postalAddress" id="postalAddress"
+                                   placeholder="#, Street, City, State" autocomplete="on" required>
+                        </div>
+                        <div id="unitDiv" class="col-xs-3">
+                            <label for="unit">Address</label>
+                            <input type="text" class="form-control" name="unit" id="unit"
+                                   placeholder="unit #">
+                        </div>
+                    </div>
 
                     <div class="col-xs-6">
                         <label for="bedrooms">Bedrooms</label>
@@ -82,3 +91,10 @@
 
     </div>
 </div>
+
+{{#section 'javascript'}}
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY&callback=autocompleteSearchBox&libraries=places"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/googleplaceapi.js"></script>
+{{/section}}

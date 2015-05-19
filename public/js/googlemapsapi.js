@@ -3,7 +3,7 @@ var markerList;
 var infoWindow;
 var bounds;
 
-function init() {
+function requestAddress() {
     var element = document.getElementById("postalAddress");
 
     // create request
@@ -55,11 +55,11 @@ function setMarkerLocations() {
                 setAllMap(map);
 
                 // Re-center map to new location
-                if(markerList.length > 1) {
+                if (markerList.length > 1) {
                     //var center = bounds.getCenter();
                     map.fitBounds(bounds);
                 }
-                else{
+                else {
                     map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
                 }
             }
@@ -122,7 +122,7 @@ function addMarker(markerLocation) {
     });
 }
 
-function displayApartmentInfo(markerLocation){
+function displayApartmentInfo(markerLocation) {
     var searchContent = document.getElementById("search-content");
     var mapCanvas = document.getElementById("map-canvas");
 
@@ -196,7 +196,7 @@ function createMap() {
         // run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = function () {
-                init();
+                requestAddress();
             }
         }
     }
@@ -217,14 +217,28 @@ function showMap(mapOptions) {
     }
 }
 
-function getLatLong(address) {
+
+function getLatLong(address, callback) {
+
     var geo = new google.maps.Geocoder;
 
     geo.geocode({'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            return results[0].geometry.location;
+            console.log("geo: " + JSON.stringify(results[0].geometry.location));
+            callback(JSON.stringify(results[0].geometry.location));
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
     });
 }
+
+function queryGoogleComponentsByType(type, components) {
+    return components.filter(function (item) {
+        return item.types.filter(function (addressType) {
+                return addressType == type;
+            }).length > 0;
+    }).map(function (item) {
+        return item.long_name
+    });
+}
+

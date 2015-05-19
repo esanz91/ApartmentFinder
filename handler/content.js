@@ -22,16 +22,6 @@ function ContentHandler() {
         return res.render('listing', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
-    function queryGoogleComponentsByType(type, components) {
-        return components.filter(function (item) {
-            return item.types.filter(function (addressType) {
-                    return addressType == type;
-                }).length > 0;
-        }).map(function (item) {
-            return item.long_name
-        });
-    }
-
     this.handleListing = function (req, res) {
         "use strict";
         var address = req.body.postalAddress;
