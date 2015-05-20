@@ -27,8 +27,23 @@ function validateAddress() {
     var urlParam = encodeURIComponent(addressParam);
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + urlParam + "&key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY";
 
+    console.log("URL:\n" + url);
+
     request.onreadystatechange = function () {
-        handleResponse();
+        handleResponse(function(inputGeo, placeGeo){
+
+            console.log("inputGeo.A: " + JSON.parse(inputGeo).A);
+            console.log("placeGeo.A: " + JSON.parse(placeGeo).A);
+            console.log("inputGeo.F: " + JSON.parse(inputGeo).F);
+            console.log("placeGeo.F: " + JSON.parse(placeGeo).F);
+
+            if((JSON.parse(inputGeo).A == JSON.parse(placeGeo).A) && (JSON.parse(inputGeo).F == JSON.parse(placeGeo).F)){
+                console.log("input and autosearch the SAME!");
+            }
+            else{
+                console.log("input and autosearch NOT the same!");
+            }
+        });
     };
     request.open("GET", url, true);
     request.send(null);
@@ -42,30 +57,33 @@ function validateAddress() {
      */
 }
 
-function handleResponse() {
+function handleResponse(callback) {
     "use strict";
     if (request.readyState == 4) {
         if (request.status == 200) {
             if (request.responseText) {
                 console.log(typeof request.responseText);
-                var inputString = JSON.stringify(request.responseText);
-                var inputEscaped = inputString.escapeSpecialChars();
-                var placeString = "";
+                var inputString = JSON.parse(request.responseText).results[0].formatted_address;
+                var inputGeo;
 
-                console.log("RESPONSE \n" + inputEscaped);
+                console.log("INPUT:\n" + inputString);
+                getLatLong(inputString, function(data){
+                    inputGeo = data;
+                    console.log("inputgeo returned: " + data + "\n");
+                    var placeString = "";
+                    var placeGeo;
 
-                //var inputGeo = getLatLong();
+                    for (var i = 0; i < place.address_components.length; i++) {
+                        placeString = placeString + " " + (place.address_components[i].short_name);
+                    }
 
-                console.log("\n");
-                console.log("PLACE \n");
-                for (var i = 0; i < place.address_components.length; i++) {
-                    placeString = placeString + " " + (place.address_components[i].short_name);
-                }
-                console.log(placeString);
-                var placeGeo = getLatLong(placeString, function(data){
-                    console.log("geo returned: " + data);
+                    console.log("PLACE: \n" + placeString);
+                    getLatLong(placeString, function(data){
+                        placeGeo = data;
+                        console.log("placegeo returned: " + data);
+                        callback(inputGeo, placeGeo);
+                    });
                 });
-                return;
             }
         }
     }
