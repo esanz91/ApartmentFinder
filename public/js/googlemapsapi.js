@@ -122,7 +122,7 @@ function addMarker(markerLocation) {
     });
 }
 
-//ToDo: Fix this up
+//ToDo: Fix this up. Add mongodb id to "listing-id" element for identification purposes
 function displayApartmentInfo(markerLocation) {
     var searchContent = document.getElementById("search-content");
     var mapCanvas = document.getElementById("map-canvas");
