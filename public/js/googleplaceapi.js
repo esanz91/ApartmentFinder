@@ -25,6 +25,7 @@ function validateAddress() {
     // init request
     var addressParam = inputAddress.value;
     var urlParam = encodeURIComponent(addressParam);
+    //var urlParam = addressParam;
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + urlParam + "&key=AIzaSyDDtmMF_hb0c03tCHSgeE-JwbJYho45EQY";
 
     console.log("URL:\n" + url);
@@ -66,6 +67,7 @@ function handleResponse(callback) {
                 var inputString = JSON.parse(request.responseText).results[0].formatted_address;
                 var inputGeo;
 
+                //Todo find out why geocode for my address returns different results
                 console.log("INPUT:\n" + inputString);
                 getLatLong(inputString, function(data){
                     inputGeo = data;
@@ -98,20 +100,13 @@ function autocompleteSearchBox() {
     };
     var autocomplete = new google.maps.places.Autocomplete(inputAddress, options);
 
-    place = autocomplete.getPlace();
-    console.log("listener (place): " + place);
-
     google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
         place = autocomplete.getPlace();
-        document.getElementById("postalAddress").focus();
-        //var geoPlace = getLatLong(place);
-        /*
-         if((geoInput.latitude == geoPlace.latitude) && (geoInput.longitude == geoInput.latitude)){
-         console.log("SAME!");
-         }
-         else{
-         console.log("not the same");
-         }*/
+        console.log("listener (place): " + place);
+        document.getElementById("postalAddress").value = place.formatted_address;
+        //document.getElementById("postalAddress").focus();
+
     });
 }
 
@@ -121,10 +116,4 @@ String.prototype.escapeSpecialChars = function() {
         .replace(/\\"/g, "")
         .replace(/\\r/g, "\\r")
         .replace(/\"/g, "");
-        /*
-        .replace(/\\&/g, "\\&")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f")
-        */
 };

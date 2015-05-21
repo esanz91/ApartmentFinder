@@ -232,13 +232,3 @@ function getLatLong(address, callback) {
     });
 }
 
-function queryGoogleComponentsByType(type, components) {
-    return components.filter(function (item) {
-        return item.types.filter(function (addressType) {
-                return addressType == type;
-            }).length > 0;
-    }).map(function (item) {
-        return item.long_name
-    });
-}
-
