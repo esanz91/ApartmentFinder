@@ -12,6 +12,22 @@
         </div>
     </div>
 
+    <nav id="listing-nav" class="content-display-none">
+        <ul class="center-items">
+            <li>
+                <a id="contactLink" class="selected" href="">Contact</a>
+            </li>
+            <li>
+                <a id="favoriteListingLink" class="selected" href="/favoriteListing">Favorite</a>
+            </li>
+            <li>
+                <a id="reportLink" class="selected" href="">Report</a>
+            </li>
+            <li>
+                <a id="shareLink" class="selected" href="">Share</a>
+            </li>
+        </ul>
+    </nav>
     <div id="search-content" class="content-display-none">
 
         {{!
@@ -105,21 +121,22 @@
             </div>
 
             <div id="listing-header-div" class="col-xs-12 content-no-padding">
+                <div id="listing-id-div" class="content-display-none">
+                    <h4 id="listing-id"></h4>
+                </div>
                 <div id="listing-address-div" class="col-xs-7 content-no-padding">
                     <h4 id="listing-address" class="text-muted content-display-inline-block"></h4>
                 </div>
                 <div id="listing-rent-div" class="col-xs-4">
-                    <h2 id="listing-rent" class="text-success content-display-inline-block content-no-padding content-no-margin content-right"></h2>
+                    <h2 id="listing-rent"
+                        class="text-success content-display-inline-block content-no-padding content-no-margin content-right"></h2>
+
                     <p><strong id="listing-detail"></strong></p>
                 </div>
             </div>
 
             <div id="listing-msg-div" class="col-xs-12 content-padding-top">
                 <p class="align-center"><span id="result-msg"></span></p>
-            </div>
-
-            <div id="save-listing-button">
-                <button>Save</button>
             </div>
 
         </div>

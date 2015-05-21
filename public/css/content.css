@@ -31,8 +31,7 @@
 }
 
 .right-sidebar {
-    width: calc(35% - 1px);
-    height: 100%;
+    /*height: 100%;*/
     background-color: #FFFFFF;
     float: right;
     overflow-y:auto;
@@ -44,6 +43,10 @@
 
 .content-padding-left {
     padding-left: 15px;
+}
+
+.content-35-width {
+    width: 35%;
 }
 
 .content-full-width {

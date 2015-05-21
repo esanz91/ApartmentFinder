@@ -122,6 +122,7 @@ function addMarker(markerLocation) {
     });
 }
 
+//ToDo: Fix this up
 function displayApartmentInfo(markerLocation) {
     var searchContent = document.getElementById("search-content");
     var mapCanvas = document.getElementById("map-canvas");
@@ -132,12 +133,15 @@ function displayApartmentInfo(markerLocation) {
     var resultAddress = document.getElementById("listing-address");
     var resultRent = document.getElementById("listing-rent");
     var listingDetail = document.getElementById("listing-detail");
+    var listingNav = document.getElementById("listing-nav");
 
-    var contentCssToAdd = "content-display-inline-block right-sidebar content-padding content-padding-top";
+    var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
+    var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";
     var mapCssToAdd = "content-65-width";
     var mapCssToRemove = "content-full-width";
 
+    toggleClass(listingNav, navCssToAdd, contentCssToRemove, true);
     toggleClass(searchContent, contentCssToAdd, contentCssToRemove, true);
     toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
     floatLeft(mapCanvas);
