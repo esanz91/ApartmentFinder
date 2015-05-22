@@ -16,7 +16,7 @@ function requestAddress() {
     // init request
     var postalAddress = element.value;
     var urlParam = encodeURIComponent(postalAddress);
-    var url = "/findApartments?" + element.id + "=" + urlParam;
+    var url = "/getMarkers?" + element.id + "=" + urlParam;
     request.onreadystatechange = function () {
         //Todo: handle error or null
         setMarkerLocations();
@@ -124,6 +124,8 @@ function addMarker(markerLocation) {
 
 //ToDo: Fix this up. Add mongodb id to "listing-id" element for identification purposes
 function displayApartmentInfo(markerLocation) {
+
+    var id = markerLocation._id;
     var searchContent = document.getElementById("search-content");
     var mapCanvas = document.getElementById("map-canvas");
 
@@ -134,6 +136,7 @@ function displayApartmentInfo(markerLocation) {
     var resultRent = document.getElementById("listing-rent");
     var listingDetail = document.getElementById("listing-detail");
     var listingNav = document.getElementById("listing-nav");
+    var listingId = document.getElementById("listing-id");
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
@@ -146,6 +149,7 @@ function displayApartmentInfo(markerLocation) {
     toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
     floatLeft(mapCanvas);
 
+    showMsg(listingId, true, id);
     showMsg(resultState, true, markerLocation.address.administrative_area_level_1);
     showMsg(resultCity, true, markerLocation.address.locality);
     showMsg(resultAddress, true, markerLocation.address.formatted_address);

@@ -1,6 +1,11 @@
 var request = require('request');
 var listingModel = require('../models/listing');
 
+exports.findListingById = function(req, res){
+    var id = req.params.listingID;
+    console.log("_id: " + id);
+}
+
 exports.getMarkers = function (req, res) {
     var address = req.query.postalAddress;
 
