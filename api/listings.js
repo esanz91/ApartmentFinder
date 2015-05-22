@@ -1,9 +1,38 @@
 var request = require('request');
 var listingModel = require('../models/listing');
+var userModel = require('../models/user');
 
-exports.findListingById = function(req, res){
-    var id = req.params.listingID;
-    console.log("_id: " + id);
+exports.updateListingById = function(req, res){
+    var listingID = req.params.listingID;
+    listingModel.find().where("_id", listingID).select('').lean().exec(function(err, listing) {
+        // error
+        if (err) {
+            return res.send({msg: "error"});
+        }
+        // listings not found
+        if ((!listing) || (null === listing) || (listing.length == 0)) {
+            return res.send({msg: "no matches"});
+        }
+        // listings found
+        if (listing) {
+            var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
+            var update = {$push: {'listings.favorites': listingID}};
+            userModel.update(conditions, update).exec(function(err, user){
+                // error
+                if (err) {
+                    return res.send({msg: "error"});
+                }
+                // user not found
+                if ((!user) || (null === user) || (user.length == 0)) {
+                    return res.send({msg: "no matches"});
+                }
+                // user found
+                if (user){
+                    return res.send({msg: "match"});
+                }
+            });
+        }
+    });
 }
 
 exports.getMarkers = function (req, res) {

@@ -14,18 +14,18 @@ var userSchema = new mongoose.Schema({
     },
     /*
     facebook        : {
-        id          : {type: String, unique: true, required: true},
-        token       : {type: String, unique: true, required: true},
-        email       : {type: String, unique: true, required: true},
+        id          : {type: String, default: "", unique: true, required: true},
+        token       : {type: String, default: "", unique: true, required: true},
+        email       : {type: String, default: "", unique: true, required: true},
         name        : {
-            firstName: {type: String, required: true},
-            lastName: {type: String, required: true}
+            firstName: {type: String, default: "", required: true},
+            lastName: {type: String, default: "", required: true}
         },
         required: false
-    },*/
+    },
+    */
     listings        : {
-        published   : {type: mongoose.Schema.Types.ObjectId, ref: 'Listing'},
-        favorites   : {type: mongoose.Schema.Types.ObjectId, ref: 'Listing'}
+        favorites   : [{ type : mongoose.Schema.Types.ObjectId, ref: 'User', default: [], unique: true}]
     },
     created: {type: Date, default: Date.now}
 },

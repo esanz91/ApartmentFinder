@@ -41,11 +41,13 @@ function SessionHandler() {
 
         var username = req.body.username;
         var password = req.body.password;
-
-        userModel.findOne({
+        var condition = {
             'local.username': username,
             'local.password': password
-        }, 'local.name.firstName', function (err, user) {
+        };
+        var expecting = 'local.username';
+
+        userModel.findOne(condition, expecting, function (err, user) {
             if (err) {
                 console.log(err);
                 return res.render('msgs', {
@@ -59,7 +61,7 @@ function SessionHandler() {
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
             }
-            req.session.username = user.local.name.firstName;
+            req.session.username = user.local.username;
             return res.redirect('/welcome');
         })
     }
@@ -132,6 +134,9 @@ function SessionHandler() {
                     username: username,
                     email: email,
                     password: password
+                },
+                listing: {
+                    favorites: []
                 }
             };
 

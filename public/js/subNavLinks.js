@@ -22,13 +22,26 @@ function saveListing(event){
         // init request
         var listingID = element.textContent;
         var urlParam = encodeURIComponent(listingID);
-        var url = "/findListingById/" + urlParam;
+        var url = "/updateListingById/" + urlParam;
         request.onreadystatechange = function () {
-            //Todo: handle error or null
-            setMarkerLocations();
+            if (request.readyState == 4) {
+                if (request.status == 200) {
+                    var response = JSON.parse(request.responseText);
+                    if (response.msg == "error") {
+                        console.log(response.locations[0]);
+                        alert("error!");
+                    }
+                    if (response.msg == "match") {
+                        console.log("match");
+                        console.log()
+                        console.log(response.locations[0]);
+                    }
+                }
+            }
         };
         request.open("GET", url, true);
         request.send(null);
 
     }
 }
+
