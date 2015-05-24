@@ -5,7 +5,7 @@ function init(){
 }
 
 //ToDo: save listing-id to user favorites array
-function saveListing(event, route){
+function saveListing(event, url){
     var element = document.getElementById("listing-id");
     console.log("id: " + element.textContent);
     event.preventDefault();
@@ -20,14 +20,14 @@ function saveListing(event, route){
 
         // init request
         var listingID = element.textContent;
-        var urlParam = encodeURIComponent(listingID);
-        var url = route + urlParam;
+        var postData = "listingID="+listingID;
+        //var urlParam = encodeURIComponent(listingID);
         request.onreadystatechange = function () {
             favoriteListing();
         };
-        request.open("GET", url, true);
-        request.send(null);
-
+        request.open("POST", url, true);
+        request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        request.send(postData);
     }
 }
 
@@ -54,10 +54,10 @@ function toggleFavorite(){
 
     if(favLinkTextContent == "Favorite"){
         favLink.textContent = "Unfavorite";
-        saveListing(event, "/deleteListingById/");
+        saveListing(event, "/deleteListingById");
     }
     else{
         favLink.textContent = "Favorite";
-        saveListing(event, "/updateListingById/");
+        saveListing(event, "/updateListingById");
     }
 }

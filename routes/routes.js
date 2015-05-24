@@ -15,7 +15,8 @@ module.exports = exports = function(app) {
     // Search
     app.get('/search', contentHandler.displaySearch);
     app.get('/getMarkers', listingEndPoint.getMarkers);
-    app.get('/updateListingById/:listingID', listingEndPoint.updateListingById);
+    app.post('/updateListingById', listingEndPoint.updateListingById);
+    app.post('/deleteListingById', listingEndPoint.deleteListingById);
 
     // Listing
     app.get('/listing', contentHandler.displayListing);

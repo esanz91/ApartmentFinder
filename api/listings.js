@@ -2,8 +2,17 @@ var request = require('request');
 var listingModel = require('../models/listing');
 var userModel = require('../models/user');
 
+//Todo: complete delete
+exports.deleteListingById = function(req, res){
+    var listingID = req.body.listingID;
+    console.log(listingID);
+}
+
 exports.updateListingById = function(req, res){
-    var listingID = req.params.listingID;
+    //var listingID = req.params.listingID;
+    var listingID = req.body.listingID;
+    console.log(listingID);
+
     listingModel.find().where("_id", listingID).select('').lean().exec(function(err, listing) {
         // error
         if (err) {
