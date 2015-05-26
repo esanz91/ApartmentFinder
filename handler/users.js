@@ -61,7 +61,6 @@ exports.isValidEmail = function (req, res) {
 }
 
 exports.readUserFavorites = function(req, res){
-    //var listingID = req.body.listingID;
     var userID = req.params.username;
     console.log("favOfUser: " + userID);
 
@@ -76,14 +75,15 @@ exports.readUserFavorites = function(req, res){
         }
         // favorite found
         if (userFavorites) {
-            return res.send({msg: "match", favorites: userFavorites});
+            console.log("listings.favorites:\n" + userFavorites[0].listings.favorites);
+            return res.send({msg: "match", favorites: userFavorites[0].listings.favorites});
         }
     });
 }
 
 exports.getUsername = function(req, res){
     if(req.session.username){
-        console.log("userModel/getUsername: " + req.session.username);
+        console.log("userModel/getUsername: " + req.session.username); //returns henree
         res.send({msg: "found", username: req.session.username});
     }
     else{

@@ -87,16 +87,16 @@ function favoriteListing(){
     }
 }
 
-function toggleFavorite(){
+function setFavoriteLink(isFavorited){
     var favLink = document.getElementById("favoriteListingLink");
-    var favLinkTextContent = favLink.textContent;
+    //var favLinkTextContent = favLink.textContent;
 
-    if(favLinkTextContent == "Favorite"){
+    if(isFavorited){
         favLink.textContent = "Unfavorite";
-        saveListing(event, "/deleteListingById");
+        //saveListing(event, "/deleteListingById");
     }
     else{
         favLink.textContent = "Favorite";
-        saveListing(event, "/updateListingById");
+        //saveListing(event, "/updateListingById");
     }
 }

@@ -19,7 +19,7 @@ module.exports = exports = function(app) {
 
     // User
     app.get('/user', userHandler.getUsername);
-    app.get('/user/:userID/favorites', userHandler.readUserFavorites);
+    app.get('/user/:username/favorites', userHandler.readUserFavorites);
 
     // Listing
     app.get('/listing', contentHandler.displayListing);

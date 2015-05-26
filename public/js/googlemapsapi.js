@@ -139,6 +139,9 @@ function displayApartmentInfo(markerLocation) {
     var listingNav = document.getElementById("listing-nav");
     var listingId = document.getElementById("listing-id");
 
+    //set subnav
+    requestUsername();
+
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";
@@ -159,30 +162,32 @@ function displayApartmentInfo(markerLocation) {
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 }
 
-function requestUserFavorites() {
-    var element = document.getElementById("listing-id");
-    console.log("id: " + element.textContent);
+function requestUserFavorites(username) {
+    //var element = document.getElementById("listing-id");
+    //console.log("id: " + element.textContent);
+
     /*
     event.preventDefault();
     console.log(event.defaultPrevented);
     if (event.defaultPrevented) {
     */
+        console.log("requestUserFavorites: " + username);
 
-    // create request
-    var request = createRequest();
-    if (null === request) {
-        console.log("Could not create request");
-        return;
-    }
+        // create request
+        var request = createRequest();
+        if (null === request) {
+            console.log("Could not create request");
+            return;
+        }
 
-    // init request
-    var url = "/user/" + username + "/favorites";
-    console.log(url);
-    request.onreadystatechange = function () {
-        queryFavorites();
-    };
-    request.open("GET", url, true);
-    request.send(null);
+        // init request
+        var url = "/user/" + username + "/favorites";
+        console.log(url);
+        request.onreadystatechange = function () {
+            queryFavorites();
+        };
+        request.open("GET", url, true);
+        request.send(null);
 
     //}
 }
@@ -192,16 +197,23 @@ function queryFavorites(){
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
             if (response.msg == "error") {
-                alert("error");
                 console.log('error');
             }
             if (response.msg == "not matches") {
-                alert("null");
-                console.log(null);
+                console.log("favArray: " + null);
             }
-            if (response.msg == "matches") {
-                alert(response.favorites);
-                console.log(response.favorites);
+            if (response.msg == "match") {
+                var isFavorited = false;
+                var listingID = document.getElementById("listing-id").textContent;
+                console.log("favArray: " + response.favorites);
+                console.log(listingID);
+                for(var i=0; i<response.favorites.length; i++){
+                    if(response.favorites[i]==listingID){
+                        isFavorited =true;
+                        console.log("match");
+                    }
+                }
+                setFavoriteLink(isFavorited);
             }
         }
     }
@@ -246,9 +258,6 @@ function createMap() {
         //styles: styles
     }
 
-    requestUsername();
-    requestUserFavorites();
-
     // run only if map div found
     if (document.getElementById("map-canvas")) {
         showMap(mapOptions);
@@ -260,38 +269,49 @@ function createMap() {
         }
 
         if(document.getElementById("favoriteListingLink")){
-            //document.getElementById("favoriteListingLink").onclick = requestUserFavorites;
+            //document.getElementById("favoriteListingLink").onclick = requestUsername;
         }
     }
 
 }
 
 function requestUsername(){
-    // create request
-    var request = createRequest();
-    if (null === request) {
-        console.log("Could not create request");
-        return;
-    }
 
-    // init request
-    request.onreadystatechange = function () {
-        getUsername();
-    };
-    var url = "/user";
-    request.open("GET", url, true);
-    request.send(null);
+    /*
+    event.preventDefault();
+    console.log(event.defaultPrevented);
+    if (event.defaultPrevented) {
+    */
+        // create request
+        var request = createRequest();
+        if (null === request) {
+            console.log("Could not create request");
+            return;
+        }
+
+        // init request
+        request.onreadystatechange = function () {
+            getUsername(requestUserFavorites);
+        };
+        var url = "/user";
+        request.open("GET", url, true);
+        request.send(null);
+
+    //}
 }
 
-function getUsername(){
+function getUsername(callback){
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
             if (response.msg == "not found") {
+                console.log("getUsername: " + response.username);
                 username = null;
             }
             if (response.msg == "found") {
                 username = response.username;
+                console.log("getUsername: " + username);
+                callback(response.username);
             }
         }
     }
