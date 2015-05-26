@@ -1,4 +1,5 @@
 var validator = require('validator');
+var request = require('request');
 var userModel = require('../models/user');
 
 exports.isValidUsername = function (req, res) {
@@ -57,5 +58,36 @@ exports.isValidEmail = function (req, res) {
             return res.send("email on file");
         }
     });
+}
+
+exports.readUserFavorites = function(req, res){
+    //var listingID = req.body.listingID;
+    var userID = req.params.username;
+    console.log("favOfUser: " + userID);
+
+    userModel.find({"local.username": userID, "listings.favorites": {$exists: true}}, {"listings.favorites": 1, "_id": 0}, function(err, userFavorites) {
+        // error
+        if (err) {
+            return res.send({msg: "error"});
+        }
+        // favorite not found
+        if ((!userFavorites) || (null === userFavorites) || (userFavorites.length == 0)) {
+            return res.send({msg: "no matches"});
+        }
+        // favorite found
+        if (userFavorites) {
+            return res.send({msg: "match", favorites: userFavorites});
+        }
+    });
+}
+
+exports.getUsername = function(req, res){
+    if(req.session.username){
+        console.log("userModel/getUsername: " + req.session.username);
+        res.send({msg: "found", username: req.session.username});
+    }
+    else{
+        res.send({msg: "not found", username: null});
+    }
 }
 

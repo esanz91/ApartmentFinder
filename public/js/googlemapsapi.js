@@ -2,8 +2,9 @@ var map;
 var markerList;
 var infoWindow;
 var bounds;
+var username;
 
-function requestAddress() {
+function requestMarkers() {
     var element = document.getElementById("postalAddress");
 
     // create request
@@ -158,6 +159,54 @@ function displayApartmentInfo(markerLocation) {
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 }
 
+function requestUserFavorites() {
+    var element = document.getElementById("listing-id");
+    console.log("id: " + element.textContent);
+    /*
+    event.preventDefault();
+    console.log(event.defaultPrevented);
+    if (event.defaultPrevented) {
+    */
+
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
+
+    // init request
+    var url = "/user/" + username + "/favorites";
+    console.log(url);
+    request.onreadystatechange = function () {
+        queryFavorites();
+    };
+    request.open("GET", url, true);
+    request.send(null);
+
+    //}
+}
+
+function queryFavorites(){
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            var response = JSON.parse(request.responseText);
+            if (response.msg == "error") {
+                alert("error");
+                console.log('error');
+            }
+            if (response.msg == "not matches") {
+                alert("null");
+                console.log(null);
+            }
+            if (response.msg == "matches") {
+                alert(response.favorites);
+                console.log(response.favorites);
+            }
+        }
+    }
+}
+
 function createMap() {
     var map;
 
@@ -197,18 +246,55 @@ function createMap() {
         //styles: styles
     }
 
+    requestUsername();
+    requestUserFavorites();
+
     // run only if map div found
     if (document.getElementById("map-canvas")) {
         showMap(mapOptions);
 
         // run only if search button found
         if (document.getElementById("search-button")) {
-            document.getElementById("search-button").onclick = function () {
-                requestAddress();
-            }
+            document.getElementById("search-button").onclick = requestMarkers;
+
+        }
+
+        if(document.getElementById("favoriteListingLink")){
+            //document.getElementById("favoriteListingLink").onclick = requestUserFavorites;
         }
     }
 
+}
+
+function requestUsername(){
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
+
+    // init request
+    request.onreadystatechange = function () {
+        getUsername();
+    };
+    var url = "/user";
+    request.open("GET", url, true);
+    request.send(null);
+}
+
+function getUsername(){
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            var response = JSON.parse(request.responseText);
+            if (response.msg == "not found") {
+                username = null;
+            }
+            if (response.msg == "found") {
+                username = response.username;
+            }
+        }
+    }
 }
 
 function showMap(mapOptions) {

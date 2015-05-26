@@ -108,7 +108,6 @@ exports.getMarkers = function (req, res) {
                 }
                 // listings found
                 if (listings) {
-                    //todo: query user model to get user favorite information
                     return res.json({msg: "match", locations: listings, focus: data.results[0].geometry.location});
                 }
             });

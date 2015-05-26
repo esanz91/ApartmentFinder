@@ -1,5 +1,6 @@
 var ContentHandler = require('../handler/content');
 var SessionHandler = require('../handler/session');
+var userHandler = require('../handler/users');
 var listingEndPoint = require('../api/listings');
 
 module.exports = exports = function(app) {
@@ -15,12 +16,16 @@ module.exports = exports = function(app) {
     // Search
     app.get('/search', contentHandler.displaySearch);
     app.get('/getMarkers', listingEndPoint.getMarkers);
-    app.post('/updateListingById', listingEndPoint.updateListingById);
-    app.post('/deleteListingById', listingEndPoint.deleteListingById);
+
+    // User
+    app.get('/user', userHandler.getUsername);
+    app.get('/user/:userID/favorites', userHandler.readUserFavorites);
 
     // Listing
     app.get('/listing', contentHandler.displayListing);
     app.post('/listing', contentHandler.handleListing);
+    app.post('/updateListingById', listingEndPoint.updateListingById);
+    app.post('/deleteListingById', listingEndPoint.deleteListingById);
 
     // Login
     app.get('/login', sessionHandler.displayLogin);

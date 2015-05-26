@@ -1,10 +1,49 @@
+/*
 window.onload = init();
+var username;
 
 function init(){
-    document.getElementById("favoriteListingLink").onclick = toggleFavorite;
+    requestUsername()
+    //document.getElementById("favoriteListingLink").onclick = toggleFavorite;
 }
 
-//ToDo: save listing-id to user favorites array
+function requestUsername(){
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
+
+    // init request
+    request.onreadystatechange = function () {
+        getUsername();
+    };
+    var url = "/user";
+    request.open("GET", url, true);
+    request.send(null);
+}
+*/
+/*
+function getUsername(){
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            var response = JSON.parse(request.responseText);
+            if(response.msg == "error"){
+                alert("error");
+            }
+            if (response.msg == "no matches") {
+                username = null;
+
+            }
+            if (response.msg == "match") {
+                username = response.username;
+            }
+        }
+    }
+}
+*/
+
 function saveListing(event, url){
     var element = document.getElementById("listing-id");
     console.log("id: " + element.textContent);
