@@ -22,8 +22,8 @@ module.exports = exports = function(app) {
     app.get('/user/:username/favorites', userHandler.readUserFavorites);
 
     // User Favorites
-    app.put('/user/favorites/:listingID', listingEndPoint.updateListingById)
-    app.delete('/user/favorites/:listingID', listingEndPoint.deleteListingById);
+    app.put('/user/favorites/:listingID', listingEndPoint.updateUserFavoriteListingById)
+    app.delete('/user/favorites/:listingID', listingEndPoint.deleteUserFavoriteListingById);
 
     // Listing
     app.get('/listing', contentHandler.displayListing);

@@ -2,42 +2,34 @@ var request = require('request');
 var listingModel = require('../models/listing');
 var userModel = require('../models/user');
 
-exports.deleteListingById = function (req, res) {
+exports.deleteUserFavoriteListingById = function (req, res) {
     var listingID = req.params.listingID;
-    console.log("delete: " + listingID);
 
     userModel.update({'local.username': req.session.username}, {'$pull': {'listings.favorites': listingID}}, function (err, numAffected) {
         // error
         if (err) {
-            console.log(err);
-            return res.send({msg: "error"});
+            return res.send({msg: "error", error: err});
         }
 
         // not deleted
         if (numAffected <= 0) {
-            console.log("deleteListingById: " + false);
-            return res.send({msg: "not deleted"});
+            return res.send({msg: "not deleted", numAffected: numAffected});
         }
 
         // deleted
         if (numAffected > 0) {
-            console.log("deleteListingById: " + true);
-            return res.send({msg: "deleted"});
+            return res.send({msg: "deleted", numAffected: numAffected});
         }
-
-        console.log("deleteListingById: #" + numAffected);
     });
 }
 
-exports.updateListingById = function (req, res) {
+exports.updateUserFavoriteListingById = function (req, res) {
     var listingID = req.params.listingID;
-    //var listingID = req.body.listingID;
-    console.log("add: " + listingID);
 
     listingModel.find().where("_id", listingID).select('').lean().exec(function (err, listing) {
         // error
         if (err) {
-            return res.send({msg: "error"});
+            return res.send({msg: "error", error: err});
         }
         // listings not found
         if ((!listing) || (null === listing) || (listing.length == 0)) {
