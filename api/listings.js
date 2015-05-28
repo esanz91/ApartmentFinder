@@ -4,8 +4,10 @@ var userModel = require('../models/user');
 
 exports.deleteUserFavoriteListingById = function (req, res) {
     var listingID = req.params.listingID;
+    var query = {'local.username': req.session.username};
+    var update = {'$pull': {'listings.favorites': listingID}};
 
-    userModel.update({'local.username': req.session.username}, {'$pull': {'listings.favorites': listingID}}, function (err, numAffected) {
+    userModel.update(query, update, function (err, numAffected) {
         // error
         if (err) {
             return res.send({msg: "error", error: err});
@@ -25,66 +27,21 @@ exports.deleteUserFavoriteListingById = function (req, res) {
 
 exports.updateUserFavoriteListingById = function (req, res) {
     var listingID = req.params.listingID;
+    var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
+    var update = {$push: {'listings.favorites': listingID}};
 
-    listingModel.find().where("_id", listingID).select('').lean().exec(function (err, listing) {
+    userModel.update(conditions, update, function (err, numAffected) {
         // error
         if (err) {
-            return res.send({msg: "error", error: err});
+            return res.send({msg: "error"});
         }
-        // listings not found
-        if ((!listing) || (null === listing) || (listing.length == 0)) {
+        // user not found
+        if (numAffected <= 0) {
             return res.send({msg: "no matches"});
         }
-        // listings found
-        if (listing) {
-            /*
-             var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
-             var update = {$push: {'listings.favorites': listingID}};
-             userModel.update(conditions, update).exec(function(err, user){
-             // error
-             if (err) {
-             return res.send({msg: "error"});
-             }
-             // user not found
-             if ((!user) || (null === user) || (user.length == 0)) {
-             return res.send({msg: "no matches"});
-             }
-             // user found
-             if (user){
-             return res.send({msg: "match"});
-             }
-             });
-             */
-            var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
-            var update = {$push: {'listings.favorites': listingID}};
-            userModel.find(conditions).exec(function (err, user) {
-                // error
-                if (err) {
-                    return res.send({msg: "error"});
-                }
-                // user has listing in favorites
-                if ((!user) || (null === user) || (user.length == 0)) {
-                    return res.send({msg: "no matches"});
-                }
-                // user does not have listing in favorites
-                if (user) {
-                    console.log("saving listing to favorite!");
-                    userModel.update(conditions, update).exec(function (err, user) {
-                        // error
-                        if (err) {
-                            return res.send({msg: "error"});
-                        }
-                        // user not found
-                        if ((!user) || (null === user) || (user.length == 0)) {
-                            return res.send({msg: "no matches"});
-                        }
-                        // user found
-                        if (user) {
-                            return res.send({msg: "match"});
-                        }
-                    });
-                }
-            });
+        // user found
+        if (numAffected) {
+            return res.send({msg: "match"});
         }
     });
 }
