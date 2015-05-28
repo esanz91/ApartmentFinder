@@ -167,32 +167,32 @@ function requestUserFavorites(username) {
     //console.log("id: " + element.textContent);
 
     /*
-    event.preventDefault();
-    console.log(event.defaultPrevented);
-    if (event.defaultPrevented) {
-    */
-        console.log("requestUserFavorites: " + username);
+     event.preventDefault();
+     console.log(event.defaultPrevented);
+     if (event.defaultPrevented) {
+     */
+    console.log("requestUserFavorites: " + username);
 
-        // create request
-        var request = createRequest();
-        if (null === request) {
-            console.log("Could not create request");
-            return;
-        }
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
 
-        // init request
-        var url = "/user/" + username + "/favorites";
-        console.log(url);
-        request.onreadystatechange = function () {
-            queryFavorites();
-        };
-        request.open("GET", url, true);
-        request.send(null);
+    // init request
+    var url = "/user/" + username + "/favorites";
+    console.log(url);
+    request.onreadystatechange = function () {
+        queryFavorites();
+    };
+    request.open("GET", url, true);
+    request.send(null);
 
     //}
 }
 
-function queryFavorites(){
+function queryFavorites() {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
@@ -207,9 +207,9 @@ function queryFavorites(){
                 var listingID = document.getElementById("listing-id").textContent;
                 console.log("favArray: " + response.favorites);
                 console.log(listingID);
-                for(var i=0; i<response.favorites.length; i++){
-                    if(response.favorites[i]==listingID){
-                        isFavorited =true;
+                for (var i = 0; i < response.favorites.length; i++) {
+                    if (response.favorites[i] == listingID) {
+                        isFavorited = true;
                         console.log("match");
                     }
                 }
@@ -265,42 +265,32 @@ function createMap() {
         // run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = requestMarkers;
-
         }
 
-        if(document.getElementById("favoriteListingLink")){
-            //document.getElementById("favoriteListingLink").onclick = requestUsername;
+        if (document.getElementById("favoriteListingLink")) {
+            document.getElementById("favoriteListingLink").onclick = toggleFavorite;
         }
     }
-
 }
 
-function requestUsername(){
+function requestUsername() {
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
 
-    /*
-    event.preventDefault();
-    console.log(event.defaultPrevented);
-    if (event.defaultPrevented) {
-    */
-        // create request
-        var request = createRequest();
-        if (null === request) {
-            console.log("Could not create request");
-            return;
-        }
-
-        // init request
-        request.onreadystatechange = function () {
-            getUsername(requestUserFavorites);
-        };
-        var url = "/user";
-        request.open("GET", url, true);
-        request.send(null);
-
-    //}
+    // init request
+    request.onreadystatechange = function () {
+        getUsername(requestUserFavorites);
+    };
+    var url = "/user";
+    request.open("GET", url, true);
+    request.send(null);
 }
 
-function getUsername(callback){
+function getUsername(callback) {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);

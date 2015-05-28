@@ -44,11 +44,7 @@ function getUsername(){
 }
 */
 
-function saveListing(event, url){
-    var element = document.getElementById("listing-id");
-    console.log("id: " + element.textContent);
-    event.preventDefault();
-
+function requestListingAction(action){
     if (event.defaultPrevented) {
         // create request
         var request = createRequest();
@@ -58,15 +54,30 @@ function saveListing(event, url){
         }
 
         // init request
-        var listingID = element.textContent;
-        var postData = "listingID="+listingID;
+        var listingID = document.getElementById("listing-id").textContent;
+        var url = "/user/favorites/" + listingID;
+        //var postData = "listingID="+listingID;
         //var urlParam = encodeURIComponent(listingID);
+
+        console.log("id: " + listingID);
+
         request.onreadystatechange = function () {
             favoriteListing();
         };
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        request.send(postData);
+        //request.open("POST", url, true);
+        //request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        //request.send(postData);
+        if(action == "DELETE") {
+            console.log("delete requested");
+            request.open("DELETE", url, true);
+            request.send(null);
+        }
+        if(action == "PUT") {
+            console.log("put requested");
+            request.open("PUT", url, true);
+            request.send(null);
+        }
+
     }
 }
 
@@ -83,20 +94,40 @@ function favoriteListing(){
             if (response.msg == "no matches") {
                 console.log("no matches");
             }
+            if (response.msg == "not deleted") {
+                console.log("not deleted");
+            }
+            if (response.msg == "deleted") {
+                console.log("deleted");
+            }
         }
     }
 }
 
 function setFavoriteLink(isFavorited){
     var favLink = document.getElementById("favoriteListingLink");
-    //var favLinkTextContent = favLink.textContent;
-
     if(isFavorited){
+        //requestListingAction("/updateListingById");
+        requestListingAction("PUT");
         favLink.textContent = "Unfavorite";
-        //saveListing(event, "/deleteListingById");
     }
     else{
+        //requestListingAction("/deleteListingById");
+        requestListingAction("DELETE");
         favLink.textContent = "Favorite";
-        //saveListing(event, "/updateListingById");
+    }
+}
+
+function toggleFavorite(event){
+    var elementText = document.getElementById("favoriteListingLink").textContent;
+    event.preventDefault();
+    console.log(event.defaultPrevented);
+    if (event.defaultPrevented) {
+        if(elementText == "Favorite"){
+            setFavoriteLink(true);
+        }
+        if(elementText == "Unfavorite"){
+            setFavoriteLink(false);
+        }
     }
 }

@@ -2,18 +2,39 @@ var request = require('request');
 var listingModel = require('../models/listing');
 var userModel = require('../models/user');
 
-//Todo: complete delete
-exports.deleteListingById = function(req, res){
-    var listingID = req.body.listingID;
-    console.log(listingID);
+exports.deleteListingById = function (req, res) {
+    var listingID = req.params.listingID;
+    console.log("delete: " + listingID);
+
+    userModel.update({'local.username': req.session.username}, {'$pull': {'listings.favorites': listingID}}, function (err, numAffected) {
+        // error
+        if (err) {
+            console.log(err);
+            return res.send({msg: "error"});
+        }
+
+        // not deleted
+        if (numAffected <= 0) {
+            console.log("deleteListingById: " + false);
+            return res.send({msg: "not deleted"});
+        }
+
+        // deleted
+        if (numAffected > 0) {
+            console.log("deleteListingById: " + true);
+            return res.send({msg: "deleted"});
+        }
+
+        console.log("deleteListingById: #" + numAffected);
+    });
 }
 
-exports.updateListingById = function(req, res){
-    //var listingID = req.params.listingID;
-    var listingID = req.body.listingID;
-    console.log(listingID);
+exports.updateListingById = function (req, res) {
+    var listingID = req.params.listingID;
+    //var listingID = req.body.listingID;
+    console.log("add: " + listingID);
 
-    listingModel.find().where("_id", listingID).select('').lean().exec(function(err, listing) {
+    listingModel.find().where("_id", listingID).select('').lean().exec(function (err, listing) {
         // error
         if (err) {
             return res.send({msg: "error"});
@@ -25,26 +46,26 @@ exports.updateListingById = function(req, res){
         // listings found
         if (listing) {
             /*
+             var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
+             var update = {$push: {'listings.favorites': listingID}};
+             userModel.update(conditions, update).exec(function(err, user){
+             // error
+             if (err) {
+             return res.send({msg: "error"});
+             }
+             // user not found
+             if ((!user) || (null === user) || (user.length == 0)) {
+             return res.send({msg: "no matches"});
+             }
+             // user found
+             if (user){
+             return res.send({msg: "match"});
+             }
+             });
+             */
             var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
             var update = {$push: {'listings.favorites': listingID}};
-            userModel.update(conditions, update).exec(function(err, user){
-                // error
-                if (err) {
-                    return res.send({msg: "error"});
-                }
-                // user not found
-                if ((!user) || (null === user) || (user.length == 0)) {
-                    return res.send({msg: "no matches"});
-                }
-                // user found
-                if (user){
-                    return res.send({msg: "match"});
-                }
-            });
-            */
-            var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
-            var update = {$push: {'listings.favorites': listingID}};
-            userModel.find(conditions).exec(function(err, user){
+            userModel.find(conditions).exec(function (err, user) {
                 // error
                 if (err) {
                     return res.send({msg: "error"});
@@ -54,9 +75,9 @@ exports.updateListingById = function(req, res){
                     return res.send({msg: "no matches"});
                 }
                 // user does not have listing in favorites
-                if (user){
+                if (user) {
                     console.log("saving listing to favorite!");
-                    userModel.update(conditions, update).exec(function(err, user){
+                    userModel.update(conditions, update).exec(function (err, user) {
                         // error
                         if (err) {
                             return res.send({msg: "error"});
@@ -66,7 +87,7 @@ exports.updateListingById = function(req, res){
                             return res.send({msg: "no matches"});
                         }
                         // user found
-                        if (user){
+                        if (user) {
                             return res.send({msg: "match"});
                         }
                     });
@@ -96,7 +117,7 @@ exports.getMarkers = function (req, res) {
             //var query = {};
             //query[fieldName] = value;
             //listingModel.find(query, 'address.longitude address.latitude', function (err, listings) {
-            listingModel.find().where(fieldName, value).select('').lean().exec(function(err, listings) {
+            listingModel.find().where(fieldName, value).select('').lean().exec(function (err, listings) {
 
                 // error
                 if (err) {
