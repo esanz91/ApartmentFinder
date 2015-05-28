@@ -2,6 +2,7 @@ var place;
 
 window.onload = init();
 
+//TODO
 function init() {
     document.getElementById("postalAddress").onblur = validateAddress;
 }
