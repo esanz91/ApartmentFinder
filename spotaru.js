@@ -51,8 +51,8 @@ switch (app.get('env')) {
     case 'development':
         mongoDB = config.mongoDB.development.connectionString;
         break;
-    case 'production':
-        mongoDB = config.mongoDB.production.connectionString;
+    case 'test':
+        mongoDB = config.mongoDB.test.connectionString;
         break;
     default:
         throw new Error('Unknown environment: ' + app.get('env'));
@@ -70,6 +70,8 @@ app.use('/api/validate', validationRouter);
 routes(app, mongoose.connection);
 
 // launch
-app.listen(8082);
-console.log('Express server listening on port 8082');
+//process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8082;
+app.listen(port);
+console.log('Express server listening on port ' + port);
 

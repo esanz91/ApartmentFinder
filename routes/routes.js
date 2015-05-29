@@ -19,11 +19,11 @@ module.exports = exports = function(app) {
 
     // User
     app.get('/user', userHandler.getUsername);
-    app.get('/user/:username/favorites', userHandler.readUserFavorites);
 
     // User Favorites
-    app.put('/user/favorites/:listingID', listingEndPoint.updateUserFavoriteListingById)
-    app.delete('/user/favorites/:listingID', listingEndPoint.deleteUserFavoriteListingById);
+    app.get('/user/favorites', userHandler.readUserFavorites);
+    app.put('/user/favorites/:listingID', userHandler.updateUserFavoritesByListingId)
+    app.delete('/user/favorites/:listingID', userHandler.deleteUserFavoritesByListingId);
 
     // Listing
     app.get('/listing', contentHandler.displayListing);

@@ -2,49 +2,7 @@ var request = require('request');
 var listingModel = require('../models/listing');
 var userModel = require('../models/user');
 
-exports.deleteUserFavoriteListingById = function (req, res) {
-    var listingID = req.params.listingID;
-    var query = {'local.username': req.session.username};
-    var update = {'$pull': {'listings.favorites': listingID}};
 
-    userModel.update(query, update, function (err, numAffected) {
-        // error
-        if (err) {
-            return res.send({msg: "error", error: err});
-        }
-
-        // not deleted
-        if (numAffected <= 0) {
-            return res.send({msg: "not deleted", numAffected: numAffected});
-        }
-
-        // deleted
-        if (numAffected > 0) {
-            return res.send({msg: "deleted", numAffected: numAffected});
-        }
-    });
-}
-
-exports.updateUserFavoriteListingById = function (req, res) {
-    var listingID = req.params.listingID;
-    var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
-    var update = {$push: {'listings.favorites': listingID}};
-
-    userModel.update(conditions, update, function (err, numAffected) {
-        // error
-        if (err) {
-            return res.send({msg: "error"});
-        }
-        // user not found
-        if (numAffected <= 0) {
-            return res.send({msg: "no matches"});
-        }
-        // user found
-        if (numAffected) {
-            return res.send({msg: "match"});
-        }
-    });
-}
 
 exports.getMarkers = function (req, res) {
     var address = req.query.postalAddress;

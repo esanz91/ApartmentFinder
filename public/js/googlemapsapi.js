@@ -139,8 +139,7 @@ function displayApartmentInfo(markerLocation) {
     var listingNav = document.getElementById("listing-nav");
     var listingId = document.getElementById("listing-id");
 
-    //set subnav
-    requestUsername();
+    requestUserFavorites();
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
@@ -162,16 +161,7 @@ function displayApartmentInfo(markerLocation) {
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 }
 
-function requestUserFavorites(username) {
-    //var element = document.getElementById("listing-id");
-    //console.log("id: " + element.textContent);
-
-    /*
-     event.preventDefault();
-     console.log(event.defaultPrevented);
-     if (event.defaultPrevented) {
-     */
-    console.log("requestUserFavorites: " + username);
+function requestUserFavorites() {
 
     // create request
     var request = createRequest();
@@ -181,15 +171,12 @@ function requestUserFavorites(username) {
     }
 
     // init request
-    var url = "/user/" + username + "/favorites";
-    console.log(url);
+    var url = "/user/favorites";
     request.onreadystatechange = function () {
         queryFavorites();
     };
     request.open("GET", url, true);
     request.send(null);
-
-    //}
 }
 
 function queryFavorites() {
