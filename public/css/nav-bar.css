@@ -63,3 +63,7 @@ ul.menu-items li a.active{
     /* color: #BFDCD7; //green */
     color: #BFDCD7;
 }
+
+li {
+    cursor: pointer;
+}
