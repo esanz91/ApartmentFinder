@@ -19,10 +19,13 @@ function SessionHandler() {
             return next();
         }
 
-
         // if user not signed in
         res.locals.loggedin = false;
-        if(!(req.path == '/') && !(req.path == '/search') && !(req.path == '/login') && !(req.path == '/signup')){
+        if(!(req.path == '/') &&
+            !(req.path == '/search') &&
+            !(req.path == '/getMarkers')&&
+            !(req.path == '/login') &&
+            !(req.path == '/signup')){
             return res.status(401).render('login', {
                 error: {msgs: "Please log in to proceed!"},
                 user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}

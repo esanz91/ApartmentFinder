@@ -200,7 +200,19 @@ function queryFavorites() {
                         console.log("match");
                     }
                 }
+                // set textContext for favorite link of user
                 setFavoriteLink(isFavorited);
+
+                // make favorite link toggle
+                document.getElementById("favoriteListingLink").onclick = toggleFavorite;
+            }
+        }
+
+        if(request.status ==401){
+            console.log("handle 401");
+            document.getElementById("favoriteListingLink").onclick = function(){
+                //todo: handle 401 response - try sending a msg to login...
+                document.getElementById("favoriteListingLink").href="/login";
             }
         }
     }
@@ -252,10 +264,6 @@ function createMap() {
         // run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = requestMarkers;
-        }
-
-        if (document.getElementById("favoriteListingLink")) {
-            document.getElementById("favoriteListingLink").onclick = toggleFavorite;
         }
     }
 }
