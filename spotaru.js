@@ -9,7 +9,7 @@ var bodyParser = require('body-parser'); // req.body middleware
 var session = require('express-session'); // req.session middleware
 var mongoStore = require('connect-mongo')(session); // MongoDB session store
 
-var config = require('./config/config'); //configuration/credentials
+var config = require('./config/configOnline'); //configuration/credentials
 
 // register handlebars
 var handlebars = require('express3-handlebars').create({
