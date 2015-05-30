@@ -1,14 +1,15 @@
 <div id="login-div" class="container content-padding content-text">
     <div id="login-content" class="content-padding col-sm-6 col-sm-offset-3">
 
-        <h1 class="align-center">Login</h1>
+        {{#with error}}
+        <div id="message" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{msgs}}
+        </div>
+        {{/with}}
 
-        <!-- show any messages that come back with authentication -->
-        {{!
-        <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-        <% } %>
-        }}
+        <h1 class="align-center">Login</h1>
 
         <!-- LOGIN FORM -->
         <form action="/login" method="post" class="form-horizontal" role="form">

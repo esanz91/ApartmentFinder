@@ -7,7 +7,7 @@ function SessionHandler() {
     this.isLoggedInMiddleware = function (req, res, next) {
         "use strict"
 
-        // cannot signup or login once logged in
+        // if user is signed in
         if (req.session.username) {
             res.locals.loggedin = true;
             if ((req.path == '/signup') || (req.path == '/login')) {
@@ -18,12 +18,13 @@ function SessionHandler() {
             }
             return next();
         }
-        res.locals.loggedin = false;
 
-        // must be a registered user to post listing
-        if (req.path == '/listing') {
-            return res.render('msgs', {
-                msgs: "You must be a registered user to post a listing!",
+
+        // if user not signed in
+        res.locals.loggedin = false;
+        if(!(req.path == '/') && !(req.path == '/search') && !(req.path == '/login') && !(req.path == '/signup')){
+            return res.status(401).render('login', {
+                error: {msgs: "Please log in to proceed!"},
                 user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
             });
         }
@@ -183,6 +184,12 @@ function SessionHandler() {
 
     this.displayAccount = function (req, res) {
         "use strict"
+        if(!req.session.username){
+            return res.render('msgs', {
+                msgs: "You need to be logged in to see your account",
+                user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
+            });
+        }
         return res.render('account', {
             name: req.session.username,
             user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
