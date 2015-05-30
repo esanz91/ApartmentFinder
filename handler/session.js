@@ -51,16 +51,28 @@ function SessionHandler() {
         userModel.findOne(condition, expecting, function (err, user) {
             if (err) {
                 console.log(err);
+                return res.status(500).render('login', {
+                    error: {msgs: "Please log in to proceed!"},
+                    user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
+                });
+                /*
                 return res.render('msgs', {
                     msgs: "Cannot log in...",
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
+                */
             }
             if (!user) {
+                return res.status(401).render('login', {
+                    error: {msgs: "We're sorry, but you have used an User ID and/or password that doesn't match our records. Please try again."},
+                    user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
+                });
+                /*
                 return res.render('msgs', {
                     msgs: "Username not found. Please register!",
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
+                */
             }
             req.session.username = user.local.username;
             return res.redirect('/welcome');
