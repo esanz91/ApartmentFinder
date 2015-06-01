@@ -25,7 +25,8 @@ function SessionHandler() {
             !(req.path == '/search') &&
             !(req.path == '/getMarkers')&&
             !(req.path == '/login') &&
-            !(req.path == '/signup')){
+            !(req.path == '/signup') ||
+            (req.path == '/redirect')){
             return res.status(401).render('login', {
                 error: {msgs: "Please log in to proceed!"},
                 user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
@@ -37,6 +38,7 @@ function SessionHandler() {
 
     this.displayLogin = function (req, res) {
         "use strict";
+        console.log("XMLreq: " + req.xhr);
         return res.render('login', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
@@ -55,27 +57,15 @@ function SessionHandler() {
             if (err) {
                 console.log(err);
                 return res.status(500).render('login', {
-                    error: {msgs: "Please log in to proceed!"},
+                    error: {msgs: "We're sorry. There was an internal error. Please try again."},
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
-                /*
-                return res.render('msgs', {
-                    msgs: "Cannot log in...",
-                    user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
-                });
-                */
             }
             if (!user) {
                 return res.status(401).render('login', {
                     error: {msgs: "We're sorry, but you have used an User ID and/or password that doesn't match our records. Please try again."},
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
-                /*
-                return res.render('msgs', {
-                    msgs: "Username not found. Please register!",
-                    user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
-                });
-                */
             }
             req.session.username = user.local.username;
             return res.redirect('/welcome');

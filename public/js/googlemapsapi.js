@@ -172,6 +172,7 @@ function requestUserFavorites() {
 
     // init request
     var url = "/user/favorites";
+
     request.onreadystatechange = function () {
         queryFavorites();
     };
@@ -209,10 +210,9 @@ function queryFavorites() {
         }
 
         if(request.status ==401){
-            console.log("handle 401");
             document.getElementById("favoriteListingLink").onclick = function(){
                 //todo: handle 401 response - try sending a msg to login...
-                document.getElementById("favoriteListingLink").href="/login";
+                document.getElementById("favoriteListingLink").href="/redirect";
             }
         }
     }

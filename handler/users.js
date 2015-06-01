@@ -61,7 +61,8 @@ exports.isValidEmail = function (req, res) {
 }
 
 exports.readUserFavorites = function(req, res){
-    console.log("responseCode" + res.statusCode);
+    //console.log("req HEADERS:\n" + req.headers);
+    //console.log("responseCode: " + res.statusCode);
 
     userModel.find({"local.username": req.session.username, "listings.favorites": {$exists: true}}, {"listings.favorites": 1, "_id": 0}, function(err, userFavorites) {
         // error
