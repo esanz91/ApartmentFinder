@@ -2,6 +2,16 @@
     <h1 class="align-center">{{name}} Profile</h1>
 
     <div>
-        <a href="">favorites</a>
+        <a id="userFavorites">favorites</a>
+    </div>
+
+    <div id="favoriteListingsDiv">
+        <p id="favoriteListings"></p>
     </div>
 </div>
+
+{{#section 'javascript'}}
+    <script src="/js/utils.js"></script>
+    <script src="/js/subNavLinks.js"></script>
+    <script src="/js/account.js"></script>
+{{/section}}

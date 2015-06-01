@@ -161,63 +161,6 @@ function displayApartmentInfo(markerLocation) {
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 }
 
-function requestUserFavorites() {
-
-    // create request
-    var request = createRequest();
-    if (null === request) {
-        console.log("Could not create request");
-        return;
-    }
-
-    // init request
-    var url = "/user/favorites";
-
-    request.onreadystatechange = function () {
-        queryFavorites();
-    };
-    request.open("GET", url, true);
-    request.send(null);
-}
-
-function queryFavorites() {
-    if (request.readyState == 4) {
-        if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.msg == "error") {
-                console.log('error');
-            }
-            if (response.msg == "not matches") {
-                console.log("favArray: " + null);
-            }
-            if (response.msg == "match") {
-                var isFavorited = false;
-                var listingID = document.getElementById("listing-id").textContent;
-                console.log("favArray: " + response.favorites);
-                console.log(listingID);
-                for (var i = 0; i < response.favorites.length; i++) {
-                    if (response.favorites[i] == listingID) {
-                        isFavorited = true;
-                        console.log("match");
-                    }
-                }
-                // set textContext for favorite link of user
-                setFavoriteLink(isFavorited);
-
-                // make favorite link toggle
-                document.getElementById("favoriteListingLink").onclick = toggleFavorite;
-            }
-        }
-
-        if(request.status ==401){
-            document.getElementById("favoriteListingLink").onclick = function(){
-                //todo: handle 401 response - try sending a msg to login...
-                document.getElementById("favoriteListingLink").href="/redirect";
-            }
-        }
-    }
-}
-
 function createMap() {
     var map;
 

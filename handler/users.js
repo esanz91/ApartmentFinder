@@ -116,11 +116,11 @@ exports.updateUserFavoritesByListingId = function (req, res) {
         }
         // user not found
         if (numAffected <= 0) {
-            return res.send({msg: "no matches"});
+            return res.send({msg: "not updated"});
         }
         // user found
         if (numAffected) {
-            return res.send({msg: "match"});
+            return res.send({msg: "updated"});
         }
     });
 }
