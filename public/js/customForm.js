@@ -1,8 +1,3 @@
-$('.selected a').click(function () {
-    $('.selected a').removeClass('active');
-    $(this).addClass('active');
-});
-
 //populate # of bedrooms
 $(function () {
     for (var i = 0; i <= 6; i++) {

@@ -26,8 +26,8 @@ module.exports = exports = function(app) {
     app.delete('/user/favorites/:listingID', userHandler.deleteUserFavoritesByListingId);
 
     // Listing
-    app.get('/listing', contentHandler.displayListing);
-    app.post('/listing', contentHandler.handleListing);
+    app.get('/postListing', contentHandler.displayListing);
+    app.post('/postListing', contentHandler.handleListing);
     //app.post('/updateListingById', listingEndPoint.updateListingById);
 
     // Login
