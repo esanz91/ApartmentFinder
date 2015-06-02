@@ -23,13 +23,20 @@ var listingSchema = new mongoose.Schema({
             rent                : {type: Number, required: true}
         },
         extraDetails        : {
-            pets                : {type: Boolean},
+            pets                : {
+                dogs                : {type: Boolean, default: false},
+                cats                : {type: Boolean, default: false}
+            },
             amenities           : {
-                dishwasher          : {type: Boolean},
-                gym                 : {type: Boolean},
-                elevator            : {type: Boolean}
+                centralAir          : {type: Boolean, default: false},
+                dishwasher          : {type: Boolean, default: false},
+                elevator            : {type: Boolean, default: false},
+                gym                 : {type: Boolean, default: false},
+                pool                : {type: Boolean, default: false},
+                washerDryer         : {type: Boolean, default: false}
             }
         },
+        creator: {type: String, required: true},
         created: {type: Date, default: Date.now}
     },
     {versionKey: '_MongooseVersionKey'});

@@ -15,7 +15,7 @@
                                    placeholder="#, Street, City, State" autocomplete="on" required>
                         </div>
                         <div id="unitDiv" class="col-xs-3">
-                            <label for="unit">Address</label>
+                            <label for="unit">Unit</label>
                             <input type="text" class="form-control" name="unit" id="unit"
                                    placeholder="unit #">
                         </div>
@@ -45,13 +45,10 @@
                 <fieldset>
                     <legend>Pets</legend>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="dogs"> Dogs allowed <br>
+                        <input type="checkbox" name="dogs" value="true"> Dogs allowed <br>
                     </label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="cats"> Cats allowed <br>
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="pets" value="noPets"> No pets <br>
+                        <input type="checkbox" name="cats" value="true"> Cats allowed <br>
                     </label>
                 </fieldset>
             </div>
@@ -60,13 +57,22 @@
                 <fieldset>
                     <legend>Amenities</legend>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="dishwasher"> Dishwasher <br>
+                        <input type="checkbox" name="centralAir" value="true"> Central Air <br>
                     </label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="gym"> Gym <br>
+                        <input type="checkbox" name="dishwasher" value="true"> Dishwasher <br>
                     </label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="amenities" value="elevator"> Elevator <br>
+                        <input type="checkbox" name="elevator" value="true"> Elevator <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="gym" value="true"> Gym <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="pool" value="true"> Pool <br>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="washerDryer" value="true"> Washer/Dryer <br>
                     </label>
                 </fieldset>
             </div>

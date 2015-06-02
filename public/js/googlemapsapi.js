@@ -139,6 +139,9 @@ function displayApartmentInfo(markerLocation) {
     var listingNav = document.getElementById("listing-nav");
     var listingId = document.getElementById("listing-id");
 
+    // amenities
+    var listingPets = document.getElementById("listing-pets");
+
     requestUserFavorites();
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
@@ -159,6 +162,8 @@ function displayApartmentInfo(markerLocation) {
     showMsg(resultRent, true, "$" + markerLocation.aptDetails.rent);
     showMsg(resultMsg, true, "apartment info");
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
+
+    //Todo: create displayAddtnlDetails function
 }
 
 function createMap() {
