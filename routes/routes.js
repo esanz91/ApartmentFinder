@@ -1,7 +1,7 @@
 var ContentHandler = require('../handler/content');
 var SessionHandler = require('../handler/session');
 var userHandler = require('../handler/users');
-var listingEndPoint = require('../api/listings');
+var listingEndPoint = require('../handler/listings');
 
 module.exports = exports = function(app) {
 
@@ -26,8 +26,14 @@ module.exports = exports = function(app) {
     app.delete('/user/favorites/:listingID', userHandler.deleteUserFavoritesByListingId);
 
     // Listing
-    app.get('/listing', contentHandler.displayListing);
-    app.post('/listing', contentHandler.handleListing);
+    app.get('/post', contentHandler.displayListing);
+
+    app.post('/listing', listingEndPoint.createListing);
+    /*
+    app.get('/listing/:listingID', contentHandler.readListing);
+    app.put('/listing/:listingID', contentHandler.updateListing);
+    app.delete('/listing/:listingID', contentHandler.deleteListing);
+    */
     //app.post('/updateListingById', listingEndPoint.updateListingById);
 
     // Login
