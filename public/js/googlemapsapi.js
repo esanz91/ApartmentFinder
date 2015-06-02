@@ -142,7 +142,9 @@ function displayApartmentInfo(markerLocation) {
     // amenities
     var listingPets = document.getElementById("listing-pets");
 
-    requestUserFavorites();
+    //requestUserFavorites(printFavorites);
+    // TODO: only request USER loggedin
+    requestUserFavorites("GET", printFavorites);
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
@@ -212,40 +214,6 @@ function createMap() {
         // run only if search button found
         if (document.getElementById("search-button")) {
             document.getElementById("search-button").onclick = requestMarkers;
-        }
-    }
-}
-
-function requestUsername() {
-    // create request
-    var request = createRequest();
-    if (null === request) {
-        console.log("Could not create request");
-        return;
-    }
-
-    // init request
-    request.onreadystatechange = function () {
-        getUsername(requestUserFavorites);
-    };
-    var url = "/user";
-    request.open("GET", url, true);
-    request.send(null);
-}
-
-function getUsername(callback) {
-    if (request.readyState == 4) {
-        if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.msg == "not found") {
-                console.log("getUsername: " + response.username);
-                username = null;
-            }
-            if (response.msg == "found") {
-                username = response.username;
-                console.log("getUsername: " + username);
-                callback(response.username);
-            }
         }
     }
 }

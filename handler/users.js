@@ -61,22 +61,19 @@ exports.isValidEmail = function (req, res) {
 }
 
 exports.readUserFavorites = function(req, res){
-    //console.log("req HEADERS:\n" + req.headers);
-    //console.log("responseCode: " + res.statusCode);
-
     userModel.find({"local.username": req.session.username, "listings.favorites": {$exists: true}}, {"listings.favorites": 1, "_id": 0}, function(err, userFavorites) {
         // error
         if (err) {
-            return res.send({msg: "error"});
+            return res.status(500).send({msg: "error"});
         }
-        // favorite not found
+        // not found
         if ((!userFavorites) || (null === userFavorites) || (userFavorites.length == 0)) {
-            return res.send({msg: "no matches"});
+            return res.status(404).send({msg: "not found"});
         }
-        // favorite found
+        // found
         if (userFavorites) {
             console.log("listings.favorites:\n" + userFavorites[0].listings.favorites);
-            return res.send({msg: "match", favorites: userFavorites[0].listings.favorites});
+            return res.status(200).send({msg: "found", favorites: userFavorites[0].listings.favorites});
         }
     });
 }
@@ -89,38 +86,38 @@ exports.deleteUserFavoritesByListingId = function (req, res) {
     userModel.update(query, update, function (err, numAffected) {
         // error
         if (err) {
-            return res.send({msg: "error", error: err});
+            return res.status(500).send({msg: "error", error: err});
         }
 
         // not deleted
-        if (numAffected <= 0) {
-            return res.send({msg: "not deleted", numAffected: numAffected});
+        if (numAffected.nModified <= 0) {
+            return res.status(404).send({msg: "not deleted", numAffected: numAffected});
         }
 
         // deleted
-        if (numAffected > 0) {
-            return res.send({msg: "deleted", numAffected: numAffected});
+        if (numAffected.nModified > 0) {
+            return res.status(200).send({msg: "deleted", numAffected: numAffected});
         }
     });
 }
 
 exports.updateUserFavoritesByListingId = function (req, res) {
     var listingID = req.params.listingID;
-    var conditions = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
+    var query = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
     var update = {$push: {'listings.favorites': listingID}};
 
-    userModel.update(conditions, update, function (err, numAffected) {
+    userModel.update(query, update, function (err, numAffected) {
         // error
         if (err) {
-            return res.send({msg: "error"});
+            return res.status(500).send({msg: "error"});
         }
         // user not found
-        if (numAffected <= 0) {
-            return res.send({msg: "not updated"});
+        if (numAffected.nModified <= 0) {
+            return res.status(404).send({msg: "not updated"});
         }
         // user found
-        if (numAffected) {
-            return res.send({msg: "updated"});
+        if (numAffected.nModified) {
+            return res.status(200).send({msg: "updated"});
         }
     });
 }

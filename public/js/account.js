@@ -1,14 +1,27 @@
 window.onload = init();
 
+//account.handlebars
 function init(){
-    document.getElementById("userFavorites").onclick = setRequest;
+    document.getElementById("userFavorites").onclick = setUserFavoritesRequest;
 }
 
-function setRequest(){
-    requestFavorites("GET");
+function setUserFavoritesRequest(){
+    //TODO: create better VIEW (modify displayFavorites)
+    requestUserFavorites("GET", displayFavorites);
 }
 
-function requestFavorites(action){
+function requestUserFavorites(httpRequest, successCallback){
+    console.log("called requestUserFavorites");
+
+    // set url
+    var baseUrl = "/user/favorites/";
+    var url;
+    var listingID;
+    if (document.getElementById("listing-id")) {
+        listingID = document.getElementById("listing-id").textContent;
+        url = baseUrl + listingID;
+    }
+
     // create request
     var request = createRequest();
     if (null === request) {
@@ -16,76 +29,96 @@ function requestFavorites(action){
         return;
     }
 
-    // set url
-    var baseUrl = "/user/favorites/";
-    if (document.getElementById("listing-id")) {
-        var listingID = document.getElementById("listing-id").textContent;
-        var url = baseUrl + listingID;
-    }
-
-    // set callback
-    request.onreadystatechange = function () {
-        getFavorites();
-    };
-
     // init and send request
-    if (action == "DELETE") {
-        console.log("delete requested");
-        request.open("DELETE", url, true);
-        request.send(null);
-    }
-    else if (action == "PUT") {
+    // on UPDATE
+    if (httpRequest == "PUT") {
         console.log("put requested");
+        // set callback
+        request.onreadystatechange = function () {
+            getFavorites();
+        };
         request.open("PUT", url, true);
         request.send(null);
     }
-    else if (action == "GET") {
+    // on DELETE
+    else if (httpRequest == "DELETE") {
+        console.log("delete requested");
+        // set callback
+        request.onreadystatechange = function () {
+            getFavorites();
+        };
+        request.open("DELETE", url, true);
+        request.send(null);
+    }
+    // on READ
+    else if (httpRequest == "GET") {
         console.log("get requested");
+
+        // set callback
+        request.onreadystatechange = function () {
+            getFavorites(successCallback);
+        };
+
         request.open("GET", baseUrl, true);
         request.send(null);
     }
 }
 
-function getFavorites(){
+function getFavorites(successCallback){
     if (request.readyState == 4) {
+        var response = JSON.parse(request.responseText);
+        console.log("called getFavorites\n");
+
+        // on OK
         if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.msg == "error") {
-                console.log("error");
-            }
-            if (response.msg == "match") {
+            if (response.msg == "found") {
                 console.log("found");
-                //Todo: make another ajax call to query listings
-                displayFavorites(response);
-            }
-            if (response.msg == "no matches") {
-                console.log("not found");
-            }
-            if (response.msg == "not deleted") {
-                console.log("not deleted");
+                successCallback(response);
             }
             if (response.msg == "deleted") {
                 console.log("deleted");
-            }
-            if (response.msg == "not updated") {
-                console.log("not updated");
             }
             if (response.msg == "updated") {
                 console.log("updated");
             }
         }
+        // on UNAUTHORIZED
+        if(request.status == 401){
+            console.log("user unauthorized");
+            document.getElementById("favoriteListingLink").onclick = function(){
+                //todo: handle 401 response - try sending a msg to login...
+                document.getElementById("favoriteListingLink").href="/redirect";
+            }
+        }
+        // on NOT FOUND
+        if(request.status == 404){
+            if (response.msg == "not found") {
+                console.log("not found");
+            }
+            if (response.msg == "not updated") {
+                console.log("not updated");
+            }
+            if (response.msg == "not deleted") {
+                console.log("not deleted");
+            }
+        }
+        // on INTERNAL SERVER ERROR
+        if(request.status == 500){
+            if (response.msg == "error") {
+                console.log(response.error);
+            }
+        }
     }
 }
 
+// TODO: modify function to display better VIEW
 function displayFavorites(response){
+    console.log("called displayFavorites");
     var favoriteListingsDiv = document.getElementById("favoriteListingsDiv");
     for (var i = 0; i < response.favorites.length; i++) {
-
         var newPara = document.createElement("p");
-
         var listing = document.createTextNode(response.favorites[i]);
         console.log(listing);
-
         newPara.innerHTML = listing.textContent;
         favoriteListingsDiv.appendChild( newPara );
     }
@@ -107,18 +140,38 @@ function toggleFavorite(event){
     event.preventDefault();
     if (event.defaultPrevented) {
         if(favLink.textContent == "Favorite"){
-            requestFavorites("PUT");
+            requestUserFavorites("PUT", null);
             favLink.textContent = "Unfavorite";
         }
         else if(favLink.textContent == "Unfavorite"){
-            requestFavorites("DELETE");
+            requestUserFavorites("DELETE", null);
             favLink.textContent = "Favorite";
         }
     }
 }
 
-function requestUserFavorites() {
+function printFavorites(response){
+    console.log("called printFavorites");
 
+    var isFavorited = false;
+    var listingID = document.getElementById("listing-id").textContent;
+    console.log("favArray: " + response.favorites);
+    console.log(listingID);
+    for (var i = 0; i < response.favorites.length; i++) {
+        if (response.favorites[i] == listingID) {
+            isFavorited = true;
+            console.log("match");
+        }
+    }
+    // set textContext for favorite link of user
+    setFavoriteLink(isFavorited);
+
+    // make favorite link toggle
+    document.getElementById("favoriteListingLink").onclick = toggleFavorite;
+}
+
+
+function requestUsername() {
     // create request
     var request = createRequest();
     if (null === request) {
@@ -127,48 +180,27 @@ function requestUserFavorites() {
     }
 
     // init request
-    var url = "/user/favorites";
-
     request.onreadystatechange = function () {
-        queryFavorites();
+        // TODO: fix this
+        getUsername(requestUserFavorites);
     };
+    var url = "/user";
     request.open("GET", url, true);
     request.send(null);
 }
 
-function queryFavorites() {
+function getUsername(callback) {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
-            if (response.msg == "error") {
-                console.log('error');
+            if (response.msg == "not found") {
+                console.log("getUsername: " + response.username);
+                username = null;
             }
-            if (response.msg == "not matches") {
-                console.log("favArray: " + null);
-            }
-            if (response.msg == "match") {
-                var isFavorited = false;
-                var listingID = document.getElementById("listing-id").textContent;
-                console.log("favArray: " + response.favorites);
-                console.log(listingID);
-                for (var i = 0; i < response.favorites.length; i++) {
-                    if (response.favorites[i] == listingID) {
-                        isFavorited = true;
-                        console.log("match");
-                    }
-                }
-                // set textContext for favorite link of user
-                setFavoriteLink(isFavorited);
-
-                // make favorite link toggle
-                document.getElementById("favoriteListingLink").onclick = toggleFavorite;
-            }
-        }
-
-        if(request.status ==401){
-            document.getElementById("favoriteListingLink").onclick = function(){
-                //todo: handle 401 response - try sending a msg to login...
-                document.getElementById("favoriteListingLink").href="/redirect";
+            if (response.msg == "found") {
+                username = response.username;
+                console.log("getUsername: " + username);
+                callback(response.username);
             }
         }
     }
