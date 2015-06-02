@@ -144,7 +144,8 @@ function displayApartmentInfo(markerLocation) {
 
     //requestUserFavorites(printFavorites);
     // TODO: only request USER loggedin
-    requestUserFavorites("GET", printFavorites);
+    //requestUserFavorites("GET", printFavorites);
+    requestUsername();
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";

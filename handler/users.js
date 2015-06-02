@@ -125,10 +125,10 @@ exports.updateUserFavoritesByListingId = function (req, res) {
 exports.getUsername = function(req, res){
     if(req.session.username){
         console.log("userModel/getUsername: " + req.session.username); //returns henree
-        res.send({msg: "found", username: req.session.username});
+        res.status(200).send({msg: "found", username: req.session.username});
     }
     else{
-        res.send({msg: "not found", username: null});
+        res.status(404).send({msg: "not found", username: null});
     }
 }
 

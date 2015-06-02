@@ -191,16 +191,24 @@ function requestUsername() {
 
 function getUsername(callback) {
     if (request.readyState == 4) {
+        var response = JSON.parse(request.responseText);
+
+        // on OK
         if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.msg == "not found") {
-                console.log("getUsername: " + response.username);
-                username = null;
-            }
             if (response.msg == "found") {
-                username = response.username;
                 console.log("getUsername: " + username);
-                callback(response.username);
+                callback("GET", displayFavorites);
+            }
+        }
+        // on NOT FOUND
+        if (request.status == 404) {
+            if (response.msg == "not found") {
+                console.log("user not logged in");
+                document.getElementById("favoriteListingLink").onclick = function(){
+                    // TODO: find better way to handle 404 response
+                    document.getElementById("favoriteListingLink").href="/redirect";
+                }
+
             }
         }
     }
