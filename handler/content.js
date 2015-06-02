@@ -19,7 +19,7 @@ function ContentHandler() {
 
     this.displayListing = function (req, res) {
         "use strict";
-        return res.render('postListing', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
+        return res.render('listing', {user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}});
     }
 
     //Todo
