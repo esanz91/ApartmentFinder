@@ -5,13 +5,13 @@ function init() {
     var page = pathArray.pop();
 
     if (page == 'search') {
-        document.getElementById("filter-link").onclick = toggleFilter;
+        document.getElementById("filter-link").onclick = toggleFilterOptions;
     }
 }
 
-function toggleFilter(){
-    var element = this;
-    var value = element.getAttribute("data-click-value");
+function toggleFilterOptions(){
+    var filterLink = this;
+    var value = filterLink.getAttribute("data-click-value");
 
     var listingNav = document.getElementById("listing-nav");
     var searchContentDiv = document.getElementById("search-content");
@@ -24,7 +24,7 @@ function toggleFilter(){
     var filterCssToRemove =  filterContentDiv.getAttribute("class");
 
     if(value == "off") {
-        element.setAttribute("data-click-value", "on");
+        filterLink.setAttribute("data-click-value", "on");
 
         var navCssToAdd = "content-display-none";
         var searchCssToAdd = "content-display-none";
@@ -37,12 +37,30 @@ function toggleFilter(){
         toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
     }
     else{
-        element.setAttribute("data-click-value", "off");
+        filterLink.setAttribute("data-click-value", "off");
 
-        var contentCssToAdd = "content-display-none";
+        var navCssToAdd = "content-display-none";
+        var searchCssToAdd = "content-display-none";
+        var filterCssToAdd = "content-display-none";
         var mapCssToAdd = "content-full-width";
 
-        toggleClass(filterContentDiv, contentCssToAdd, filterCssToRemove, true);
+        toggleClass(listingNav, navCssToAdd, navCssToRemove, true);
+        toggleClass(searchContentDiv, searchCssToAdd, searchCssToRemove, true);
+        toggleClass(filterContentDiv, filterCssToAdd, filterCssToRemove, true);
         toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
+    }
+}
+
+function removeFilterOptions(){
+    var filterLink = document.getElementById("filter-link");
+    var value = filterLink.getAttribute("data-click-value");
+    if (value == "on") {
+        filterLink.setAttribute("data-click-value", "off");
+
+        var filterContentDiv = document.getElementById("filter-content-div");
+        var filterCssToAdd = "content-display-none";
+        var filterCssToRemove = filterContentDiv.getAttribute("class");
+
+        toggleClass(filterContentDiv, filterCssToAdd, filterCssToRemove, true);
     }
 }

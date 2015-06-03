@@ -117,6 +117,7 @@ function addMarker(markerLocation) {
 
     // add window info
     google.maps.event.addListener(marker, 'click', function () {
+        removeFilterOptions();
         displayApartmentInfo(markerLocation);
         infoWindow.setContent(iwContent);
         infoWindow.open(map, marker);
