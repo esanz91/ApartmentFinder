@@ -1,6 +1,6 @@
 header, .custom-navbar-green {
     background-color: #84ABA4;
-    border-bottom: thin solid #428378;
+    border-bottom: thin solid #A4C1BC;
     /*background-color: #FF6700; //orange
     border-bottom: thin solid #FFA263; */
 }
@@ -65,5 +65,9 @@ ul.menu-items li a.active{
 }
 
 li {
+    cursor: pointer;
+}
+
+.cursor-pointer{
     cursor: pointer;
 }

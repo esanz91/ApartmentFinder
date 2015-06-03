@@ -143,7 +143,7 @@ function displayApartmentInfo(markerLocation) {
     var listingPets = document.getElementById("listing-pets");
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
-    var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
+    var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top content-text";
     var contentCssToRemove = "content-display-none";
     var mapCssToAdd = "content-65-width";
     var mapCssToRemove = "content-full-width";

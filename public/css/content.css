@@ -11,7 +11,7 @@
 .content-container {
     padding-top: 60px;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 40px);
 }
 
 .content-display-none {
@@ -31,7 +31,6 @@
 }
 
 .right-sidebar {
-    /*height: 100%;*/
     background-color: #FFFFFF;
     float: right;
     overflow-y:auto;
@@ -73,15 +72,6 @@
     display: block;
 }
 
-#search-box{
-    margin-top:12px;
-    padding:5px;
-    position:absolute;
-    left:70px;
-    top: 60px;
-    z-index:99;
-}
-
 .breadcrumb > li + li:before {
     content: "/ ";
     padding: 0 5px;
@@ -89,4 +79,9 @@
 
 .content-no-background-color{
     background-color: white;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle
 }
