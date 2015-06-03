@@ -145,9 +145,9 @@ function displayApartmentInfo(markerLocation) {
 
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top content-text";
-    var contentCssToRemove = "content-display-none";
+    var contentCssToRemove = searchContent.getAttribute("class")
     var mapCssToAdd = "content-65-width";
-    var mapCssToRemove = "content-full-width";
+    var mapCssToRemove = mapCanvas.getAttribute("class");
 
     toggleClass(listingNav, navCssToAdd, contentCssToRemove, true);
     toggleClass(searchContent, contentCssToAdd, contentCssToRemove, true);
