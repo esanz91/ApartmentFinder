@@ -160,7 +160,7 @@ function displayApartmentInfo(markerLocation) {
     showMsg(resultRent, true, "$" + markerLocation.aptDetails.rent);
     showMsg(resultMsg, true, "apartment info");
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
-    //requestUsername();
+
     requestUserFavorites("GET", traverseUserFavorites);
     //Todo: create displayAddtnlDetails function
 }
