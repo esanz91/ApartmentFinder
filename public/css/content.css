@@ -56,12 +56,24 @@
     width: 65%;
 }
 
+.content-25-width {
+    width: 25%;
+}
+
+.content-75-width {
+    width: 75%;
+}
+
 .content-no-margin {
     margin: 0px;
 }
 
 .content-right {
     right: 0px;
+}
+
+.content-float-left{
+    float: left;
 }
 
 .wrapper{

@@ -1,6 +1,5 @@
 window.onload = init();
 
-//account.handlebars
 function init() {
     var pathArray = window.location.pathname.split('/');
     var page = pathArray.pop();
