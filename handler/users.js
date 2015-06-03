@@ -61,6 +61,11 @@ exports.isValidEmail = function (req, res) {
 }
 
 exports.readUserFavorites = function(req, res){
+    console.log("req.session.username: " + req.session.username);
+    if(!req.session.username){
+        return res.status(401).send({msg: "unauthorized"});
+    }
+
     userModel.find({"local.username": req.session.username, "listings.favorites": {$exists: true}}, {"listings.favorites": 1, "_id": 0}, function(err, userFavorites) {
         // error
         if (err) {
@@ -68,7 +73,7 @@ exports.readUserFavorites = function(req, res){
         }
         // not found
         if ((!userFavorites) || (null === userFavorites) || (userFavorites.length == 0)) {
-            return res.status(404).send({msg: "not found"});
+            return res.status(404).send({msg: "not found", favorites: null});
         }
         // found
         if (userFavorites) {
@@ -79,6 +84,10 @@ exports.readUserFavorites = function(req, res){
 }
 
 exports.deleteUserFavoritesByListingId = function (req, res) {
+    if(!req.session.username){
+        return res.status(401).send({msg: "unauthorized"});
+    }
+
     var listingID = req.params.listingID;
     var query = {'local.username': req.session.username};
     var update = {'$pull': {'listings.favorites': listingID}};
@@ -102,6 +111,10 @@ exports.deleteUserFavoritesByListingId = function (req, res) {
 }
 
 exports.updateUserFavoritesByListingId = function (req, res) {
+    if(!req.session.username){
+        return res.status(401).send({msg: "unauthorized"});
+    }
+
     var listingID = req.params.listingID;
     var query = {'local.username': req.session.username, 'listings.favorites': {$ne: listingID}};
     var update = {$push: {'listings.favorites': listingID}};

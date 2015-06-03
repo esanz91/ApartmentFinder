@@ -26,7 +26,8 @@ function SessionHandler() {
             !(req.path == '/getMarkers')&&
             !(req.path == '/login') &&
             !(req.path == '/signup') &&
-            !(req.path == '/user') ||
+            !(req.path == '/user') &&
+            !(req.path == '/user/favorites/') ||
             (req.path == '/redirect')){
             return res.status(401).render('login', {
                 error: {msgs: "Please log in to proceed!"},

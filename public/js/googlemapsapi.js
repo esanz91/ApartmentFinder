@@ -142,8 +142,6 @@ function displayApartmentInfo(markerLocation) {
     // amenities
     var listingPets = document.getElementById("listing-pets");
 
-    requestUsername();
-
     var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
     var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top";
     var contentCssToRemove = "content-display-none";
@@ -162,7 +160,8 @@ function displayApartmentInfo(markerLocation) {
     showMsg(resultRent, true, "$" + markerLocation.aptDetails.rent);
     showMsg(resultMsg, true, "apartment info");
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
-
+    //requestUsername();
+    requestUserFavorites("GET", traverseUserFavorites);
     //Todo: create displayAddtnlDetails function
 }
 
