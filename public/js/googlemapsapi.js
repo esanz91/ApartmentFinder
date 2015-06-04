@@ -117,19 +117,25 @@ function addMarker(markerLocation) {
 
     // add window info
     google.maps.event.addListener(marker, 'click', function () {
-        removeFilterOptions();
-        displayApartmentInfo(markerLocation);
+
+        // get apt info
+        addApartmentInfo(markerLocation);
+
+        // display apt info
+        $("#filter-content-div").hide();
+        $('#map-canvas').addClass("content-65-width");
+        $("#search-content").show();
+
+        // display marker for apt
         infoWindow.setContent(iwContent);
         infoWindow.open(map, marker);
     });
 }
 
 //ToDo: Fix this up. Add mongodb id to "listing-id" element for identification purposes
-function displayApartmentInfo(markerLocation) {
+function addApartmentInfo(markerLocation) {
 
     var id = markerLocation._id;
-    var searchContent = document.getElementById("search-content");
-    var mapCanvas = document.getElementById("map-canvas");
 
     var resultMsg = document.getElementById("result-msg");
     var resultState = document.getElementById("result-state");
@@ -137,22 +143,7 @@ function displayApartmentInfo(markerLocation) {
     var resultAddress = document.getElementById("listing-address");
     var resultRent = document.getElementById("listing-rent");
     var listingDetail = document.getElementById("listing-detail");
-    var listingNav = document.getElementById("listing-nav");
     var listingId = document.getElementById("listing-id");
-
-    // amenities
-    var listingPets = document.getElementById("listing-pets");
-
-    var navCssToAdd = "navbar-inverse content-display-inline-block content-35-width";
-    var contentCssToAdd = "content-display-inline-block right-sidebar content-35-width content-padding content-padding-top content-text";
-    var contentCssToRemove = searchContent.getAttribute("class")
-    var mapCssToAdd = "content-65-width";
-    var mapCssToRemove = mapCanvas.getAttribute("class");
-
-    toggleClass(listingNav, navCssToAdd, contentCssToRemove, true);
-    toggleClass(searchContent, contentCssToAdd, contentCssToRemove, true);
-    toggleClass(mapCanvas, mapCssToAdd, mapCssToRemove, true);
-    floatLeft(mapCanvas);
 
     showMsg(listingId, true, id);
     showMsg(resultState, true, markerLocation.address.administrative_area_level_1);

@@ -3,7 +3,7 @@
     {{! FILTER NAV BAR}}
     <div id="filter-bar-div">
         <div id="filter-bar" class="spotaru-default-font">
-            <p id="filter-link" class="content-no-margin cursor-pointer" data-click-value="off">Filter Search</p>
+            <p id="filter-link" class="content-no-margin cursor-pointer">Filter Search</p>
         </div>
     </div>
 
@@ -21,9 +21,8 @@
         </div>
     </div>
 
-
     {{! FILTER CONTENT }}
-    <div id="filter-content-div" class="content-display-none">
+    <div id="filter-content-div" class="right-sidebar content-text">
         <div class="form-group">
             <fieldset>
                 <legend>Apartment Details</legend>
@@ -76,28 +75,28 @@
     </div>
 
 
-    {{! LISTING NAVBAR }}
-    <nav id="listing-nav" class="content-display-none">
-        <ul class="center-items">
-            <li>
-                <a id="contactLink" class="selected">Contact</a>
-            </li>
-            <li>
-                <a id="favoriteListingLink" class="selected">Favorite</a>
-            </li>
-            <li>
-                <a id="reportLink" class="selected">Report</a>
-            </li>
-            <li>
-                <a id="shareLink" class="selected">Share</a>
-            </li>
-        </ul>
-    </nav>
-
-
     {{! RESULTS PANE }}
-    <div id="search-content" class="content-display-none">
-        <div id="listing-div" class="col-xs-12 content-no-padding content-padding-top">
+    <div id="search-content" class="right-sidebar content-text">
+
+        {{! LISTING NAVBAR }}
+        <nav id="listing-nav" class="navbar-inverse">
+            <ul class="center-items">
+                <li>
+                    <a id="contactLink" class="selected">Contact</a>
+                </li>
+                <li>
+                    <a id="favoriteListingLink" class="selected">Favorite</a>
+                </li>
+                <li>
+                    <a id="reportLink" class="selected">Report</a>
+                </li>
+                <li>
+                    <a id="shareLink" class="selected">Share</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="listing-div" class="col-xs-12">
 
             <div id="listing-breadcrumb-div">
                 <ol class="breadcrumb content-no-padding content-no-background-color">
