@@ -10,6 +10,9 @@ function queryGoogleComponentsByType(type, components) {
         return item.long_name
     });
 }
+exports.readListing = function (req, res) {
+
+}
 
 exports.createListing = function (req, res) {
     "use strict";
