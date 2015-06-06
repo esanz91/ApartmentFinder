@@ -11,7 +11,13 @@ function queryGoogleComponentsByType(type, components) {
     });
 }
 exports.readListing = function (req, res) {
-
+    "use strict"
+    var address = req.query.postalAddress;
+    var bedrooms = req.query.bedrooms;
+    var bathrooms = req.query.bedrooms;
+    var minRent = req.query.minRent;
+    var maxRent = req.query.maxRent;
+    var sqft = req.query.sqft;
 }
 
 exports.createListing = function (req, res) {

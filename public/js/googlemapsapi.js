@@ -4,6 +4,34 @@ var infoWindow;
 var bounds;
 var username;
 
+//Todo: rewrite this function as requestListings
+function requestListings() {
+    var address = document.getElementById("postalAddress");
+    var bedrooms = document.getElementById("bedrooms");
+    var bathrooms = document.getElementById("bathrooms");
+    var minRent = document.getElementById("minRent");
+    var maxRent = document.getElementById("maxRent");
+    var sqft = document.getElementById("sqft");
+
+    // create request
+    var request = createRequest();
+    if (null === request) {
+        console.log("Could not create request");
+        return;
+    }
+
+    // init request
+    var postalAddress = address.value;
+    var urlParam = encodeURIComponent(postalAddress);
+    var url = "/getMarkers?" + address.id + "=" + urlParam;
+    request.onreadystatechange = function () {
+        //Todo: handle error or null
+        setMarkerLocations();
+    };
+    request.open("GET", url, true);
+    request.send(null);
+}
+
 function requestMarkers() {
     var element = document.getElementById("postalAddress");
 
