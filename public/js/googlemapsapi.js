@@ -6,12 +6,14 @@ var username;
 
 //Todo: rewrite this function as requestListings
 function requestListings() {
-    var address = document.getElementById("postalAddress");
-    var bedrooms = document.getElementById("bedrooms");
-    var bathrooms = document.getElementById("bathrooms");
-    var minRent = document.getElementById("minRent");
-    var maxRent = document.getElementById("maxRent");
-    var sqft = document.getElementById("sqft");
+    var postalAddress = document.getElementById("postalAddress") || null;
+    var bedrooms = document.getElementById("bedrooms") || null;
+    var bathrooms = document.getElementById("bathrooms") || null;
+    var minRent = document.getElementById("minRent")|| null;
+    var maxRent = document.getElementById("maxRent")|| null;
+    var sqft = document.getElementById("sqft")|| null;
+
+    var filters = [postalAddress, bedrooms, bathrooms, minRent, maxRent, sqft];
 
     // create request
     var request = createRequest();
@@ -21,16 +23,34 @@ function requestListings() {
     }
 
     // init request
-    var postalAddress = address.value;
-    var urlParam = encodeURIComponent(postalAddress);
-    var url = "/getMarkers?" + address.id + "=" + urlParam;
+    var url = "/listings?";
+    for(var i=0; i < filters.length; i++){
+        if(filters[i] != null){
+            var urlParam = encodeURIComponent(filters[i].value);
+            url += filters[i] + "=" + urlParam;
+        }
+    }
+    console.log("URL query: " + url);
+    //var urlParam = encodeURIComponent(postalAddress.value);
+    //var url = "/getMarkers?" + postalAddress.id + "=" + urlParam;
     request.onreadystatechange = function () {
-        //Todo: handle error or null
-        setMarkerLocations();
+        getListings();
     };
     request.open("GET", url, true);
     request.send(null);
 }
+
+function getListings() {
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            var response = JSON.parse(request.responseText);
+            if (response.msg == "found") {
+                alert(found);
+            }
+        }
+    }
+}
+
 
 function requestMarkers() {
     var element = document.getElementById("postalAddress");

@@ -12,12 +12,20 @@ function queryGoogleComponentsByType(type, components) {
 }
 exports.readListing = function (req, res) {
     "use strict"
-    var address = req.query.postalAddress;
-    var bedrooms = req.query.bedrooms;
-    var bathrooms = req.query.bedrooms;
-    var minRent = req.query.minRent;
-    var maxRent = req.query.maxRent;
-    var sqft = req.query.sqft;
+    var good;
+    var address = req.query.postalAddress || null;
+    var bedrooms = req.query.bedrooms || null;
+    var bathrooms = req.query.bedrooms || null;
+    var minRent = req.query.minRent || null;
+    var maxRent = req.query.maxRent || null;
+    var sqft = req.query.sqft || null;
+
+    //ToDo: add the non-null elements to array
+
+    return res.send({
+        msgs: "listing",
+        listing: listing
+    });
 }
 
 exports.createListing = function (req, res) {
