@@ -9,4 +9,16 @@ $(document).ready(function(){
     $("#bedrooms").change(function(){
         requestListings();
     });
+
+    $("#bedrooms").change(function(){
+        requestListings();
+    });
+
+    $("#minRent").change(function(){
+        requestListings();
+    });
+
+    $("#maxRent").change(function(){
+        requestListings();
+    });
 });

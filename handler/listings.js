@@ -20,7 +20,8 @@ exports.readListing = function (req, res) {
     var sqft = req.query.sqft || null;
     var minRent = req.query.minRent || null;
     var maxRent = req.query.maxRent || null;
-    var rent = null;
+    var minrent = null;
+    var maxrent = null;
 
     var filterLabels = ["aptDetails.bedrooms", "aptDetails.bathrooms", "minRent", "maxRent", "aptDetails.sqft"];
     var filterValues = [bedrooms, bathrooms, minRent, maxRent, sqft];
@@ -39,27 +40,34 @@ exports.readListing = function (req, res) {
     }
 
     // determine rent ranges
-    console.log("indexOf maxRent: " + filterLabels.indexOf("maxRent")==-1);
-    console.log("indexOf minRent: " + filterLabels.indexOf("minRent")==-1);
-    console.log("condition1: " + (filterLabels.indexOf("minRent") && filterLabels.indexOf("maxRent")==-1));
-    console.log("condition2:" + (filterLabels.indexOf("maxRent") && filterLabels.indexOf("minRent")==-1));
-    if ((filterLabels.indexOf("minRent") && filterLabels.indexOf("maxRent")==-1) || // minRent only
+    console.log("minRent: " + (minRent === null));
+    console.log("maxRent: " + (maxRent === null));
+    console.log("condition1: " + (minRent && !maxRent));
+    console.log("condition2:" + (maxRent && !minRent));
+    if ((minRent && !maxRent) || // minRent only
         (minRent > maxRent) ||      // minRent is greater than maxRent
         (minRent === maxRent)) {     // minRent is the same as maxRent
         console.log("set minRent only");
-        rent = minRent;
+        minrent = minRent;
     }
-    else if (filterLabels.indexOf("maxRent") && filterLabels.indexOf("minRent")==-1){ // maxRent only
+    else if (maxRent && !minRent){ // maxRent only
         console.log("set maxRent only");
-        rent = maxRent;
+        maxrent = maxRent;
     }
 
     // insert rent ranges to query
-    if(rent){
-        console.log("set rent as: " + rent);
-        query["aptDetails.rent"] = rent;
+    if(minrent){
+        console.log("set minrent as: " + minrent);
+        var rentQuery =  { $gte: minrent};
+        query["aptDetails.rent"] = rentQuery;
     }
-    else{
+    else if(maxrent) {
+        console.log("set maxrent as: " + minrent);
+        var rentQuery = {$lte: maxrent};
+        query["aptDetails.rent"] = rentQuery;
+    }
+    else if (minRent && maxRent){
+        console.log("set rent range");
         var rentQuery =  { $gte: minRent, $lte: maxRent };
         query["aptDetails.rent"] = rentQuery;
     }
