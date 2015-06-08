@@ -27,6 +27,9 @@ exports.readListing = function (req, res) {
     var filterValues = [bedrooms, bathrooms, minRent, maxRent, sqft];
     var query = {};
 
+    console.log("filterLabels w/null:\n" + filterLabels);
+    console.log("filterValues w/null:\n" + filterValues);
+
     // remove null values
     for(var i=0; i < filterValues.length; i++){
         if(filterValues[i] == null){
@@ -39,19 +42,22 @@ exports.readListing = function (req, res) {
         }
     }
 
+    console.log("current minRent: " + minRent);
+    console.log("current maxRent: " + maxRent);
+
     // determine rent ranges
-    console.log("minRent: " + (minRent === null));
-    console.log("maxRent: " + (maxRent === null));
-    console.log("condition1: " + (minRent && !maxRent));
-    console.log("condition2:" + (maxRent && !minRent));
-    if ((minRent && !maxRent) || // minRent only
-        (minRent > maxRent) ||      // minRent is greater than maxRent
-        (minRent === maxRent)) {     // minRent is the same as maxRent
-        console.log("set minRent only");
+    if ((minRent && maxRent === null) ||    // minRent only
+        (+minRent > +maxRent) ||              // minRent is greater than maxRent
+        (minRent === maxRent)) {            // minRent is the same as maxRent
+        console.log("set minRent " + minRent + " only, bc...");
+        console.log("maxRent is null?: " + (maxRent === null));
+        console.log("minRent > maxRent?: " + (minRent > maxRent));
+        console.log("minRent === maxRent?: " + (minRent === maxRent));
         minrent = minRent;
     }
-    else if (maxRent && !minRent){ // maxRent only
-        console.log("set maxRent only");
+    else if (maxRent && minRent === null){ // maxRent only
+        console.log("set maxRent " + maxRent + " only, bc...");
+        console.log("minRent is null?: " + (minRent === null));
         maxrent = maxRent;
     }
 
