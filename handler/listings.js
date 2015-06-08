@@ -10,22 +10,108 @@ function queryGoogleComponentsByType(type, components) {
         return item.long_name
     });
 }
+
 exports.readListing = function (req, res) {
     "use strict"
-    var good;
+
     var address = req.query.postalAddress || null;
     var bedrooms = req.query.bedrooms || null;
-    var bathrooms = req.query.bedrooms || null;
+    var bathrooms = req.query.bathrooms || null;
+    var sqft = req.query.sqft || null;
     var minRent = req.query.minRent || null;
     var maxRent = req.query.maxRent || null;
-    var sqft = req.query.sqft || null;
+    var rent = null;
 
-    //ToDo: add the non-null elements to array
+    var filterLabels = ["aptDetails.bedrooms", "aptDetails.bathrooms", "minRent", "maxRent", "aptDetails.sqft"];
+    var filterValues = [bedrooms, bathrooms, minRent, maxRent, sqft];
+    var query = {};
 
-    return res.send({
-        msgs: "listing",
-        listing: listing
+    // remove null values
+    for(var i=0; i < filterValues.length; i++){
+        if(filterValues[i] == null){
+            filterLabels.splice(i, 3);
+            filterValues.splice(i, 3);
+        }
+        else if(filterLabels[i] !== "minRent" && filterLabels[i] !== "maxRent"){
+            var filterLabel = filterLabels[i];
+            query[filterLabel] = filterValues[i];
+        }
+    }
+
+    // determine rent ranges
+    console.log("indexOf maxRent: " + filterLabels.indexOf("maxRent")==-1);
+    console.log("indexOf minRent: " + filterLabels.indexOf("minRent")==-1);
+    console.log("condition1: " + (filterLabels.indexOf("minRent") && filterLabels.indexOf("maxRent")==-1));
+    console.log("condition2:" + (filterLabels.indexOf("maxRent") && filterLabels.indexOf("minRent")==-1));
+    if ((filterLabels.indexOf("minRent") && filterLabels.indexOf("maxRent")==-1) || // minRent only
+        (minRent > maxRent) ||      // minRent is greater than maxRent
+        (minRent === maxRent)) {     // minRent is the same as maxRent
+        console.log("set minRent only");
+        rent = minRent;
+    }
+    else if (filterLabels.indexOf("maxRent") && filterLabels.indexOf("minRent")==-1){ // maxRent only
+        console.log("set maxRent only");
+        rent = maxRent;
+    }
+
+    // insert rent ranges to query
+    if(rent){
+        console.log("set rent as: " + rent);
+        query["aptDetails.rent"] = rent;
+    }
+    else{
+        var rentQuery =  { $gte: minRent, $lte: maxRent };
+        query["aptDetails.rent"] = rentQuery;
+    }
+
+    // print JSON query
+    console.log("filterLabels:\n" + filterLabels);
+    console.log("filterValues:\n" + filterValues);
+    console.log("filtersJSON:\n" + JSON.stringify(query));
+
+
+    // get google maps address type
+    request.post("http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=false", function (err, response, body) {
+        if (!err && response.statusCode === 200) {
+            var data = JSON.parse(body);
+            var type = data.results[0].types[0];
+            var addressTypeLabel = "address." + type;
+            var addressTypeValue = queryGoogleComponentsByType(type, data.results[0].address_components)[0];
+            query[addressTypeLabel] = addressTypeValue;
+
+            // query mongoDB for filters
+            /*
+            for(var i=0; i < filterLabels; i++){
+                query[filterLabels[i]] = filterValues[i];
+            }
+            */
+
+            console.log("query: " + JSON.stringify(query));
+
+            listingModel.find(query ,function (err, listings) {
+
+                // error
+                if (err) {
+                    return res.send({msg: "error"});
+                }
+                // listings not found
+                if ((!listings) || (null === listings) || (listings.length == 0)) {
+                    return res.send({msg: "no matches"});
+                }
+                // listings found
+                if (listings) {
+                    return res.json({msg: "match", listings: listings});
+                }
+            });
+
+        }
     });
+    /*
+    return res.send({
+        msg: "found listings",
+        listings: queryJSON
+    });
+    */
 }
 
 exports.createListing = function (req, res) {

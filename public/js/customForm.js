@@ -18,7 +18,7 @@ $(function () {
 
 //populate # of bathrooms
 $(function () {
-    for (var i = 0.5; i <= 6; i = i + .5) {
+    for (var i = 1; i <= 6; i = i + .5) {
         var option = $('<option></option>');
         option.attr('value', i);
         option.text(i);

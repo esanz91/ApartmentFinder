@@ -26,9 +26,14 @@ module.exports = exports = function(app) {
     app.delete('/user/favorites/:listingID', userHandler.deleteUserFavoritesByListingId);
 
     // Listing
-    app.get('/listings', contentHandler.displayListing);
-    app.get('/listings/:listingID', listingEndPoint.readListing);
-    app.post('/listings', listingEndPoint.createListing);
+    app.get('/postListing', contentHandler.displayListing);
+
+    app.get('/listing/:listingID', listingEndPoint.readListing);
+    app.post('/listing', listingEndPoint.createListing);
+
+    app.get('/listings', listingEndPoint.readListing);
+
+
     /*
     app.put('/listing/:listingID', listingEndPoint.updateListing);
     app.delete('/listing/:listingID', listingEndPoint.deleteListing);

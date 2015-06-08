@@ -25,10 +25,17 @@ function requestListings() {
     // init request
     var url = "/listings?";
     for(var i=0; i < filters.length; i++){
-        if(filters[i] != null){
+        if((filters[i] != null) && (filters[i].value.length > 0)){
+            console.log("filter: " + filters[i].id);
+            console.log("value: " + filters[i].value);
             var urlParam = encodeURIComponent(filters[i].value);
-            url += filters[i] + "=" + urlParam;
+            url += filters[i].id + "=" + urlParam + "&";
         }
+    }
+
+    console.log("last char in URL: " + url.charAt(url.length-1));
+    if(url.charAt(url.length-1) === "&"){
+        url = url.substr(0,url.length-1);
     }
     console.log("URL query: " + url);
     //var urlParam = encodeURIComponent(postalAddress.value);
@@ -44,8 +51,13 @@ function getListings() {
     if (request.readyState == 4) {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
-            if (response.msg == "found") {
-                alert(found);
+            if (response.msg == "no matches") {
+                alert("not found!");
+                console.log("not found!");
+            }
+            if (response.msg == "match") {
+                alert("found!");
+                console.log(response.listings);
             }
         }
     }
@@ -171,6 +183,7 @@ function addMarker(markerLocation) {
 
         // display apt info
         $("#filter-content-div").hide();
+        $('#map-canvas').removeClass("content-75-width");
         $('#map-canvas').addClass("content-65-width");
         $("#search-content").show();
 

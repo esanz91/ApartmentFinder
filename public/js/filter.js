@@ -5,4 +5,8 @@ $(document).ready(function(){
         $("#filter-content-div").slideToggle("slow");
         $('#map-canvas').toggleClass("content-75-width");
     });
+
+    $("#bedrooms").change(function(){
+        requestListings();
+    });
 });
