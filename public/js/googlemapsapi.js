@@ -7,13 +7,21 @@ var username;
 //Todo: rewrite this function as requestListings
 function requestListings() {
     var postalAddress = document.getElementById("postalAddress") || null;
-    var bedrooms = document.getElementById("bedrooms") || null;
-    var bathrooms = document.getElementById("bathrooms") || null;
+    var minBedrooms = document.getElementById("minBedrooms") || null;
+    var maxBedrooms = document.getElementById("maxBedrooms") || null;
+    var minBathrooms = document.getElementById("minBathrooms") || null;
+    var maxBathrooms = document.getElementById("maxBathrooms") || null;
     var minRent = document.getElementById("minRent")|| null;
     var maxRent = document.getElementById("maxRent")|| null;
     var sqft = document.getElementById("sqft")|| null;
 
-    var filters = [postalAddress, bedrooms, bathrooms, minRent, maxRent, sqft];
+    var filters = [postalAddress, minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft];
+
+    // check if address provided
+    if (postalAddress == null){
+        console.log("No specific location found");
+        return;
+    }
 
     // create request
     var request = createRequest();
@@ -28,6 +36,9 @@ function requestListings() {
         if((filters[i] != null) && (filters[i].value.length > 0)){
             console.log("filter: " + filters[i].id);
             console.log("value: " + filters[i].value);
+            if(filters[i].value === "any"){
+                continue;
+            }
             var urlParam = encodeURIComponent(filters[i].value);
             url += filters[i].id + "=" + urlParam + "&";
         }
@@ -38,8 +49,6 @@ function requestListings() {
         url = url.substr(0,url.length-1);
     }
     console.log("URL query: " + url);
-    //var urlParam = encodeURIComponent(postalAddress.value);
-    //var url = "/getMarkers?" + postalAddress.id + "=" + urlParam;
     request.onreadystatechange = function () {
         getListings();
     };
@@ -52,12 +61,33 @@ function getListings() {
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
             if (response.msg == "no matches") {
-                alert("not found!");
-                console.log("not found!");
+                console.log("no matches!");
             }
             if (response.msg == "match") {
-                alert("found!");
+                //alert("found!");
                 console.log(response.listings);
+                console.log("# search results: " + response.listings.length);
+
+                // Remove previous markers from map and bounds
+                setAllMap(null);
+                bounds = new google.maps.LatLngBounds();
+
+                // Create list of new markers
+                for (var i = 0; i < response.listings.length; i++) {
+                    addMarker(response.listings[i]);
+                }
+
+                // Add new markers to map
+                setAllMap(map);
+
+                // Re-center map to new location
+                if (markerList.length > 1) {
+                    //var center = bounds.getCenter();
+                    map.fitBounds(bounds);
+                }
+                else {
+                    map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
+                }
             }
         }
     }
@@ -263,7 +293,7 @@ function createMap() {
 
         // run only if search button found
         if (document.getElementById("search-button")) {
-            document.getElementById("search-button").onclick = requestMarkers;
+            document.getElementById("search-button").onclick = requestListings;
         }
     }
 }

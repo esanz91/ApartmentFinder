@@ -102,3 +102,15 @@ span {
 #listing-div{
     padding: 15px 60px 60px 60px;
 }
+
+.to-text-div{
+    position: relative;
+    min-height: 60px;
+    padding: 0px;
+}
+
+.to-text{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}

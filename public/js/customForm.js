@@ -1,27 +1,51 @@
 //populate # of bedrooms
 $(function () {
+    var maxOption = $('<option></option>');
+    maxOption.attr('value', null);
+    maxOption.text("any");
+    $('#maxBedrooms').append(maxOption);
     for (var i = 0; i <= 6; i++) {
         if (i == 0) {
-            var option = $('<option></option>');
-            option.attr('value', i);
-            option.text("studio");
-            $('#bedrooms').append(option);
+            var minOption = $('<option></option>');
+            minOption.attr('value', i);
+            minOption.text("studio");
+            $('#minBedrooms').append(minOption);
+
+            var maxOption = $('<option></option>');
+            maxOption.attr('value', i);
+            maxOption.text("studio");
+            $('#maxBedrooms').append(maxOption);
         }
         else {
-            var option = $('<option></option>');
-            option.attr('value', i);
-            option.text(i);
-            $('#bedrooms').append(option);
+            var minOption = $('<option></option>');
+            minOption.attr('value', i);
+            minOption.text(i);
+            $('#minBedrooms').append(minOption);
+
+            var maxOption = $('<option></option>');
+            maxOption.attr('value', i);
+            maxOption.text(i);
+            $('#maxBedrooms').append(maxOption);
         }
     }
 });
 
 //populate # of bathrooms
 $(function () {
+    var maxOption = $('<option></option>');
+    maxOption.attr('value', null);
+    maxOption.text("any");
+    $('#maxBathrooms').append(maxOption);
+
     for (var i = 1; i <= 6; i = i + .5) {
-        var option = $('<option></option>');
-        option.attr('value', i);
-        option.text(i);
-        $('#bathrooms').append(option);
+        var minOption = $('<option></option>');
+        minOption.attr('value', i);
+        minOption.text(i);
+        $('#minBathrooms').append(minOption);
+
+        var maxOption = $('<option></option>');
+        maxOption.attr('value', i);
+        maxOption.text(i);
+        $('#maxBathrooms').append(maxOption);
     }
 });

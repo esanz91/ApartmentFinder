@@ -27,33 +27,58 @@
             <fieldset>
                 <legend>Apartment Details</legend>
 
-                <div class="col-xs-6 form-padding-top">
-                    <label class="control-label" for="bedrooms">Bedrooms</label>
-                    <select class="form-control" name="bedrooms" id="bedrooms"></select>
-                </div>
-                <div class="col-xs-6 form-padding-top">
-                    <label class="control-label" for="bathrooms">Bathrooms</label>
-                    <select class="form-control" name="bathrooms" id="bathrooms"></select>
-                </div>
+                <fieldset>
+                    <legend>Bedroooms</legend>
+                    <div class="col-xs-5 form-padding-top">
+                        <label class="control-label" for="minBedrooms">min</label>
+                        <select class="form-control" name="minBedrooms" id="minBedrooms"></select>
+                    </div>
+                    <div class="col-xs-1 to-text-div">
+                        <div class="to-text">to</div>
+                    </div>
+                    <div class="col-xs-5 form-padding-top">
+                        <label class="control-label" for="maxBedrooms">max</label>
+                        <select class="form-control" name="maxBedrooms" id="maxBedrooms"></select>
+                    </div>
+                </fieldset>
 
-                <div class="col-xs-12 form-padding-top">
-                    <label class="control-label">Rent
-                        <div class="input-group">
-                            <div class="input-group-addon">$</div>
+                <fieldset>
+                    <legend>Bathrooms</legend>
+                    <div class="col-xs-5 form-padding-top">
+                        <label class="control-label" for="minBathrooms">min</label>
+                        <select class="form-control" name="minBathrooms" id="minBathrooms"></select>
+                    </div>
+                    <div class="col-xs-1 to-text-div">
+                        <div class="to-text">to</div>
+                    </div>
+                    <div class="col-xs-5 form-padding-top">
+                        <label class="control-label" for="maxBathrooms">max</label>
+                        <select class="form-control" name="maxBathrooms" id="maxBathrooms"></select>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Rent</legend>
+                        <div class="col-xs-5">
+                            <label class="control-label" for="minRent">max</label>
                             <input type="text" class="form-control" name="minRent" id="minRent" placeholder="min">
                         </div>
-                        <div class="input-group">
-                            <div class="input-group-addon">$</div>
+                        <div class="col-xs-1 to-text-div">
+                            <div class="to-text">to</div>
+                        </div>
+                        <div class="col-xs-5">
+                            <label class="control-label" for="maxRent">min</label>
                             <input type="text" class="form-control" name="maxRent" id="maxRent" placeholder="max">
                         </div>
-                    </label>
+                </fieldset>
 
-                </div>
-
-                <div class="col-xs-12 form-padding-top">
-                    <label class="control-label" for="sqft">Square Feet</label>
-                    <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
-                </div>
+                <fieldset>
+                    <legend>Space</legend>
+                    <div class="col-xs-12 form-padding-top">
+                        <label class="control-label" for="sqft">Square Feet</label>
+                        <input type="text" class="form-control" name="sqft" id="sqft" placeholder="Square Feet">
+                    </div>
+                </fieldset>
 
             </fieldset>
         </div>

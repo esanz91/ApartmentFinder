@@ -11,20 +11,62 @@ function queryGoogleComponentsByType(type, components) {
     });
 }
 
+function addToQuery(query, category, minInput, maxInput){
+    var mininput = null;
+    var maxinput = null;
+
+    // determine rent ranges
+    if ((minInput && maxInput === null) ||    // minRent only
+        (+minInput > +maxInput) ||              // minRent is greater than maxRent
+        (minInput === maxInput)) {            // minRent is the same as maxRent
+        console.log("set minRent " + minInput + " only, bc...");
+        console.log("maxRent is null?: " + (maxInput === null));
+        console.log("minRent > maxRent?: " + (minInput > maxInput));
+        console.log("minRent === maxRent?: " + (minInput === maxInput));
+        mininput = minInput;
+    }
+    else if (maxInput && minInput === null){ // maxRent only
+        console.log("set maxRent " + maxInput + " only, bc...");
+        console.log("minRent is null?: " + (minInput === null));
+        maxinput = maxInput;
+    }
+
+    // insert rent ranges to query
+    if(mininput){
+        console.log("set minrent as: " + mininput);
+        var rentQuery =  { $gte: mininput};
+        query[category] = rentQuery;
+    }
+    else if(maxinput) {
+        console.log("set maxrent as: " + mininput);
+        var rentQuery = {$lte: maxinput};
+        query[category] = rentQuery;
+    }
+    else if (minInput && maxInput){
+        console.log("set rent range");
+        var rentQuery =  { $gte: minInput, $lte: maxInput };
+        query[category] = rentQuery;
+    }
+
+    return query;
+}
+
 exports.readListing = function (req, res) {
     "use strict"
 
     var address = req.query.postalAddress || null;
-    var bedrooms = req.query.bedrooms || null;
-    var bathrooms = req.query.bathrooms || null;
+    var minBedrooms = req.query.minBedrooms || null;
+    var maxBedrooms = req.query.maxBedrooms || null;
+    var minBathrooms = req.query.minBathrooms || null;
+    var maxBathrooms = req.query.maxBathrooms || null;
     var sqft = req.query.sqft || null;
     var minRent = req.query.minRent || null;
     var maxRent = req.query.maxRent || null;
-    var minrent = null;
-    var maxrent = null;
+    //var minrent = null;
+    //var maxrent = null;
 
-    var filterLabels = ["aptDetails.bedrooms", "aptDetails.bathrooms", "minRent", "maxRent", "aptDetails.sqft"];
-    var filterValues = [bedrooms, bathrooms, minRent, maxRent, sqft];
+    var filterLabels = ["minBedrooms", "maxBedrooms", "minBathrooms", "maxBathrooms", "minRent", "maxRent", "aptDetails.sqft"];
+    var filterValues = [minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft];
     var query = {};
 
     console.log("filterLabels w/null:\n" + filterLabels);
@@ -36,51 +78,20 @@ exports.readListing = function (req, res) {
             filterLabels.splice(i, 3);
             filterValues.splice(i, 3);
         }
-        else if(filterLabels[i] !== "minRent" && filterLabels[i] !== "maxRent"){
+        else if(filterLabels[i] === "aptDetails.sqft"){
             var filterLabel = filterLabels[i];
             query[filterLabel] = filterValues[i];
         }
     }
 
-    console.log("current minRent: " + minRent);
-    console.log("current maxRent: " + maxRent);
-
-    // determine rent ranges
-    if ((minRent && maxRent === null) ||    // minRent only
-        (+minRent > +maxRent) ||              // minRent is greater than maxRent
-        (minRent === maxRent)) {            // minRent is the same as maxRent
-        console.log("set minRent " + minRent + " only, bc...");
-        console.log("maxRent is null?: " + (maxRent === null));
-        console.log("minRent > maxRent?: " + (minRent > maxRent));
-        console.log("minRent === maxRent?: " + (minRent === maxRent));
-        minrent = minRent;
-    }
-    else if (maxRent && minRent === null){ // maxRent only
-        console.log("set maxRent " + maxRent + " only, bc...");
-        console.log("minRent is null?: " + (minRent === null));
-        maxrent = maxRent;
-    }
-
-    // insert rent ranges to query
-    if(minrent){
-        console.log("set minrent as: " + minrent);
-        var rentQuery =  { $gte: minrent};
-        query["aptDetails.rent"] = rentQuery;
-    }
-    else if(maxrent) {
-        console.log("set maxrent as: " + minrent);
-        var rentQuery = {$lte: maxrent};
-        query["aptDetails.rent"] = rentQuery;
-    }
-    else if (minRent && maxRent){
-        console.log("set rent range");
-        var rentQuery =  { $gte: minRent, $lte: maxRent };
-        query["aptDetails.rent"] = rentQuery;
-    }
-
-    // print JSON query
     console.log("filterLabels:\n" + filterLabels);
     console.log("filterValues:\n" + filterValues);
+
+    query = addToQuery(query, "aptDetails.bedrooms", minBedrooms, maxBedrooms);
+    query = addToQuery(query, "aptDetails.bathrooms", minBathrooms, maxBathrooms);
+    query = addToQuery(query, "aptDetails.rent", minRent, maxRent);
+
+    // print JSON query
     console.log("filtersJSON:\n" + JSON.stringify(query));
 
 
@@ -114,7 +125,7 @@ exports.readListing = function (req, res) {
                 }
                 // listings found
                 if (listings) {
-                    return res.json({msg: "match", listings: listings});
+                    return res.json({msg: "match", listings: listings, focus: data.results[0].geometry.location});
                 }
             });
 

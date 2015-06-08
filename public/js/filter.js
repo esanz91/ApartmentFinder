@@ -6,11 +6,19 @@ $(document).ready(function(){
         $('#map-canvas').toggleClass("content-75-width");
     });
 
-    $("#bedrooms").change(function(){
+    $("#minBedrooms").change(function(){
         requestListings();
     });
 
-    $("#bedrooms").change(function(){
+    $("#maxBedrooms").change(function(){
+        requestListings();
+    });
+
+    $("#minBathrooms").change(function(){
+        requestListings();
+    });
+
+    $("#maxBathrooms").change(function(){
         requestListings();
     });
 
