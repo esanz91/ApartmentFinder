@@ -16,18 +16,16 @@ function addToQuery(query, category, minInput, maxInput){
     var maxinput = null;
 
     // determine rent ranges
-    if ((minInput && maxInput === null) ||    // minRent only
-        (+minInput > +maxInput) ||              // minRent is greater than maxRent
-        (minInput === maxInput)) {            // minRent is the same as maxRent
-        console.log("set minRent " + minInput + " only, bc...");
-        console.log("maxRent is null?: " + (maxInput === null));
-        console.log("minRent > maxRent?: " + (minInput > maxInput));
-        console.log("minRent === maxRent?: " + (minInput === maxInput));
+    if ((minInput && (maxInput === null)) ||    // minRent only
+        (+minInput > +maxInput)){             // minRent is greater than maxRent
+        console.log("set min " + category + " " + minInput + " only, bc...");
+        console.log("max " + category + " is null?: " + (maxInput === null));
+        console.log("min" + category +" > max" + category + "?: " + (minInput > maxInput));
         mininput = minInput;
     }
-    else if (maxInput && minInput === null){ // maxRent only
-        console.log("set maxRent " + maxInput + " only, bc...");
-        console.log("minRent is null?: " + (minInput === null));
+    else if (maxInput && (minInput === null)){ // maxRent only
+        console.log("set max " + category + " " + maxInput + " only, bc...");
+        console.log("min" + category + " is null?: " + (minInput === null));
         maxinput = maxInput;
     }
 
@@ -62,36 +60,40 @@ exports.readListing = function (req, res) {
     var sqft = req.query.sqft || null;
     var minRent = req.query.minRent || null;
     var maxRent = req.query.maxRent || null;
-    //var minrent = null;
-    //var maxrent = null;
 
+    //TODO: remove filterLabels and filterValues
     var filterLabels = ["minBedrooms", "maxBedrooms", "minBathrooms", "maxBathrooms", "minRent", "maxRent", "aptDetails.sqft"];
     var filterValues = [minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft];
     var query = {};
 
+    // print JSON query
     console.log("filterLabels w/null:\n" + filterLabels);
     console.log("filterValues w/null:\n" + filterValues);
 
-    // remove null values
+    //TODO: remove unnecessary for loop
     for(var i=0; i < filterValues.length; i++){
         if(filterValues[i] == null){
             filterLabels.splice(i, 3);
             filterValues.splice(i, 3);
         }
         else if(filterLabels[i] === "aptDetails.sqft"){
+            console.log("sqft: " + filterValues[i]);
             var filterLabel = filterLabels[i];
-            query[filterLabel] = filterValues[i];
+            var sqftQuery = {$gte: filterValues[i]};
+            query[filterLabel] = sqftQuery;
         }
     }
-
-    console.log("filterLabels:\n" + filterLabels);
-    console.log("filterValues:\n" + filterValues);
 
     query = addToQuery(query, "aptDetails.bedrooms", minBedrooms, maxBedrooms);
     query = addToQuery(query, "aptDetails.bathrooms", minBathrooms, maxBathrooms);
     query = addToQuery(query, "aptDetails.rent", minRent, maxRent);
+    if(sqft !== null) {
+        query["aptDetails.sqft"] = {$gte: sqft};
+    }
 
     // print JSON query
+    console.log("filterLabels:\n" + filterLabels);
+    console.log("filterValues:\n" + filterValues);
     console.log("filtersJSON:\n" + JSON.stringify(query));
 
 
@@ -103,13 +105,6 @@ exports.readListing = function (req, res) {
             var addressTypeLabel = "address." + type;
             var addressTypeValue = queryGoogleComponentsByType(type, data.results[0].address_components)[0];
             query[addressTypeLabel] = addressTypeValue;
-
-            // query mongoDB for filters
-            /*
-            for(var i=0; i < filterLabels; i++){
-                query[filterLabels[i]] = filterValues[i];
-            }
-            */
 
             console.log("query: " + JSON.stringify(query));
 
@@ -131,12 +126,6 @@ exports.readListing = function (req, res) {
 
         }
     });
-    /*
-    return res.send({
-        msg: "found listings",
-        listings: queryJSON
-    });
-    */
 }
 
 exports.createListing = function (req, res) {

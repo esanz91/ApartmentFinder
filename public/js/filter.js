@@ -29,4 +29,8 @@ $(document).ready(function(){
     $("#maxRent").change(function(){
         requestListings();
     });
+
+    $("#sqft").change(function(){
+        requestListings();
+    });
 });
