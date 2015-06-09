@@ -1,4 +1,4 @@
-//populate # of bedrooms
+// populate # of bedrooms
 $(function () {
     var maxOption = $('<option></option>');
     maxOption.attr('value', null);
@@ -10,6 +10,7 @@ $(function () {
             minOption.attr('value', i);
             minOption.text("studio");
             $('#minBedrooms').append(minOption);
+            $('#bedrooms').append(minOption);
 
             var maxOption = $('<option></option>');
             maxOption.attr('value', i);
@@ -21,6 +22,7 @@ $(function () {
             minOption.attr('value', i);
             minOption.text(i);
             $('#minBedrooms').append(minOption);
+            $('#bedrooms').append(minOption);
 
             var maxOption = $('<option></option>');
             maxOption.attr('value', i);
@@ -42,6 +44,7 @@ $(function () {
         minOption.attr('value', i);
         minOption.text(i);
         $('#minBathrooms').append(minOption);
+        $('#bathrooms').append(minOption);
 
         var maxOption = $('<option></option>');
         maxOption.attr('value', i);
