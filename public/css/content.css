@@ -114,3 +114,13 @@ span {
     bottom: 0px;
     left: 0px;
 }
+
+.checkbox-grid{
+    padding: 0px;
+}
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 50%;
+}

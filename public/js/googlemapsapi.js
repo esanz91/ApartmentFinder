@@ -15,7 +15,7 @@ function requestListings() {
     var maxRent = document.getElementById("maxRent")|| null;
     var sqft = document.getElementById("sqft")|| null;
 
-    var filters = [postalAddress, minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft];
+    var filters = [ postalAddress, minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft]; //apartment details
 
     // check if address provided
     if (postalAddress == null){
@@ -30,21 +30,36 @@ function requestListings() {
         return;
     }
 
-    // init request
+    console.log("filters array: " + filters);
+
+    // add range values to URL
     var url = "/listings?";
     for(var i=0; i < filters.length; i++){
-        if((filters[i] != null) && (filters[i].value.length > 0)){
-            console.log("filter: " + filters[i].id);
-            console.log("value: " + filters[i].value);
+        if(filters[i].value != null && (filters[i].value.length > 0)){
             if(filters[i].value === "any"){
                 continue;
             }
+            console.log("filter: " + filters[i].id);
+            console.log("value: " + filters[i].value);
             var urlParam = encodeURIComponent(filters[i].value);
             url += filters[i].id + "=" + urlParam + "&";
         }
     }
 
+    // add checkbox values to URL
+    var checkboxFilters = document.querySelectorAll(".pet-checkbox, .amenities-checkbox");
+    for(var i=0; i < checkboxFilters.length; i++){
+        if(checkboxFilters[i].checked ==true){
+            console.log("filter: " + checkboxFilters[i].id);
+            console.log("value: " + checkboxFilters[i].value);
+
+            var urlParam = encodeURIComponent(true);
+            url += checkboxFilters[i].id + "=" + urlParam + "&";
+        }
+    }
+
     console.log("last char in URL: " + url.charAt(url.length-1));
+
     if(url.charAt(url.length-1) === "&"){
         url = url.substr(0,url.length-1);
     }
@@ -58,6 +73,7 @@ function requestListings() {
 
 function getListings() {
     if (request.readyState == 4) {
+        //TODO: handle other status codes
         if (request.status == 200) {
             var response = JSON.parse(request.responseText);
             if (response.msg == "no matches") {
@@ -75,71 +91,6 @@ function getListings() {
                 // Create list of new markers
                 for (var i = 0; i < response.listings.length; i++) {
                     addMarker(response.listings[i]);
-                }
-
-                // Add new markers to map
-                setAllMap(map);
-
-                // Re-center map to new location
-                if (markerList.length > 1) {
-                    //var center = bounds.getCenter();
-                    map.fitBounds(bounds);
-                }
-                else {
-                    map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
-                }
-            }
-        }
-    }
-}
-
-
-function requestMarkers() {
-    var element = document.getElementById("postalAddress");
-
-    // create request
-    var request = createRequest();
-    if (null === request) {
-        console.log("Could not create request");
-        return;
-    }
-
-    // init request
-    var postalAddress = element.value;
-    var urlParam = encodeURIComponent(postalAddress);
-    var url = "/getMarkers?" + element.id + "=" + urlParam;
-    request.onreadystatechange = function () {
-        //Todo: handle error or null
-        setMarkerLocations();
-    };
-    request.open("GET", url, true);
-    request.send(null);
-}
-
-function setMarkerLocations() {
-    if (request.readyState == 4) {
-        if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.msg == "error") {
-                alert(error);
-                return error;
-            }
-            if (response.msg == "no matches") {
-                alert("no matches");
-                // Remove previous markers from map
-                setAllMap(null);
-                return null;
-            }
-            if (response.msg == "match") {
-                console.log("# search results: " + response.locations.length);
-
-                // Remove previous markers from map and bounds
-                setAllMap(null);
-                bounds = new google.maps.LatLngBounds();
-
-                // Create list of new markers
-                for (var i = 0; i < response.locations.length; i++) {
-                    addMarker(response.locations[i]);
                 }
 
                 // Add new markers to map
