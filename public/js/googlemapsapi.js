@@ -29,8 +29,6 @@ function requestListings() {
         return;
     }
 
-    console.log("filters array: " + filters);
-
     // add range values to URL
     var url = "/listings?";
     for(var i=0; i < filters.length; i++){
@@ -38,8 +36,6 @@ function requestListings() {
             if(filters[i].value === "any"){
                 continue;
             }
-            console.log("filter: " + filters[i].id);
-            console.log("value: " + filters[i].value);
             var urlParam = encodeURIComponent(filters[i].value);
             url += filters[i].id + "=" + urlParam + "&";
         }
@@ -49,20 +45,17 @@ function requestListings() {
     var checkboxFilters = document.querySelectorAll(".pet-checkbox, .amenities-checkbox");
     for(var i=0; i < checkboxFilters.length; i++){
         if(checkboxFilters[i].checked ==true){
-            console.log("filter: " + checkboxFilters[i].id);
-            console.log("value: " + checkboxFilters[i].value);
-
             var urlParam = encodeURIComponent(true);
             url += checkboxFilters[i].id + "=" + urlParam + "&";
         }
     }
 
-    console.log("last char in URL: " + url.charAt(url.length-1));
-
     if(url.charAt(url.length-1) === "&"){
         url = url.substr(0,url.length-1);
     }
+
     console.log("URL query: " + url);
+    
     request.onreadystatechange = function () {
         getListings();
     };
@@ -174,7 +167,6 @@ function addMarker(markerLocation) {
     });
 }
 
-//ToDo: Fix this up. Add mongodb id to "listing-id" element for identification purposes
 function addApartmentInfo(markerLocation) {
 
     var id = markerLocation._id;
@@ -196,7 +188,7 @@ function addApartmentInfo(markerLocation) {
     showMsg(listingDetail, true, markerLocation.aptDetails.bedrooms + " bed/" + markerLocation.aptDetails.bathrooms + " bath");
 
     requestUserFavorites("GET", traverseUserFavorites);
-    //Todo: create displayAddtnlDetails function
+    //TODO: create displayAddtnlDetails function
 }
 
 function createMap() {
@@ -262,7 +254,6 @@ function showMap(mapOptions) {
         });
     }
 }
-
 
 function getLatLong(address, callback) {
 

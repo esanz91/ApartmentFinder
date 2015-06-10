@@ -5,6 +5,10 @@
 	float:left;
 }
 
+.max-map-size{
+	width: calc(100% - 300px);
+}
+
 #search-box {
 	margin-top:52px;
 	padding:5px;
