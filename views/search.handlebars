@@ -26,61 +26,59 @@
 
         <div class="form-group">
             <fieldset>
-                <legend>Apartment Details</legend>
-
-                <fieldset>
-                    <legend>Bedroooms</legend>
-                    <div class="col-xs-5 form-padding-top">
-                        <label class="control-label" for="minBedrooms">min</label>
-                        <select class="form-control" id="minBedrooms"></select>
+                <legend>Bedroooms</legend>
+                <div class="col-xs-5 form-padding-top">
+                    <label class="control-label" for="minBedrooms">min</label>
+                    <select class="form-control filter" id="minBedrooms"></select>
+                </div>
+                <div class="col-xs-1 to-text-div">
+                    <div class="to-text">to</div>
+                </div>
+                <div class="col-xs-5 form-padding-top">
+                    <label class="control-label" for="maxBedrooms">max</label>
+                    <select class="form-control filter" id="maxBedrooms"></select>
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <fieldset>
+                <legend>Bathrooms</legend>
+                <div class="col-xs-5 form-padding-top">
+                    <label class="control-label" for="minBathrooms">min</label>
+                    <select class="form-control filter" id="minBathrooms"></select>
+                </div>
+                <div class="col-xs-1 to-text-div">
+                    <div class="to-text">to</div>
+                </div>
+                <div class="col-xs-5 form-padding-top">
+                    <label class="control-label" for="maxBathrooms">max</label>
+                    <select class="form-control filter" id="maxBathrooms"></select>
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <fieldset>
+                <legend>Rent</legend>
+                    <div class="col-xs-5">
+                        <label class="control-label" for="minRent">max</label>
+                        <input type="text" class="form-control filter" id="minRent" placeholder="min">
                     </div>
                     <div class="col-xs-1 to-text-div">
                         <div class="to-text">to</div>
                     </div>
-                    <div class="col-xs-5 form-padding-top">
-                        <label class="control-label" for="maxBedrooms">max</label>
-                        <select class="form-control" id="maxBedrooms"></select>
+                    <div class="col-xs-5">
+                        <label class="control-label" for="maxRent">min</label>
+                        <input type="text" class="form-control filter" id="maxRent" placeholder="max">
                     </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Bathrooms</legend>
-                    <div class="col-xs-5 form-padding-top">
-                        <label class="control-label" for="minBathrooms">min</label>
-                        <select class="form-control" id="minBathrooms"></select>
-                    </div>
-                    <div class="col-xs-1 to-text-div">
-                        <div class="to-text">to</div>
-                    </div>
-                    <div class="col-xs-5 form-padding-top">
-                        <label class="control-label" for="maxBathrooms">max</label>
-                        <select class="form-control" id="maxBathrooms"></select>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Rent</legend>
-                        <div class="col-xs-5">
-                            <label class="control-label" for="minRent">max</label>
-                            <input type="text" class="form-control" id="minRent" placeholder="min">
-                        </div>
-                        <div class="col-xs-1 to-text-div">
-                            <div class="to-text">to</div>
-                        </div>
-                        <div class="col-xs-5">
-                            <label class="control-label" for="maxRent">min</label>
-                            <input type="text" class="form-control" id="maxRent" placeholder="max">
-                        </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Space</legend>
-                    <div class="col-xs-12 form-padding-top">
-                        <label class="control-label" for="sqft">Square Feet</label>
-                        <input type="text" class="form-control" name="sqft" id="sqft" placeholder="min sqft">
-                    </div>
-                </fieldset>
-
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <fieldset>
+                <legend>Space</legend>
+                <div class="col-xs-12 form-padding-top">
+                    <label class="control-label" for="sqft">Square Feet</label>
+                    <input type="text" class="form-control filter" name="sqft" id="sqft" placeholder="min sqft">
+                </div>
             </fieldset>
         </div>
 
@@ -88,10 +86,10 @@
             <fieldset>
                 <legend>Pets</legend>
                 <label class="checkbox-inline">
-                    <input class="pet-checkbox" type="checkbox" id="dogs"> Dogs allowed <br>
+                    <input class="pet-checkbox filter" type="checkbox" id="dogs"> Dogs allowed <br>
                 </label>
                 <label class="checkbox-inline">
-                    <input class="pet-checkbox" type="checkbox" id="dogs"> Cats allowed <br>
+                    <input class="pet-checkbox filter" type="checkbox" id="dogs"> Cats allowed <br>
                 </label>
             </fieldset>
         </div>
@@ -102,38 +100,37 @@
                 <ul class="checkbox-grid">
                     <li>
                         <label class="checkbox-inline" for="centralAir">
-                        <input class="amenities-checkbox" type="checkbox" id="centralAir" /> Central Air <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="centralAir" /> Central Air <br>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox-inline" for="dishwasher">
-                        <input class="amenities-checkbox" type="checkbox" id="dishwasher" /> Dishwasher <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="dishwasher" /> Dishwasher <br>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox-inline" for="elevator">
-                        <input class="amenities-checkbox" type="checkbox" id="elevator" /> Elevator <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="elevator" /> Elevator <br>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox-inline" for="gym">
-                        <input class="amenities-checkbox" type="checkbox" id="gym" /> Gym <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="gym" /> Gym <br>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox-inline" for="pool">
-                        <input class="amenities-checkbox" type="checkbox" id="pool" /> Pool <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="pool" /> Pool <br>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox-inline" for="washerDryer">
-                        <input class="amenities-checkbox" type="checkbox" id="washerDryer" /> Washer/Dryer <br>
+                        <input class="amenities-checkbox filter" type="checkbox" id="washerDryer" /> Washer/Dryer <br>
                         </label>
                     </li>
                 </ul>
             </fieldset>
         </div>
-
     </div>
 
 

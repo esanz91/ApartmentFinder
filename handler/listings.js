@@ -86,21 +86,19 @@ exports.readListing = function (req, res) {
     console.log("filterValues w/null:\n" + filterValues);
 
     for(var i=0; i < filterValues.length; i++){
-        if(filterValues[i] == null){
-            filterLabels.splice(i, 3);
-            filterValues.splice(i, 3);
-        }
-        else if(i <= 1){
-            var filterLabel = "extraDetails.pets." + filterLabels[i];
-            var petsQuery = true;
-            query[filterLabel] = petsQuery;
+        if(filterValues[i] !== null){
+            if (i <= 1) {
+                var filterLabel = "extraDetails.pets." + filterLabels[i];
+                var petsQuery = true;
+                query[filterLabel] = petsQuery;
 
-            console.log(filterLabel);
-        }
-        else{
-            var filterLabel = "extraDetails.amenities." + filterLabels[i];
-            var amenitiesQuery = true;
-            query[filterLabel] = amenitiesQuery;
+                console.log(filterLabel);
+            }
+            else {
+                var filterLabel = "extraDetails.amenities." + filterLabels[i];
+                var amenitiesQuery = true;
+                query[filterLabel] = amenitiesQuery;
+            }
         }
     }
 

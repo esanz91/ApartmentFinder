@@ -17,7 +17,7 @@ function requestListings() {
     var filters = [ postalAddress, minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft]; //apartment details
 
     // check if address provided
-    if (postalAddress == null){
+    if (postalAddress === null || postalAddress.value.length == 0){
         console.log("No specific location found");
         return;
     }
@@ -77,9 +77,9 @@ function getListings() {
             var response = JSON.parse(request.responseText);
             if (response.msg == "no matches") {
                 console.log("no matches!");
+                setAllMap(null);
             }
             if (response.msg == "match") {
-                //alert("found!");
                 console.log(response.listings);
                 console.log("# search results: " + response.listings.length);
 
@@ -95,14 +95,15 @@ function getListings() {
                 // Add new markers to map
                 setAllMap(map);
 
-                // Re-center map to new location
-                if (markerList.length > 1) {
-                    //var center = bounds.getCenter();
-                    map.fitBounds(bounds);
+                // Don't zoom in too far on only one marker
+                if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+                    var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.01, bounds.getNorthEast().lng() + 0.01);
+                    var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.01, bounds.getNorthEast().lng() - 0.01);
+                    bounds.extend(extendPoint1);
+                    bounds.extend(extendPoint2);
                 }
-                else {
-                    map.setCenter(new google.maps.LatLng(response.focus.lat, response.focus.lng));
-                }
+
+                map.fitBounds(bounds);
             }
         }
     }

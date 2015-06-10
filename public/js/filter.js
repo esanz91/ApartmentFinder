@@ -6,31 +6,7 @@ $(document).ready(function(){
         $('#map-canvas').toggleClass("content-75-width");
     });
 
-    $("#minBedrooms").change(function(){
-        requestListings();
-    });
-
-    $("#maxBedrooms").change(function(){
-        requestListings();
-    });
-
-    $("#minBathrooms").change(function(){
-        requestListings();
-    });
-
-    $("#maxBathrooms").change(function(){
-        requestListings();
-    });
-
-    $("#minRent").change(function(){
-        requestListings();
-    });
-
-    $("#maxRent").change(function(){
-        requestListings();
-    });
-
-    $("#sqft").change(function(){
+    $(".filter").change(function(){
         requestListings();
     });
 
