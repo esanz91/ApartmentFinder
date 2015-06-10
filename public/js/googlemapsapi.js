@@ -4,8 +4,8 @@ var infoWindow;
 var bounds;
 var username;
 
-//Todo: rewrite this function as requestListings
 function requestListings() {
+    //TODO: create a common class for the all following elements and retrieve with getElementsByClassName to condense code!
     var postalAddress = document.getElementById("postalAddress") || null;
     var minBedrooms = document.getElementById("minBedrooms") || null;
     var maxBedrooms = document.getElementById("maxBedrooms") || null;
@@ -14,7 +14,6 @@ function requestListings() {
     var minRent = document.getElementById("minRent")|| null;
     var maxRent = document.getElementById("maxRent")|| null;
     var sqft = document.getElementById("sqft")|| null;
-
     var filters = [ postalAddress, minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft]; //apartment details
 
     // check if address provided

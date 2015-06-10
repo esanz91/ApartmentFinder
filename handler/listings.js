@@ -61,28 +61,16 @@ exports.readListing = function (req, res) {
     var minRent = req.query.minRent || null;
     var maxRent = req.query.maxRent || null;
 
-    //TODO: remove filterLabels and filterValues
-    var filterLabels = ["minBedrooms", "maxBedrooms", "minBathrooms", "maxBathrooms", "minRent", "maxRent", "aptDetails.sqft"];
-    var filterValues = [minBedrooms, maxBedrooms, minBathrooms, maxBathrooms, minRent, maxRent, sqft];
+    var dogs = req.query.dogs || null;
+    var cats = req.query.cats || null;
+    var centralAir = req.query.centralAir || null;
+    var dishwasher = req.query.dishwasher || null;
+    var elevator = req.query.elevator || null;
+    var gym =  req.query.gym || null;
+    var pool = req.query.pool || null;
+    var washerDryer = req.query.washerDryer || null;
+
     var query = {};
-
-    // print JSON query
-    console.log("filterLabels w/null:\n" + filterLabels);
-    console.log("filterValues w/null:\n" + filterValues);
-
-    //TODO: remove unnecessary for loop
-    for(var i=0; i < filterValues.length; i++){
-        if(filterValues[i] == null){
-            filterLabels.splice(i, 3);
-            filterValues.splice(i, 3);
-        }
-        else if(filterLabels[i] === "aptDetails.sqft"){
-            console.log("sqft: " + filterValues[i]);
-            var filterLabel = filterLabels[i];
-            var sqftQuery = {$gte: filterValues[i]};
-            query[filterLabel] = sqftQuery;
-        }
-    }
 
     query = addToQuery(query, "aptDetails.bedrooms", minBedrooms, maxBedrooms);
     query = addToQuery(query, "aptDetails.bathrooms", minBathrooms, maxBathrooms);
@@ -91,11 +79,33 @@ exports.readListing = function (req, res) {
         query["aptDetails.sqft"] = {$gte: sqft};
     }
 
-    // print JSON query
-    console.log("filterLabels:\n" + filterLabels);
-    console.log("filterValues:\n" + filterValues);
-    console.log("filtersJSON:\n" + JSON.stringify(query));
+    // print filters
+    var filterLabels = ["dogs", "cats", "centralAir", "dishwasher", "elevator", "gym", "pool", "washerDryer"];
+    var filterValues = [dogs, cats, centralAir, dishwasher, elevator, gym, pool, washerDryer];
+    console.log("filterLabels w/null:\n" + filterLabels);
+    console.log("filterValues w/null:\n" + filterValues);
 
+    for(var i=0; i < filterValues.length; i++){
+        if(filterValues[i] == null){
+            filterLabels.splice(i, 3);
+            filterValues.splice(i, 3);
+        }
+        else if(i <= 1){
+            var filterLabel = "extraDetails.pets." + filterLabels[i];
+            var petsQuery = true;
+            query[filterLabel] = petsQuery;
+
+            console.log(filterLabel);
+        }
+        else{
+            var filterLabel = "extraDetails.amenities." + filterLabels[i];
+            var amenitiesQuery = true;
+            query[filterLabel] = amenitiesQuery;
+        }
+    }
+
+    // print JSON query
+    console.log("filtersJSON:\n" + JSON.stringify(query));
 
     // get google maps address type
     request.post("http://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=false", function (err, response, body) {
