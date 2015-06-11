@@ -216,7 +216,6 @@ function getUsername(callback) {
                     // TODO: find better way to handle 404 response
                     document.getElementById("favoriteListingLink").href = "/redirect";
                 }
-
             }
         }
     }

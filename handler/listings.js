@@ -208,7 +208,7 @@ exports.createListing = function (req, res) {
                 }
                 //Todo: render a better "listing" page
                 return res.render('msgs', {
-                    msgs: listing,
+                    msgs: "Thank you for posting!",
                     user: {loggedout: !res.locals.loggedin, loggedin: res.locals.loggedin}
                 });
             });

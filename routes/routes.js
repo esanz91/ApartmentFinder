@@ -32,8 +32,6 @@ module.exports = exports = function(app) {
     app.post('/listing', listingEndPoint.createListing);
 
     app.get('/listings', listingEndPoint.readListing);
-
-
     /*
     app.put('/listing/:listingID', listingEndPoint.updateListing);
     app.delete('/listing/:listingID', listingEndPoint.deleteListing);
