@@ -23,7 +23,7 @@ function SessionHandler() {
         res.locals.loggedin = false;
         if(!(req.path == '/') &&
             !(req.path == '/search') &&
-            !(req.path == '/getMarkers')&&
+            !(req.path == '/listings')&&
             !(req.path == '/login') &&
             !(req.path == '/signup') &&
             !(req.path == '/user') &&
