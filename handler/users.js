@@ -1,6 +1,7 @@
 var validator = require('validator');
 var request = require('request');
 var userModel = require('../models/user');
+var listingModel = require('../models/listing')
 
 exports.isValidUsername = function (req, res) {
     "use strict";
@@ -66,19 +67,19 @@ exports.readUserFavorites = function(req, res){
         return res.status(401).send({msg: "unauthorized"});
     }
 
-    userModel.find({"local.username": req.session.username, "listings.favorites": {$exists: true}}, {"listings.favorites": 1, "_id": 0}, function(err, userFavorites) {
+    userModel.find({"local.username": req.session.username, "listings.favorites": {$exists: true}}).populate('listings.favorites').exec(function(err, user) {
         // error
         if (err) {
             return res.status(500).send({msg: "error"});
         }
         // not found
-        if ((!userFavorites) || (null === userFavorites) || (userFavorites.length == 0)) {
+        if ((!user) || (null === user) || (user.length == 0)) {
             return res.status(404).send({msg: "not found", favorites: null});
         }
         // found
-        if (userFavorites) {
-            console.log("listings.favorites:\n" + userFavorites[0].listings.favorites);
-            return res.status(200).send({msg: "found", favorites: userFavorites[0].listings.favorites});
+        if (user) {
+            console.log("listings.favorites:\n" + user[0].listings.favorites);
+            return res.status(200).send({msg: "found", favorites: user[0].listings.favorites});
         }
     });
 }

@@ -25,7 +25,7 @@ var userSchema = new mongoose.Schema({
     },
     */
     listings        : {
-        favorites   : [{ type : mongoose.Schema.Types.ObjectId, ref: 'User', default: [], unique: true}]
+        favorites   : [{ type : mongoose.Schema.Types.ObjectId, ref: 'Listing', default: [], unique: true}]
     },
     created: {type: Date, default: Date.now}
 },

@@ -28,10 +28,10 @@ module.exports = exports = function(app) {
     // Listing
     app.get('/postListing', contentHandler.displayListing);
 
-    app.get('/listing/:listingID', listingEndPoint.readListing);
-    app.post('/listing', listingEndPoint.createListing);
+    app.get('/listings', listingEndPoint.readListings);
 
-    app.get('/listings', listingEndPoint.readListing);
+    //app.get('/listing/:listingID', listingEndPoint.readListingByID);
+    app.post('/listing', listingEndPoint.createListing);
     /*
     app.put('/listing/:listingID', listingEndPoint.updateListing);
     app.delete('/listing/:listingID', listingEndPoint.deleteListing);

@@ -8,7 +8,11 @@ function init() {
         document.getElementById("favoriteListingLink").onclick = toggleFavorite;
     }
     else if (page == 'account') {
-        document.getElementById("userFavorites").onclick = setUserFavoritesRequest;
+        requestUserFavorites("GET", displayFavorites);
+        //document.getElementById("user-favorites").onclick = toggleFavoriteDiv;
+        $('#user-favorites').click(function(){
+            $('#favorite-listings-div').toggle();
+        });
     }
 }
 
@@ -25,9 +29,10 @@ function toggleFavorite() {
     }
 }
 
-function setUserFavoritesRequest() {
+function toggleFavoriteDiv() {
     //TODO: create better VIEW (modify displayFavorites)
-    requestUserFavorites("GET", displayFavorites);
+    //requestUserFavorites("GET", displayFavorites);
+
 }
 
 function requestUserFavorites(httpRequest, successCallback) {
@@ -141,7 +146,8 @@ function traverseUserFavorites(response) {
     var isFound = false;
     var listingID = document.getElementById("listing-id").textContent;
     for (var i = 0; i < response.favorites.length; i++) {
-        if (response.favorites[i] == listingID) {
+        if (response.favorites[i]['_id'] == listingID) {
+            console.log("favorited: " + response.favorites[i]['_id']);
             isFound = true;
             break;
         }
@@ -165,13 +171,24 @@ function setFavoriteLink(favoriteBool) {
 // TODO: modify function to display better VIEW
 function displayFavorites(response) {
     console.log("called displayFavorites");
-    var favoriteListingsDiv = document.getElementById("favoriteListingsDiv");
+    // TODO: filter favorites by city, date
+
+    var favoriteListingsDiv = document.getElementById("favorite-listings-div");
     for (var i = 0; i < response.favorites.length; i++) {
-        var newPara = document.createElement("p");
-        var listing = document.createTextNode(response.favorites[i]);
-        console.log(listing);
-        newPara.innerHTML = listing.textContent;
-        favoriteListingsDiv.appendChild(newPara);
+        var address = response.favorites[i].address;
+        var div = document.createElement("div");
+        var header = document.createElement("p");
+        var headerAddress = document.createElement("p");
+        var headerText = document.createTextNode(address.administrative_area_level_1 + " / " + address.locality);
+        var headerAddressText = document.createTextNode(address.formatted_address);
+        console.log(headerText.textContent + "\n" + headerAddressText.textContent);
+        header.innerHTML = headerText.textContent;
+        headerAddress.innerHTML = headerAddressText.textContent;
+
+        div.appendChild(header);
+        div.appendChild(headerAddress);
+        div.appendChild(document.createElement("hr"))
+        favoriteListingsDiv.appendChild(div);
     }
 }
 

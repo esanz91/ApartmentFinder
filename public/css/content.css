@@ -124,3 +124,7 @@ span {
     float: left;
     width: 50%;
 }
+
+#favorite-listings-div{
+    display: none;
+}

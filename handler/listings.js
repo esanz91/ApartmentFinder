@@ -49,7 +49,7 @@ function addToQuery(query, category, minInput, maxInput){
     return query;
 }
 
-exports.readListing = function (req, res) {
+exports.readListings = function (req, res) {
     "use strict"
 
     var address = req.query.postalAddress || null;
